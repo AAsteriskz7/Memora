@@ -8,14 +8,14 @@ Memora is an intelligent journaling application that lets you have conversations
 - 🔍 **Semantic Search**: Find relevant entries using AI-powered vector search
 - 💬 **Past-Self Conversations**: Ask questions and get insights from your historical entries
 - ⏰ **Time Period Presets**: Query specific time periods (1 year ago, college years, etc.)
-- 🤖 **AI-Powered**: Uses Google Gemini for embeddings and natural language understanding
+- 🤖 **AI-Powered**: Uses Claude Haiku 4.5 for natural language understanding
 
 ## Tech Stack
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **Backend**: Next.js API Routes, Prisma ORM
 - **Database**: PostgreSQL with pgvector (Supabase)
-- **AI**: Google Gemini (text-embedding-004, gemini-2.5-flash)
+- **AI**: Claude (Haiku 4.5 model)
 
 ## Getting Started
 
@@ -23,7 +23,7 @@ Memora is an intelligent journaling application that lets you have conversations
 
 - Node.js 18+ installed
 - A Supabase account (free tier works)
-- A Google AI API key
+- A Claude AI API key
 
 ### 1. Clone and Install
 
@@ -48,8 +48,8 @@ Edit `.env` and add your credentials:
 DATABASE_URL=postgresql://postgres.PROJECT_ID:PASSWORD@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 DIRECT_URL=postgresql://postgres.PROJECT_ID:PASSWORD@aws-1-us-east-1.compute.amazonaws.com:5432/postgres
 
-# Google AI API Key (from https://aistudio.google.com/app/apikey)
-GOOGLE_API_KEY=your_api_key_here
+# Claude AI API Key (from https://console.anthropic.com/settings/keys)
+Claude_API_KEY=your_api_key_here
 
 # Model Configuration (defaults are fine)
 GEMINI_MODEL=gemini-2.5-flash
@@ -173,7 +173,7 @@ memora/
 |----------|-------------|----------|---------|
 | `DATABASE_URL` | Supabase pooled connection string | Yes | - |
 | `DIRECT_URL` | Supabase direct connection string | Yes | - |
-| `GOOGLE_API_KEY` | Google AI API key | Yes | - |
+| `Claude_API_KEY` | Claude AI API key | Yes | - |
 | `GEMINI_MODEL` | Chat completion model | No | `gemini-2.5-flash` |
 | `GEMINI_EMBEDDING_MODEL` | Text embedding model | No | `text-embedding-004` |
 | `NODE_ENV` | Environment mode | No | `development` |
