@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { LLMService } from './llm.service';
 import { EmbeddingService } from './embedding.service';
+import { TimePeriodPresets } from '@/utils';
 import { 
   PastSelfQuery, 
   PastSelfResponse, 
@@ -40,14 +41,20 @@ export class PastSelfService {
         throw new Error('No journal entries found. Please write your first entry to start conversations with your past self.');
       }
 
-      // Step 2: Extract time period from query if not provided
+      // Step 2: Resolve time period from preset, explicit period, or query extraction
       let timePeriod: TimePeriod | undefined;
-      if (query.timePeriod?.start && query.timePeriod?.end) {
+      
+      if (query.preset) {
+        // Use preset to calculate time period
+        timePeriod = this.resolvePresetTimePeriod(query.preset);
+      } else if (query.timePeriod?.start && query.timePeriod?.end) {
+        // Use explicitly provided time period
         timePeriod = {
           start: query.timePeriod.start,
           end: query.timePeriod.end
         };
       } else {
+        // Extract time period from query text using LLM
         timePeriod = await this.extractTimePeriod(query.query);
       }
 
@@ -74,6 +81,24 @@ export class PastSelfService {
   }
 
   /**
+   * Resolve preset to time period using TimePeriodPresets utility
+   */
+  private resolvePresetTimePeriod(preset: string): TimePeriod {
+    try {
+      if (!TimePeriodPresets.isValidPreset(preset)) {
+        throw new Error(`Invalid time period preset: ${preset}`);
+      }
+      
+      return TimePeriodPresets.presetToDateRange(preset);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to resolve preset '${preset}': ${error.message}`);
+      }
+      throw new Error(`Failed to resolve preset '${preset}': Unknown error`);
+    }
+  }
+
+  /**
    * Extract time period from query using LLM service
    */
   private async extractTimePeriod(query: string): Promise<TimePeriod | undefined> {
@@ -88,6 +113,8 @@ export class PastSelfService {
 
   /**
    * Find relevant entries using embedding service
+   * For past-self conversations, we search entries from the target time period
+   * AND entries from before that period (for context/memories)
    */
   private async findRelevantEntries(
     query: string, 
@@ -97,14 +124,51 @@ export class PastSelfService {
       // Generate embedding for the query
       const queryEmbedding = await this.embeddingService.generateEmbedding(query);
       
-      // Find similar entries with optional time filtering
-      const similarEntries = await this.embeddingService.findSimilarEntries(
-        queryEmbedding,
-        5, // Limit to top 5 most relevant entries
-        timePeriod
-      );
+      if (timePeriod) {
+        // For past-self conversations, we want entries from:
+        // 1. The target time period (primary context)
+        // 2. Before the target time period (accessible memories)
+        // But NEVER after the target time period (future knowledge)
+        
+        const pastSelfTimePeriod: TimePeriod = {
+          start: new Date(0), // Beginning of time (all past memories)
+          end: timePeriod.end  // Up to the end of the target period
+        };
+        
+        // Find similar entries with past-self time filtering
+        const similarEntries = await this.embeddingService.findSimilarEntries(
+          queryEmbedding,
+          8, // Get more entries to have better context
+          pastSelfTimePeriod
+        );
 
-      return similarEntries;
+        // Prioritize entries from the target period, but include earlier ones for context
+        const targetPeriodEntries = similarEntries.filter(entry => 
+          entry.date >= timePeriod.start && entry.date <= timePeriod.end
+        );
+        
+        const earlierEntries = similarEntries.filter(entry => 
+          entry.date < timePeriod.start
+        );
+
+        // FOCUS on target period first, then add earlier context if needed
+        // Priority: 4 from target period, 1 from earlier for context
+        const selectedEntries = [
+          ...targetPeriodEntries.slice(0, 4), // Primary focus on target period
+          ...earlierEntries.slice(0, 1)       // Minimal earlier context
+        ];
+
+        return selectedEntries.slice(0, 5); // Limit total to 5
+      } else {
+        // No specific time period - find similar entries from all time
+        const similarEntries = await this.embeddingService.findSimilarEntries(
+          queryEmbedding,
+          5,
+          timePeriod
+        );
+
+        return similarEntries;
+      }
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Failed to find relevant entries: ${error.message}`);
@@ -137,27 +201,51 @@ export class PastSelfService {
       ? `${timePeriod.start.toLocaleDateString()} to ${timePeriod.end.toLocaleDateString()}`
       : 'your past';
 
-    const entryExcerpts = references
-      .map((ref, index) => `Entry ${index + 1} (${ref.date.toLocaleDateString()}):\n"${ref.excerpt}"`)
-      .join('\n\n');
+    // Separate entries by time period for better context
+    const targetPeriodEntries = timePeriod 
+      ? references.filter(ref => ref.date >= timePeriod.start && ref.date <= timePeriod.end)
+      : references;
+    
+    const earlierEntries = timePeriod 
+      ? references.filter(ref => ref.date < timePeriod.start)
+      : [];
 
-    const prompt = `You are responding as the user's past self based on their journal entries from ${timePeriodText}.
+    const targetEntriesText = targetPeriodEntries.length > 0
+      ? targetPeriodEntries
+          .map((ref, index) => `Entry ${index + 1} (${ref.date.toLocaleDateString()}):\n"${ref.excerpt}"`)
+          .join('\n\n')
+      : 'No entries from this specific time period.';
+
+    const earlierEntriesText = earlierEntries.length > 0
+      ? earlierEntries
+          .map((ref, index) => `Memory ${index + 1} (${ref.date.toLocaleDateString()}):\n"${ref.excerpt}"`)
+          .join('\n\n')
+      : '';
+
+    const contextSection = earlierEntries.length > 0 
+      ? `\n\nBackground context from earlier memories (for reference only):\n${earlierEntriesText}`
+      : '';
+
+    const prompt = `You are responding as the user's past self from ${timePeriodText}. You are speaking from the perspective of that specific time period.
 
 User's question: "${query}"
 
-Relevant journal entries from that time:
-${entryExcerpts}
+PRIMARY FOCUS - My journal entries from ${timePeriodText}:
+${targetEntriesText}${contextSection}
 
-Instructions:
-- Respond as if you are the person who wrote these entries
-- Use only information from the provided entries
-- Reflect the thoughts, feelings, and perspective from that time period
-- Do not use knowledge or perspectives from after ${timePeriod?.end.toLocaleDateString() || 'the time these entries were written'}
-- Be conversational and authentic
-- If the entries don't contain enough information, acknowledge the limitation
-- Keep your response concise but meaningful (2-3 paragraphs maximum)
+CRITICAL INSTRUCTIONS:
+- You are speaking as your past self from ${timePeriod?.end.toLocaleDateString() || 'that time'}
+- FOCUS PRIMARILY on the entries from ${timePeriodText} - this is your main context
+- Earlier memories are only background context - use sparingly and only if directly relevant
+- You can only know what you knew up until ${timePeriod?.end.toLocaleDateString() || 'that time'}
+- You have NO knowledge of events after ${timePeriod?.end.toLocaleDateString() || 'that time'}
+- Use the thoughts, feelings, and perspective you had during ${timePeriodText}
+- Speak in present tense as if you are currently living in ${timePeriodText}
+- Be authentic to who you were at that time - your concerns, hopes, and understanding
+- Base your response primarily on the entries from ${timePeriodText}
+- Keep your response conversational and personal (2-3 paragraphs maximum)
 
-Response:`;
+Response as your past self:`;
 
     try {
       return await this.llmService.generateResponse(prompt);
@@ -167,6 +255,36 @@ Response:`;
       }
       throw new Error('Failed to generate past-self response: Unknown error');
     }
+  }
+
+  /**
+   * Get preset suggestions based on a query string
+   * This can be used by the API to suggest relevant presets to users
+   */
+  getPresetSuggestions(query: string) {
+    return TimePeriodPresets.suggestPresets(query);
+  }
+
+  /**
+   * Get all available time period presets
+   * This can be used by the API to show all available presets to users
+   */
+  getAllPresets() {
+    return TimePeriodPresets.getAllPresets();
+  }
+
+  /**
+   * Get relative presets (time-based like "1-year-ago")
+   */
+  getRelativePresets() {
+    return TimePeriodPresets.getRelativePresets();
+  }
+
+  /**
+   * Get contextual presets (life-stage based like "college-years")
+   */
+  getContextualPresets() {
+    return TimePeriodPresets.getContextualPresets();
   }
 
   /**

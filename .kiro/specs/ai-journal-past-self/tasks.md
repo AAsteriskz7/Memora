@@ -58,7 +58,6 @@
 
 - [x] 7. Create API endpoint for creating entries
 
-
   - Implement POST /api/entries route handler
   - Add request validation for content and optional createdAt
   - Call EntryService.createEntry
@@ -68,30 +67,26 @@
 
 - [x] 8. Create API endpoint for retrieving entries
 
-
-
-
-
   - Implement GET /api/entries route handler
   - Parse and validate query parameters (page, limit, startDate, endDate)
   - Call EntryService.getEntries with pagination options
   - Return paginated response with entries and metadata
   - Add error handling for invalid parameters
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
+
 -
 
-- [-] 9. Create API endpoint for single entry retrieval
-
-
+- [x] 9. Create API endpoint for single entry retrieval
 
   - Implement GET /api/entries/[id] route handler
   - Validate entry ID parameter
   - Call EntryService.getEntryById
+
   - Return 200 with entry or 404 if not found
   - Add error handling
   - _Requirements: 2.2, 5.5_
 
-- [ ] 10. Create API endpoint for updating entries
+- [x] 10. Create API endpoint for updating entries
 
   - Implement PUT /api/entries/[id] route handler
   - Validate entry ID and content in request
@@ -100,42 +95,50 @@
   - Add error handling for not found and validation errors
   - _Requirements: 3.1, 3.2_
 
-- [ ] 11. Create API endpoint for deleting entries
+- [x] 11. Create API endpoint for deleting entries
 
-  - Implement DELETE /api/entries/[id] route handler
+  - Implement DELETE /api/entri
+    es/[id] route handler
   - Validate entry ID parameter
   - Call EntryService.deleteEntry
   - Return 204 no content on success
   - Add error handling for not found errors
   - _Requirements: 3.3, 3.4, 3.5_
 
-- [ ] 12. Implement time period presets utility
+- [x] 12. Implement time period presets utility
 
   - Create TimePeriodPresets utility class with preset configurations
   - Implement preset calculation logic (1 year ago, 5 years ago, college years, etc.)
   - Add preset validation and error handling
+
   - Create helper methods to convert presets to date ranges
   - Support both relative presets (1-year-ago) and contextual presets (college-years)
   - _Requirements: 4.2, 4.3_
 
-- [ ] 13. Create API endpoint for past-self queries
+- [x] 13. Create API endpoint for past-self queries
 
   - Implement POST /api/past-self/query route handler
   - Validate query and optional timePeriod/preset in request body
   - Integrate time period presets with PastSelfService
   - Call PastSelfService.query with resolved time periods
   - Return response with answer, references, and metadata
-  - Handle edge cases (no entries, no relevant entries)
+  - Handle edge cases (no entries, n
+    o relevant entries)
   - Add comprehensive error handling
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 14. Create mock data generation script
+- [x] 14. Create mock data generation script
+
+
+
+
+
 
   - Create script to generate realistic journal entries
-  - Generate entries spanning multiple years (2020-2024)
+  - Generate entries spanning multiple years (2020-2025)
   - Include varied topics: career, relationships, personal growth, daily life
   - Include varied emotional tones and writing styles
-  - Generate at least 100 diverse entries
+  - Generate at least 700 diverse entries
   - Seed database with generated entries including embeddings
   - _Requirements: All (for testing purposes)_
 
@@ -159,8 +162,20 @@
   - _Requirements: All_
 
 - [ ]\* 17. Add API documentation
+
   - Document all API endpoints with examples
   - Create Postman/Thunder Client collection
   - Add inline code documentation
   - Document error responses
   - _Requirements: All_
+
+- [ ] 18. Create simple test frontend for past-self conversations
+  - Create a basic React page for testing past-self conversations
+  - Add form for entering journal entries with date selection
+  - Add chat interface for asking questions to past self
+  - Include time period preset selector (college years, 1 year ago, etc.)
+  - Display conversation history with past self responses
+  - Show entry references and metadata for each response
+  - Add basic styling for usability
+  - Include error handling and loading states
+  - _Requirements: 4.1, 4.2, 4.3, 5.1, 5.2, 5.3, 6.1, 6.2, 6.3_
