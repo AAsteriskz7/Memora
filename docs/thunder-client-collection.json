@@ -1,0 +1,581 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "AI Journal API",
+  "dateExported": "2024-10-18T00:00:00.000Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "id": "entries-folder",
+      "name": "Journal Entries",
+      "containerId": "",
+      "created": "2024-10-18T00:00:00.000Z",
+      "sortNum": 10000
+    },
+    {
+      "id": "past-self-folder", 
+      "name": "Past-Self Conversations",
+      "containerId": "",
+      "created": "2024-10-18T00:00:00.000Z",
+      "sortNum": 20000
+    },
+    {
+      "id": "errors-folder",
+      "name": "Error Cases",
+      "containerId": "",
+      "created": "2024-10-18T00:00:00.000Z", 
+      "sortNum": 30000
+    }
+  ],
+  "requests": [
+    {
+      "id": "create-entry",
+      "name": "Create Entry",
+      "url": "{{baseUrl}}/entries",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"content\": \"Today was an amazing day! I learned so much about API development and had a breakthrough with the journal project. The semantic search feature is working beautifully.\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.id",
+          "action": "istype",
+          "value": "string"
+        },
+        {
+          "type": "json-query", 
+          "custom": "json.content",
+          "action": "equal",
+          "value": "Today was an amazing day! I learned so much about API development and had a breakthrough with the journal project. The semantic search feature is working beautifully."
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "create-entry-custom-date",
+      "name": "Create Entry with Custom Date",
+      "url": "{{baseUrl}}/entries",
+      "method": "POST",
+      "sortNum": 10100,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"content\": \"Looking back, I remember this day from last month when I first started thinking about building an AI journal. The idea seemed so ambitious then, but here we are!\",\n  \"createdAt\": \"2024-09-15T14:30:00Z\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.createdAt",
+          "action": "equal",
+          "value": "2024-09-15T14:30:00.000Z"
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "get-all-entries",
+      "name": "Get All Entries",
+      "url": "{{baseUrl}}/entries",
+      "method": "GET",
+      "sortNum": 10200,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.entries",
+          "action": "istype",
+          "value": "array"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.pagination",
+          "action": "istype",
+          "value": "object"
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "get-entries-pagination",
+      "name": "Get Entries with Pagination",
+      "url": "{{baseUrl}}/entries?page=1&limit=5",
+      "method": "GET",
+      "sortNum": 10300,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.pagination.limit",
+          "action": "equal",
+          "value": "5"
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "get-entries-date-range",
+      "name": "Get Entries by Date Range",
+      "url": "{{baseUrl}}/entries?startDate=2024-01-01T00:00:00Z&endDate=2024-12-31T23:59:59Z",
+      "method": "GET",
+      "sortNum": 10400,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "get-entry-by-id",
+      "name": "Get Entry by ID",
+      "url": "{{baseUrl}}/entries/{{entryId}}",
+      "method": "GET",
+      "sortNum": 10500,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.id",
+          "action": "istype",
+          "value": "string"
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "update-entry",
+      "name": "Update Entry",
+      "url": "{{baseUrl}}/entries/{{entryId}}",
+      "method": "PUT",
+      "sortNum": 10600,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"content\": \"[UPDATED] Today was an absolutely incredible day! I learned so much about API development and had multiple breakthroughs with the journal project. The semantic search feature is working beautifully, and I'm excited about the past-self conversation feature.\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.content",
+          "action": "contains",
+          "value": "[UPDATED]"
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "delete-entry",
+      "name": "Delete Entry",
+      "url": "{{baseUrl}}/entries/{{entryId}}",
+      "method": "DELETE",
+      "sortNum": 10700,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "204"
+        }
+      ],
+      "containerId": "entries-folder"
+    },
+    {
+      "id": "query-past-self-time-period",
+      "name": "Query Past Self - Time Period",
+      "url": "{{baseUrl}}/past-self/query",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"query\": \"What was I thinking about my career and professional development?\",\n  \"timePeriod\": {\n    \"start\": \"2024-01-01T00:00:00Z\",\n    \"end\": \"2024-06-30T23:59:59Z\"\n  }\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.response",
+          "action": "istype",
+          "value": "string"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.references",
+          "action": "istype",
+          "value": "array"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.metadata",
+          "action": "istype",
+          "value": "object"
+        }
+      ],
+      "containerId": "past-self-folder"
+    },
+    {
+      "id": "query-past-self-preset-college",
+      "name": "Query Past Self - Preset (College Years)",
+      "url": "{{baseUrl}}/past-self/query",
+      "method": "POST",
+      "sortNum": 20100,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"query\": \"How did I feel about my studies and future plans?\",\n  \"preset\": \"college-years\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.response",
+          "action": "istype",
+          "value": "string"
+        }
+      ],
+      "containerId": "past-self-folder"
+    },
+    {
+      "id": "query-past-self-preset-year-ago",
+      "name": "Query Past Self - Preset (1 Year Ago)",
+      "url": "{{baseUrl}}/past-self/query",
+      "method": "POST",
+      "sortNum": 20200,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"query\": \"What were my biggest challenges and how was I dealing with them?\",\n  \"preset\": \"1-year-ago\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ],
+      "containerId": "past-self-folder"
+    },
+    {
+      "id": "query-past-self-general",
+      "name": "Query Past Self - General Question",
+      "url": "{{baseUrl}}/past-self/query",
+      "method": "POST",
+      "sortNum": 20300,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"query\": \"What would you tell me about staying motivated and focused on my goals?\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ],
+      "containerId": "past-self-folder"
+    },
+    {
+      "id": "error-invalid-content",
+      "name": "Create Entry - Invalid Content",
+      "url": "{{baseUrl}}/entries",
+      "method": "POST",
+      "sortNum": 30000,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"content\": \"\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.error",
+          "action": "contains",
+          "value": "Content"
+        }
+      ],
+      "containerId": "errors-folder"
+    },
+    {
+      "id": "error-invalid-id",
+      "name": "Get Entry - Invalid ID",
+      "url": "{{baseUrl}}/entries/00000000-0000-0000-0000-000000000000",
+      "method": "GET",
+      "sortNum": 30100,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "404"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.error",
+          "action": "contains",
+          "value": "not found"
+        }
+      ],
+      "containerId": "errors-folder"
+    },
+    {
+      "id": "error-invalid-query",
+      "name": "Query Past Self - Invalid Query",
+      "url": "{{baseUrl}}/past-self/query",
+      "method": "POST",
+      "sortNum": 30200,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"query\": \"\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.error",
+          "action": "contains",
+          "value": "Query"
+        }
+      ],
+      "containerId": "errors-folder"
+    },
+    {
+      "id": "error-invalid-preset",
+      "name": "Query Past Self - Invalid Preset",
+      "url": "{{baseUrl}}/past-self/query",
+      "method": "POST",
+      "sortNum": 30300,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"query\": \"What was I thinking?\",\n  \"preset\": \"invalid-preset\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.details.validPresets",
+          "action": "istype",
+          "value": "array"
+        }
+      ],
+      "containerId": "errors-folder"
+    }
+  ],
+  "environments": [
+    {
+      "id": "local-env",
+      "name": "Local Development",
+      "default": true,
+      "sortNum": 10000,
+      "created": "2024-10-18T00:00:00.000Z",
+      "modified": "2024-10-18T00:00:00.000Z",
+      "data": [
+        {
+          "name": "baseUrl",
+          "value": "http://localhost:3000/api"
+        },
+        {
+          "name": "entryId",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

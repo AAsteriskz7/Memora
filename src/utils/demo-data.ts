@@ -35,7 +35,7 @@ export const mockEntries: JournalEntry[] = [
 ];
 
 // Mock past-self response for demo purposes
-export const generateMockPastSelfResponse = (query: string): PastSelfResponse => {
+export const generateMockPastSelfResponse = (): PastSelfResponse => {
   const relevantEntries = mockEntries.slice(0, 2); // Use first 2 entries as references
   
   return {

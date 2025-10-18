@@ -1,0 +1,736 @@
+{
+  "info": {
+    "name": "AI Journal API",
+    "description": "Complete API collection for the AI Journal application. Test all endpoints for journal entries and past-self conversations.",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "entryId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Journal Entries",
+      "item": [
+        {
+          "name": "Create Entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has required fields\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('id');",
+                  "    pm.expect(jsonData).to.have.property('content');",
+                  "    pm.expect(jsonData).to.have.property('createdAt');",
+                  "    pm.expect(jsonData).to.have.property('updatedAt');",
+                  "});",
+                  "",
+                  "pm.test(\"Content matches request\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const requestData = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(jsonData.content).to.eql(requestData.content);",
+                  "});",
+                  "",
+                  "// Save entry ID for other requests",
+                  "if (pm.response.code === 201) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"entryId\", jsonData.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Today was an amazing day! I learned so much about API development and had a breakthrough with the journal project. The semantic search feature is working beautifully.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/entries",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries"]
+            },
+            "description": "Create a new journal entry with automatic embedding generation."
+          }
+        },
+        {
+          "name": "Create Entry with Custom Date",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Custom date is preserved\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const requestData = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(jsonData.createdAt).to.eql(requestData.createdAt);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Looking back, I remember this day from last month when I first started thinking about building an AI journal. The idea seemed so ambitious then, but here we are!\",\n  \"createdAt\": \"2024-09-15T14:30:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/entries",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries"]
+            },
+            "description": "Create a journal entry with a custom creation date."
+          }
+        },
+        {
+          "name": "Get All Entries",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has pagination structure\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('entries');",
+                  "    pm.expect(jsonData).to.have.property('pagination');",
+                  "    pm.expect(jsonData.pagination).to.have.property('page');",
+                  "    pm.expect(jsonData.pagination).to.have.property('limit');",
+                  "    pm.expect(jsonData.pagination).to.have.property('total');",
+                  "    pm.expect(jsonData.pagination).to.have.property('totalPages');",
+                  "});",
+                  "",
+                  "pm.test(\"Entries are sorted by date (newest first)\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.entries.length > 1) {",
+                  "        const firstDate = new Date(jsonData.entries[0].createdAt);",
+                  "        const secondDate = new Date(jsonData.entries[1].createdAt);",
+                  "        pm.expect(firstDate.getTime()).to.be.at.least(secondDate.getTime());",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entries",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries"]
+            },
+            "description": "Get all journal entries with default pagination (page 1, limit 20)."
+          }
+        },
+        {
+          "name": "Get Entries with Pagination",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Pagination parameters are correct\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.pagination.page).to.eql(1);",
+                  "    pm.expect(jsonData.pagination.limit).to.eql(5);",
+                  "});",
+                  "",
+                  "pm.test(\"Entries array length respects limit\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.entries.length).to.be.at.most(5);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entries?page=1&limit=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Get entries with custom pagination parameters."
+          }
+        },
+        {
+          "name": "Get Entries by Date Range",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"All entries are within date range\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const startDate = new Date('2024-01-01T00:00:00Z');",
+                  "    const endDate = new Date('2024-12-31T23:59:59Z');",
+                  "    ",
+                  "    jsonData.entries.forEach(entry => {",
+                  "        const entryDate = new Date(entry.createdAt);",
+                  "        pm.expect(entryDate.getTime()).to.be.at.least(startDate.getTime());",
+                  "        pm.expect(entryDate.getTime()).to.be.at.most(endDate.getTime());",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entries?startDate=2024-01-01T00:00:00Z&endDate=2024-12-31T23:59:59Z",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01T00:00:00Z"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31T23:59:59Z"
+                }
+              ]
+            },
+            "description": "Get entries filtered by date range."
+          }
+        },
+        {
+          "name": "Get Entry by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has entry structure\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('id');",
+                  "    pm.expect(jsonData).to.have.property('content');",
+                  "    pm.expect(jsonData).to.have.property('createdAt');",
+                  "    pm.expect(jsonData).to.have.property('updatedAt');",
+                  "});",
+                  "",
+                  "pm.test(\"Entry ID matches request\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const entryId = pm.collectionVariables.get('entryId');",
+                  "    pm.expect(jsonData.id).to.eql(entryId);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entries/{{entryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries", "{{entryId}}"]
+            },
+            "description": "Get a specific journal entry by ID. Uses the entryId variable set by the Create Entry request."
+          }
+        },
+        {
+          "name": "Update Entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Content was updated\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const requestData = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(jsonData.content).to.eql(requestData.content);",
+                  "});",
+                  "",
+                  "pm.test(\"updatedAt is more recent than createdAt\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const createdAt = new Date(jsonData.createdAt);",
+                  "    const updatedAt = new Date(jsonData.updatedAt);",
+                  "    pm.expect(updatedAt.getTime()).to.be.at.least(createdAt.getTime());",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"[UPDATED] Today was an absolutely incredible day! I learned so much about API development and had multiple breakthroughs with the journal project. The semantic search feature is working beautifully, and I'm excited about the past-self conversation feature.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/entries/{{entryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries", "{{entryId}}"]
+            },
+            "description": "Update an existing journal entry. The embedding will be automatically regenerated."
+          }
+        },
+        {
+          "name": "Delete Entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});",
+                  "",
+                  "pm.test(\"Response body is empty\", function () {",
+                  "    pm.expect(pm.response.text()).to.be.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entries/{{entryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries", "{{entryId}}"]
+            },
+            "description": "Delete a journal entry permanently. This will also remove it from past-self conversation context."
+          }
+        }
+      ],
+      "description": "CRUD operations for journal entries."
+    },
+    {
+      "name": "Past-Self Conversations",
+      "item": [
+        {
+          "name": "Query Past Self - Time Period",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has required structure\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('response');",
+                  "    pm.expect(jsonData).to.have.property('references');",
+                  "    pm.expect(jsonData).to.have.property('metadata');",
+                  "});",
+                  "",
+                  "pm.test(\"References have correct structure\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.references.length > 0) {",
+                  "        const ref = jsonData.references[0];",
+                  "        pm.expect(ref).to.have.property('entryId');",
+                  "        pm.expect(ref).to.have.property('date');",
+                  "        pm.expect(ref).to.have.property('excerpt');",
+                  "        pm.expect(ref).to.have.property('relevanceScore');",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"Metadata has correct structure\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.metadata).to.have.property('entriesSearched');",
+                  "    pm.expect(jsonData.metadata).to.have.property('timePeriod');",
+                  "    pm.expect(jsonData.metadata.timePeriod).to.have.property('start');",
+                  "    pm.expect(jsonData.metadata.timePeriod).to.have.property('end');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What was I thinking about my career and professional development?\",\n  \"timePeriod\": {\n    \"start\": \"2024-01-01T00:00:00Z\",\n    \"end\": \"2024-06-30T23:59:59Z\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/past-self/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["past-self", "query"]
+            },
+            "description": "Query your past self with a specific time period. The system will find relevant entries and generate a response as if your past self wrote it."
+          }
+        },
+        {
+          "name": "Query Past Self - Preset (College Years)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains past-self perspective\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.response).to.be.a('string');",
+                  "    pm.expect(jsonData.response.length).to.be.greaterThan(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"How did I feel about my studies and future plans?\",\n  \"preset\": \"college-years\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/past-self/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["past-self", "query"]
+            },
+            "description": "Query your past self using a preset time period (college years)."
+          }
+        },
+        {
+          "name": "Query Past Self - Preset (1 Year Ago)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Time period is approximately 1 year ago\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const startDate = new Date(jsonData.metadata.timePeriod.start);",
+                  "    const endDate = new Date(jsonData.metadata.timePeriod.end);",
+                  "    const now = new Date();",
+                  "    ",
+                  "    // Check that the time period is roughly 1 year ago",
+                  "    const yearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());",
+                  "    const timeDiff = Math.abs(startDate.getTime() - yearAgo.getTime());",
+                  "    const daysDiff = timeDiff / (1000 * 60 * 60 * 24);",
+                  "    pm.expect(daysDiff).to.be.lessThan(32); // Within a month",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What were my biggest challenges and how was I dealing with them?\",\n  \"preset\": \"1-year-ago\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/past-self/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["past-self", "query"]
+            },
+            "description": "Query your past self from 1 year ago using a relative preset."
+          }
+        },
+        {
+          "name": "Query Past Self - General Question",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response includes all available entries\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.metadata.entriesSearched).to.be.greaterThan(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What would you tell me about staying motivated and focused on my goals?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/past-self/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["past-self", "query"]
+            },
+            "description": "Query your past self without specifying a time period. This will search all available entries."
+          }
+        }
+      ],
+      "description": "Endpoints for conversing with your past self through journal entries."
+    },
+    {
+      "name": "Error Cases",
+      "item": [
+        {
+          "name": "Create Entry - Invalid Content",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message is descriptive\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "    pm.expect(jsonData.error).to.include('Content');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/entries",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries"]
+            },
+            "description": "Test error handling for empty content."
+          }
+        },
+        {
+          "name": "Get Entry - Invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates not found\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "    pm.expect(jsonData.error).to.include('not found');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entries/00000000-0000-0000-0000-000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["entries", "00000000-0000-0000-0000-000000000000"]
+            },
+            "description": "Test error handling for non-existent entry ID."
+          }
+        },
+        {
+          "name": "Query Past Self - Invalid Query",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message is descriptive\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "    pm.expect(jsonData.error).to.include('Query');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/past-self/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["past-self", "query"]
+            },
+            "description": "Test error handling for empty query."
+          }
+        },
+        {
+          "name": "Query Past Self - Invalid Preset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Error includes valid presets\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "    pm.expect(jsonData).to.have.property('details');",
+                  "    pm.expect(jsonData.details).to.have.property('validPresets');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What was I thinking?\",\n  \"preset\": \"invalid-preset\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/past-self/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["past-self", "query"]
+            },
+            "description": "Test error handling for invalid preset."
+          }
+        }
+      ],
+      "description": "Test cases for error handling and validation."
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set dynamic timestamps for requests that need them",
+          "pm.globals.set('currentTimestamp', new Date().toISOString());"
+        ]
+      }
+    }
+  ]
+}

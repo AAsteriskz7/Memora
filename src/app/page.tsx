@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { JournalEntry, PastSelfQuery, PastSelfResponse, TimePeriodPreset, CreateEntryRequest } from '../types';
 import { TimePeriodPresets } from '../utils/time-period-presets';
 import { mockEntries, generateMockPastSelfResponse } from '../utils/demo-data';
@@ -36,20 +36,7 @@ export default function Home() {
   const [demoMode, setDemoMode] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
-  // Set client flag and load entries on component mount
-  useEffect(() => {
-    setIsClient(true);
-    loadEntries();
-  }, []);
-
-  // Load entries when demo mode changes
-  useEffect(() => {
-    if (isClient) {
-      loadEntries();
-    }
-  }, [demoMode, isClient]);
-
-  const loadEntries = async () => {
+  const loadEntries = useCallback(async () => {
     if (demoMode) {
       setEntries(mockEntries);
       return;
@@ -61,7 +48,7 @@ export default function Home() {
         throw new Error('Failed to load entries');
       }
       const data = await response.json();
-      setEntries(data.entries.map((entry: any) => ({
+      setEntries(data.entries.map((entry: JournalEntry & { createdAt: string; updatedAt: string }) => ({
         ...entry,
         createdAt: new Date(entry.createdAt),
         updatedAt: new Date(entry.updatedAt)
@@ -72,7 +59,20 @@ export default function Home() {
       setDemoMode(true);
       setEntries(mockEntries);
     }
-  };
+  }, [demoMode]);
+
+  // Set client flag and load entries on component mount
+  useEffect(() => {
+    setIsClient(true);
+    loadEntries();
+  }, [loadEntries]);
+
+  // Load entries when demo mode changes
+  useEffect(() => {
+    if (isClient) {
+      loadEntries();
+    }
+  }, [demoMode, isClient, loadEntries]);
 
   const createEntry = async () => {
     if (!newEntryContent.trim()) {
@@ -92,7 +92,7 @@ export default function Home() {
         createdAt: newEntryDate ? new Date(newEntryDate) : new Date(),
         updatedAt: new Date()
       };
-      
+
       setEntries(prev => [newEntry, ...prev]);
       setNewEntryContent('');
       setNewEntryDate('');
@@ -146,8 +146,8 @@ export default function Home() {
 
     if (demoMode) {
       // Demo mode: generate mock response
-      const pastSelfResponse = generateMockPastSelfResponse(currentQuery);
-      
+      const pastSelfResponse = generateMockPastSelfResponse();
+
       // Add user message
       const timestamp = new Date().getTime();
       const userMessage: ConversationMessage = {
@@ -264,7 +264,7 @@ export default function Home() {
       <header className="app-header">
         <h1 className="app-title">Memora</h1>
         <p className="app-subtitle">Your AI-powered journal and past-self conversation companion</p>
-        
+
         <div className="demo-toggle">
           <label className="toggle-label">
             <input
@@ -277,8 +277,8 @@ export default function Home() {
             Demo Mode {demoMode ? '(ON)' : '(OFF)'}
           </label>
           <small className="toggle-help">
-            {demoMode 
-              ? 'Using mock data for demonstration. Toggle off to connect to real API.' 
+            {demoMode
+              ? 'Using mock data for demonstration. Toggle off to connect to real API.'
               : 'Connect to real database and API. Toggle on for demo with mock data.'
             }
           </small>
@@ -300,13 +300,13 @@ export default function Home() {
       )}
 
       <nav className="tab-nav">
-        <button 
+        <button
           className={`tab-button ${activeTab === 'entries' ? 'active' : ''}`}
           onClick={() => setActiveTab('entries')}
         >
           Journal Entries ({entries.length})
         </button>
-        <button 
+        <button
           className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}
           onClick={() => setActiveTab('chat')}
         >
@@ -344,7 +344,7 @@ export default function Home() {
               />
               <small className="form-help">Leave empty to use current date and time</small>
             </div>
-            <button 
+            <button
               onClick={createEntry}
               disabled={isCreatingEntry || !newEntryContent.trim()}
               className="btn btn-primary"
@@ -367,7 +367,7 @@ export default function Home() {
                       <span className="entry-date">{formatDate(entry.createdAt)}</span>
                     </div>
                     <div className="entry-content">
-                      {entry.content.length > 200 
+                      {entry.content.length > 200
                         ? `${entry.content.substring(0, 200)}...`
                         : entry.content
                       }
@@ -464,7 +464,7 @@ export default function Home() {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={queryPastSelf}
               disabled={isQuerying || !currentQuery.trim() || entries.length === 0}
               className="btn btn-primary"
@@ -507,7 +507,7 @@ export default function Home() {
                                 Relevance: {Math.round(ref.relevanceScore * 100)}%
                               </span>
                             </div>
-                            <div className="reference-excerpt">"{ref.excerpt}"</div>
+                            <div className="reference-excerpt">&ldquo;{ref.excerpt}&rdquo;</div>
                           </div>
                         ))}
                       </div>

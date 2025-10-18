@@ -34,7 +34,86 @@ function getServices() {
 
 /**
  * POST /api/past-self/query
- * Query the past-self agent with a temporal question
+ * Query your past self through journal entries using semantic search and AI response generation.
+ * 
+ * @description Ask questions to your past self from specific time periods. The system performs
+ * semantic search across your journal entries, finds the most relevant ones, and generates
+ * a response as if your past self wrote it. You can specify either a custom time period
+ * or use predefined presets.
+ * 
+ * @param {PastSelfQueryRequest} body - Request body containing query and time constraints
+ * @param {string} body.query - Your question to past self (1-1,000 characters, required)
+ * @param {Object} [body.timePeriod] - Custom time period (optional, mutually exclusive with preset)
+ * @param {string} [body.timePeriod.start] - ISO 8601 start date (optional)
+ * @param {string} [body.timePeriod.end] - ISO 8601 end date (optional)
+ * @param {TimePeriodPreset} [body.preset] - Predefined time period (optional, mutually exclusive with timePeriod)
+ * 
+ * @returns {Promise<NextResponse<PastSelfResponse>>} 200 - Past-self response with references and metadata
+ * @returns {Promise<NextResponse<ErrorResponse>>} 400 - Invalid query, dates, preset, or no entries found
+ * @returns {Promise<NextResponse<ErrorResponse>>} 429 - AI service rate limit exceeded
+ * @returns {Promise<NextResponse<ErrorResponse>>} 503 - Database or AI service unavailable
+ * @returns {Promise<NextResponse<ErrorResponse>>} 500 - Internal server error
+ * 
+ * @example
+ * // Request with custom time period
+ * POST /api/past-self/query
+ * {
+ *   "query": "What was I thinking about my career in 2023?",
+ *   "timePeriod": {
+ *     "start": "2023-01-01T00:00:00Z",
+ *     "end": "2023-12-31T23:59:59Z"
+ *   }
+ * }
+ * 
+ * @example
+ * // Request with preset
+ * POST /api/past-self/query
+ * {
+ *   "query": "How did I feel about relationships back then?",
+ *   "preset": "college-years"
+ * }
+ * 
+ * @example
+ * // Response (200)
+ * {
+ *   "response": "Back in 2023, I was really excited about the new opportunities in tech...",
+ *   "references": [
+ *     {
+ *       "entryId": "550e8400-e29b-41d4-a716-446655440000",
+ *       "date": "2023-03-15T10:30:00.000Z",
+ *       "excerpt": "I've been thinking a lot about switching careers lately...",
+ *       "relevanceScore": 0.95
+ *     }
+ *   ],
+ *   "metadata": {
+ *     "entriesSearched": 45,
+ *     "timePeriod": {
+ *       "start": "2023-01-01T00:00:00.000Z",
+ *       "end": "2023-12-31T23:59:59.000Z"
+ *     },
+ *     "warning": "Limited entries available for this time period"
+ *   }
+ * }
+ * 
+ * @example
+ * // Error Response - No entries (400)
+ * {
+ *   "error": "No journal entries found. Please write your first entry to start conversations with your past self.",
+ *   "code": "NO_ENTRIES"
+ * }
+ * 
+ * @example
+ * // Error Response - Invalid preset (400)
+ * {
+ *   "error": "Invalid preset. Valid presets are: 1-month-ago, 3-months-ago, ...",
+ *   "code": "INVALID_PRESET",
+ *   "details": {
+ *     "validPresets": ["1-month-ago", "3-months-ago", "6-months-ago", ...]
+ *   }
+ * }
+ * 
+ * @see {@link TimePeriodPreset} for available preset options
+ * @see {@link PastSelfResponse} for complete response structure
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
