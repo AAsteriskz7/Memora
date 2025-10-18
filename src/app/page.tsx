@@ -9,6 +9,9 @@ export default function Home() {
   const [entryContent, setEntryContent] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string>('');
+  const [savedEntryId, setSavedEntryId] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [savedContent, setSavedContent] = useState<string>('');
   
   // Get current date in MM/DD/YYYY format
   const getCurrentDate = () => {
@@ -24,6 +27,62 @@ export default function Home() {
     setIsMounted(true);
     setCurrentDate(getCurrentDate());
   }, []);
+
+  // Handle editing saved entry
+  const handleEditEntry = () => {
+    setIsEditing(true);
+    setEntryContent(savedContent); // Restore the saved content for editing
+  };
+
+  // Handle updating existing entry
+  const handleUpdateEntry = async () => {
+    if (!entryContent.trim()) {
+      setSaveMessage('Please write something before saving.');
+      setTimeout(() => setSaveMessage(''), 3000);
+      return;
+    }
+
+    setIsSaving(true);
+    setSaveMessage('');
+
+    try {
+      const response = await fetch(`/api/entries/${savedEntryId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: entryContent.trim(),
+        }),
+      });
+
+      if (response.ok) {
+        const updatedEntry = await response.json();
+        setSavedContent(entryContent.trim()); // Update saved content
+        setIsEditing(false); // Exit edit mode
+        setSaveMessage(''); // Clear any previous messages
+      } else {
+        const errorData = await response.json();
+        setSaveMessage(errorData.error || 'Failed to update entry. Please try again.');
+        setTimeout(() => setSaveMessage(''), 5000);
+      }
+    } catch (error) {
+      console.error('Error updating entry:', error);
+      setSaveMessage('Network error. Please check your connection and try again.');
+      setTimeout(() => setSaveMessage(''), 5000);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Handle canceling edit
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEntryContent(savedContent); // Restore original content
+    setSaveMessage('');
+  };
+
+
 
   // Handle saving entry to database
   const handleSaveEntry = async () => {
@@ -49,9 +108,10 @@ export default function Home() {
 
       if (response.ok) {
         const savedEntry = await response.json();
-        setSaveMessage('Entry saved successfully!');
-        setEntryContent(''); // Clear the textarea
-        setTimeout(() => setSaveMessage(''), 3000);
+        setSavedEntryId(savedEntry.id);
+        setSavedContent(entryContent.trim()); // Store the saved content
+        setIsEditing(false); // Not in edit mode after saving
+        setSaveMessage(''); // Clear any previous messages
       } else {
         const errorData = await response.json();
         setSaveMessage(errorData.error || 'Failed to save entry. Please try again.');
@@ -96,21 +156,49 @@ export default function Home() {
       
       <div className="new-entry-container">
         <textarea 
-          placeholder="What's on your mind today?"
+          placeholder={savedEntryId && !isEditing ? "" : "What's on your mind today?"}
           className="new-entry-content"
-          value={entryContent}
+          value={savedEntryId && !isEditing ? savedContent : entryContent}
           onChange={(e) => setEntryContent(e.target.value)}
-          disabled={isSaving}
+          disabled={isSaving || (savedEntryId !== null && !isEditing)}
         />
       </div>
       
-      <button 
-        className="save-entry-btn"
-        onClick={handleSaveEntry}
-        disabled={isSaving || !entryContent.trim()}
-      >
-        {isSaving ? 'Saving...' : 'Save Entry'}
-      </button>
+      {savedEntryId ? (
+        isEditing ? (
+          <div className="edit-actions">
+            <button 
+              className="save-entry-btn"
+              onClick={handleUpdateEntry}
+              disabled={isSaving || !entryContent.trim()}
+            >
+              {isSaving ? 'Updating...' : 'Update Entry'}
+            </button>
+            <button 
+              className="cancel-edit-btn"
+              onClick={handleCancelEdit}
+              disabled={isSaving}
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <button 
+            className="view-entry-btn"
+            onClick={handleEditEntry}
+          >
+            Edit Entry
+          </button>
+        )
+      ) : (
+        <button 
+          className="save-entry-btn"
+          onClick={handleSaveEntry}
+          disabled={isSaving || !entryContent.trim()}
+        >
+          {isSaving ? 'Saving...' : 'Save Entry'}
+        </button>
+      )}
       
       {saveMessage && (
         <div className={`save-message ${saveMessage.includes('successfully') ? 'success' : 'error'}`}>
