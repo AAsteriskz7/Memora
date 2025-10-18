@@ -144,7 +144,8 @@
   - Add comprehensive error handling
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [x] 17. Write API integration tests
+- [-] 17. Write API integration tests
+
 
   - Test POST /api/entries endpoint
   - Test GET /api/entries with pagination and filtering
