@@ -115,24 +115,7 @@
   - Support both relative presets (1-year-ago) and contextual presets (college-years)
   - _Requirements: 4.2, 4.3_
 
-- [x] 13. Create API endpoint for past-self queries
-
-  - Implement POST /api/past-self/query route handler
-  - Validate query and optional timePeriod/preset in request body
-  - Integrate time period presets with PastSelfService
-  - Call PastSelfService.query with resolved time periods
-  - Return response with answer, references, and metadata
-  - Handle edge cases (no entries, n
-    o relevant entries)
-  - Add comprehensive error handling
-  - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5_
-
 - [x] 14. Create mock data generation script
-
-
-
-
-
 
   - Create script to generate realistic journal entries
   - Generate entries spanning multiple years (2020-2025)
@@ -142,10 +125,7 @@
   - Seed database with generated entries including embeddings
   - _Requirements: All (for testing purposes)_
 
-
-
-
-- [ ] 15. Create environment configuration
+- [x] 15. Create environment configuration
 
   - Create .env.example file with all required variables
   - Document each environment variable
@@ -153,7 +133,18 @@
   - Create setup instructions in README
   - _Requirements: All_
 
-- [ ]\* 16. Write API integration tests
+- [ ] 16. Create API endpoint for past-self queries
+
+  - Implement POST /api/past-self/query route handler
+  - Validate query and optional timePeriod/preset in request body
+  - Integrate time period presets with PastSelfService
+  - Call PastSelfService.query with resolved time periods
+  - Return response with answer, references, and metadata
+  - Handle edge cases (no entries, no relevant entries)
+  - Add comprehensive error handling
+  - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5_
+
+- [x] 17. Write API integration tests
 
   - Test POST /api/entries endpoint
   - Test GET /api/entries with pagination and filtering
@@ -164,15 +155,17 @@
   - Test error cases and edge conditions
   - _Requirements: All_
 
-- [ ]\* 17. Add API documentation
+- [ ] 18. Add API documentation
 
   - Document all API endpoints with examples
+
+
   - Create Postman/Thunder Client collection
   - Add inline code documentation
   - Document error responses
   - _Requirements: All_
 
-- [ ] 18. Create simple test frontend for past-self conversations
+- [ ] 19. Create simple test frontend for past-self conversations
   - Create a basic React page for testing past-self conversations
   - Add form for entering journal entries with date selection
   - Add chat interface for asking questions to past self

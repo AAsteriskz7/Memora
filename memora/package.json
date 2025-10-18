@@ -15,7 +15,8 @@
     "seed:mock": "tsx scripts/generate-mock-data.ts",
     "seed:test": "tsx scripts/test-mock-data.ts",
     "seed:validate": "tsx scripts/validate-mock-data.ts",
-    "import:entries": "tsx scripts/import-entries.ts"
+    "import:entries": "tsx scripts/import-entries.ts",
+    "test:api": "tsx src/tests/api-integration.test.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
