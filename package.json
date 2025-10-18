@@ -21,7 +21,8 @@
     "test:real-chat": "tsx src/services/real-chat-test.ts",
     "test:ai": "tsx src/services/ai-only-test.ts",
     "test:db": "tsx src/services/db-test.ts",
-    "test:env": "tsx src/services/env-test.ts"
+    "test:env": "tsx src/services/env-test.ts",
+    "regenerate:embeddings": "tsx src/services/regenerate-embeddings.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",
