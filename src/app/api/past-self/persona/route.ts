@@ -103,6 +103,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    // Check if this is a fast initial request
+    const isFastRequest = request.headers.get('x-fast-mode') === 'true';
+    const entryLimit = isFastRequest ? 5 : 15;
+
     // Fetch journal entries from the time period
     const entries = await prisma.entry.findMany({
       where: {
@@ -112,12 +116,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
       },
       orderBy: {
-        createdAt: 'asc'
+        createdAt: 'desc' // Most recent first for better context
       },
       select: {
         content: true,
         createdAt: true
-      }
+      },
+      take: entryLimit
     });
 
     if (entries.length === 0) {
@@ -129,8 +134,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Prepare entries for analysis (limit to prevent token overflow and speed up generation)
-    const maxEntries = 15; // Reduced limit for faster generation
+    // Prepare entries for analysis
+    const maxEntries = isFastRequest ? 3 : 10; // Very fast for initial request
     const selectedEntries = entries.length > maxEntries 
       ? entries.slice(0, maxEntries) 
       : entries;
@@ -139,56 +144,35 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       .map((entry, index) => `Entry ${index + 1} (${entry.createdAt.toLocaleDateString()}):\n"${entry.content}"`)
       .join('\n\n');
 
-    // Create persona analysis prompt
-    const analysisPrompt = `Analyze these journal entries from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()} and create a detailed persona description for an AI to embody this person from that specific time period.
+    // Create persona analysis prompt (shorter for fast mode)
+    const analysisPrompt = isFastRequest 
+      ? `Quick persona from ${startDate.getFullYear()} based on these entries:
 
-JOURNAL ENTRIES:
 ${entriesText}
 
-Create a comprehensive persona prompt that captures:
+Create a brief system prompt starting with "You are speaking as yourself from ${startDate.getFullYear()}..." capturing basic personality and communication style.`
+      : `Analyze these journal entries and create a persona prompt for an AI to embody this person from ${startDate.getFullYear()}.
 
-1. COMMUNICATION STYLE:
-   - Vocabulary and slang used
-   - Sentence structure (short/long, formal/casual)
-   - Emotional expression patterns
-   - Humor style and references
+ENTRIES:
+${entriesText}
 
-2. PERSONALITY TRAITS:
-   - Dominant emotions and moods
-   - Confidence level and self-perception
-   - Social tendencies (introverted/extroverted)
-   - Optimism vs pessimism
+Create a system prompt starting with "You are speaking as yourself from ${startDate.getFullYear()}..." that captures:
+- Communication style and vocabulary
+- Personality traits and emotions  
+- Life situation and concerns
+- Specific people, places, interests mentioned
+- Authentic voice from this time period
 
-3. LIFE SITUATION & CONCERNS:
-   - Major life events happening
-   - Primary worries and stresses
-   - Goals and aspirations
-   - Relationships and social dynamics
-   - Work/school situation
-
-4. SPECIFIC DETAILS:
-   - Names of people, places, activities mentioned
-   - Specific interests and hobbies
-   - Cultural references and media consumed
-   - Daily routines and habits
-
-5. TEMPORAL CONTEXT:
-   - What year/season this represents
-   - Life stage (student, new grad, etc.)
-   - Major world events affecting them
-
-Generate a detailed system prompt that starts with "You are speaking as yourself from ${startDate.getFullYear()}..." and includes specific examples of how this person would respond, what they'd bring up in conversation, and their authentic voice from that time.
-
-Make it detailed enough that the AI can have natural conversations while staying true to who this person was during this specific period.`;
+Keep it focused and conversational.`;
 
     // Generate persona using LLM service
     const llmService = createLLMService();
     const personaPrompt = await llmService.generateResponse(analysisPrompt);
 
     // Create a brief summary of the time period
-    const summaryPrompt = `Based on these journal entries from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, write a brief 2-3 sentence summary of what this person's life was like during this period. Focus on their main situation, concerns, and personality.
+    const summaryPrompt = `Summarize this person's life in ${startDate.getFullYear()} in 2-3 sentences based on these entries:
 
-ENTRIES: ${entriesText.substring(0, 1000)}...`;
+${entriesText.substring(0, 800)}...`;
 
     const summary = await llmService.generateResponse(summaryPrompt);
 

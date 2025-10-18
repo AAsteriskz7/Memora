@@ -37,6 +37,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>('');
   const [isMounted, setIsMounted] = useState(false);
+  const [loadingText, setLoadingText] = useState('');
   const chatMessagesRef = useRef<HTMLDivElement>(null);
 
   // Handle client-side mounting to prevent hydration errors
@@ -47,6 +48,11 @@ export default function Home() {
       day: 'numeric',
       year: 'numeric'
     }));
+
+    // Cleanup function to handle component unmounting
+    return () => {
+      setIsMounted(false);
+    };
   }, []);
 
   // Time period configurations
@@ -111,10 +117,21 @@ export default function Home() {
     scrollToBottom();
   }, [chatMessages]);
 
-  // Generate persona for selected time period
+  // Dynamic loading messages
+  const loadingMessages = [
+    'Analyzing your journal entries...',
+    'Understanding your personality from this time...',
+    'Building your past self...',
+    'Almost ready to chat...',
+    'Finalizing your persona...'
+  ];
+
+  // Generate persona for selected time period with progressive loading
   const generatePersona = async (timePeriodId: string) => {
     setIsLoadingPersona(true);
     setError(null);
+    
+    let loadingInterval: NodeJS.Timeout | null = null;
 
     try {
       const timePeriodConfig = timePeriods.find(tp => tp.id === timePeriodId);
@@ -123,44 +140,134 @@ export default function Home() {
       }
 
       const dateRange = timePeriodConfig.getDateRange();
+      const cacheKey = `persona-${timePeriodId}-${dateRange.start.getTime()}-${dateRange.end.getTime()}`;
 
-      // Add timeout to prevent hanging
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      // Check localStorage cache first
+      if (isMounted) {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          try {
+            const cachedData = JSON.parse(cached);
+            const cacheAge = Date.now() - cachedData.timestamp;
+            // Cache for 1 hour
+            if (cacheAge < 60 * 60 * 1000) {
+              console.log('Using cached persona');
+              setPersonaData(cachedData.data);
+              setChatMessages([]);
+              setIsLoadingPersona(false);
+              return;
+            }
+          } catch (e) {
+            // Invalid cache, continue with API call
+            localStorage.removeItem(cacheKey);
+          }
+        }
+      }
 
-      const response = await fetch('/api/past-self/persona', {
+      // Start dynamic loading text
+      let messageIndex = 0;
+      setLoadingText(loadingMessages[0]);
+      loadingInterval = setInterval(() => {
+        messageIndex = (messageIndex + 1) % loadingMessages.length;
+        setLoadingText(loadingMessages[messageIndex]);
+      }, 2000); // Faster changes for perceived speed
+
+      // First: Fast initial persona (3-5 entries)
+      const fastResponse = await fetch('/api/past-self/persona', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-fast-mode': 'true'
         },
         body: JSON.stringify({
           timePeriod: {
             start: dateRange.start.toISOString(),
             end: dateRange.end.toISOString(),
           }
-        }),
-        signal: controller.signal
+        })
       });
 
-      clearTimeout(timeoutId);
+      if (loadingInterval) clearInterval(loadingInterval);
 
-      if (!response.ok) {
-        const errorData = await response.json();
+      if (!fastResponse.ok) {
+        const errorData = await fastResponse.json();
         throw new Error(errorData.error || 'Failed to generate persona');
       }
 
-      const personaResponse = await response.json();
-      setPersonaData(personaResponse);
+      const fastPersonaResponse = await fastResponse.json();
+      
+      // Show the fast persona immediately
+      setPersonaData(fastPersonaResponse);
       setChatMessages([]);
+      setIsLoadingPersona(false);
+
+      // Cache the fast response
+      if (isMounted) {
+        try {
+          localStorage.setItem(cacheKey + '-fast', JSON.stringify({
+            data: fastPersonaResponse,
+            timestamp: Date.now()
+          }));
+        } catch (e) {
+          console.warn('Failed to cache fast persona:', e);
+        }
+      }
+
+      // Background: Enhanced persona (more entries) - don't await this
+      setTimeout(async () => {
+        try {
+          const enhancedResponse = await fetch('/api/past-self/persona', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              timePeriod: {
+                start: dateRange.start.toISOString(),
+                end: dateRange.end.toISOString(),
+              }
+            })
+          });
+
+          if (enhancedResponse.ok) {
+            const enhancedPersonaResponse = await enhancedResponse.json();
+            
+            // Silently upgrade the persona if user is still on same time period
+            if (selectedTimePeriod === timePeriodId) {
+              setPersonaData(enhancedPersonaResponse);
+              
+              // Cache the enhanced version
+              if (isMounted) {
+                try {
+                  localStorage.setItem(cacheKey, JSON.stringify({
+                    data: enhancedPersonaResponse,
+                    timestamp: Date.now()
+                  }));
+                } catch (e) {
+                  console.warn('Failed to cache enhanced persona:', e);
+                }
+              }
+            }
+          }
+        } catch (error) {
+          // Silently fail background enhancement
+          console.log('Background persona enhancement failed:', error);
+        }
+      }, 100); // Start background enhancement after 100ms
+
+      return; // Exit here for fast path
+
+      // This code path should not be reached due to fast path above
+      console.warn('Unexpected code path in generatePersona');
 
     } catch (error) {
       console.error('Error generating persona:', error);
-      if (error instanceof Error && error.name === 'AbortError') {
-        setError('Request timed out. Please try again with a shorter time period.');
-      } else {
-        setError(error instanceof Error ? error.message : 'Failed to generate persona');
+      // Don't show AbortError to user, it's usually from component unmounting
+      if (error instanceof Error && error.name !== 'AbortError') {
+        setError(error.message);
       }
     } finally {
+      if (loadingInterval) clearInterval(loadingInterval);
       setIsLoadingPersona(false);
     }
   };
@@ -171,6 +278,7 @@ export default function Home() {
     setChatMessages([]);
     setCurrentMessage('');
     setError(null);
+    setLoadingText('');
   };
 
   const handleTimePeriodClick = async (period: string) => {
@@ -293,10 +401,13 @@ export default function Home() {
     }
   };
 
-  // Get current date for display (using mounted state to prevent hydration errors)
+  // Get current date for display (calculate immediately since it's just math)
   const getCurrentDate = () => {
-    if (!isMounted) return ''; // Prevent hydration mismatch
-    return currentDate;
+    return new Date().toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric'
+    });
   };
 
   // Get persona display text
@@ -338,7 +449,7 @@ export default function Home() {
         <div className="new-entry-section">
           <div className="new-entry-header">
             <div className="new-entry-date" suppressHydrationWarning={true}>
-              {isMounted ? currentDate : ''}
+              {getCurrentDate()}
             </div>
             <div className="new-entry-caption">Today's Entry</div>
           </div>
@@ -408,8 +519,7 @@ export default function Home() {
           {isLoadingPersona ? (
             <div className="loading-container">
               <div className="loading-spinner"></div>
-              <div className="loading-text">Analyzing your journal entries from this time period...</div>
-              <div className="loading-subtext">This may take 30-60 seconds</div>
+              <div className="loading-text">{loadingText}</div>
             </div>
           ) : personaData ? (
             <div className="back-in-time-expanded-container">
