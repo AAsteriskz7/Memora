@@ -11,7 +11,7 @@ Memora is an AI-powered journal application that lets users have conversations w
 - React 19
 - TypeScript
 - PostgreSQL (Supabase)
-- Google Gemini AI (embeddings + chat)
+- Anthropic Claude AI (chat) + Google AI (embeddings)
 
 ## Important: Next.js App Router
 
@@ -79,9 +79,10 @@ The app will be available at `http://localhost:3000`
 The `.env` file is already configured with:
 - `DATABASE_URL` - Supabase connection (pooled)
 - `DIRECT_URL` - Supabase direct connection
-- `GOOGLE_API_KEY` - Gemini AI API key
-- `GEMINI_MODEL` - Chat model (gemini-2.5-flash)
-- `GEMINI_EMBEDDING_MODEL` - Embedding model (text-embedding-004)
+- `ANTHROPIC_API_KEY` - Claude AI API key
+- `CLAUDE_MODEL` - Chat model (claude-haiku-4-5-20251001)
+- `GOOGLE_API_KEY` - Google AI API key for embeddings
+- `GEMINI_EMBEDDING_MODEL` - Embedding model (gemini-embedding-001)
 
 **You don't need to change anything** - it's ready to use!
 

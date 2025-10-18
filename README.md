@@ -8,14 +8,14 @@ Memora is an intelligent journaling application that lets you have conversations
 - 🔍 **Semantic Search**: Find relevant entries using AI-powered vector search
 - 💬 **Past-Self Conversations**: Ask questions and get insights from your historical entries
 - ⏰ **Time Period Presets**: Query specific time periods (1 year ago, college years, etc.)
-- 🤖 **AI-Powered**: Uses Claude Haiku 4.5 for natural language understanding
+- 🤖 **AI-Powered**: Uses Anthropic Claude for natural language understanding
 
 ## Tech Stack
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **Backend**: Next.js API Routes, Prisma ORM
 - **Database**: PostgreSQL with pgvector (Supabase)
-- **AI**: Claude (Haiku 4.5 model)
+- **AI**: Anthropic Claude + Google AI (embeddings)
 
 ## Getting Started
 
@@ -48,12 +48,15 @@ Edit `.env` and add your credentials:
 DATABASE_URL=postgresql://postgres.PROJECT_ID:PASSWORD@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 DIRECT_URL=postgresql://postgres.PROJECT_ID:PASSWORD@aws-1-us-east-1.compute.amazonaws.com:5432/postgres
 
-# Claude AI API Key (from https://console.anthropic.com/settings/keys)
-Claude_API_KEY=your_api_key_here
+# Anthropic Claude API Key (from https://console.anthropic.com/settings/keys)
+ANTHROPIC_API_KEY=your_api_key_here
+
+# Google AI API Key for embeddings (from https://aistudio.google.com/app/apikey)
+GOOGLE_API_KEY=your_google_api_key_here
 
 # Model Configuration (defaults are fine)
-Claude_MODEL=Claude-Haiku-4.5
-Claude_EMBEDDING_MODEL=text-embedding-004
+CLAUDE_MODEL=claude-haiku-4-5-20251001
+GEMINI_EMBEDDING_MODEL=gemini-embedding-001
 ```
 
 ### 3. Set Up Database
