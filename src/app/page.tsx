@@ -49,6 +49,48 @@ export default function Home() {
   const [selectedEntry, setSelectedEntry] = useState<number | null>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
 
+  // Check if today's entry exists and fetch it
+  const fetchTodaysEntry = async () => {
+    try {
+      // Get today's date in the user's timezone
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      const todayStr = `${year}-${month}-${day}`;
+
+      // Fetch recent entries and filter for today on the client side
+      const response = await fetch(`/api/entries?limit=10`);
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data.entries && data.entries.length > 0) {
+          // Find entry created today
+          const todaysEntry = data.entries.find((entry: any) => {
+            const entryDate = new Date(entry.createdAt);
+            const entryDateStr = `${entryDate.getFullYear()}-${String(entryDate.getMonth() + 1).padStart(2, '0')}-${String(entryDate.getDate()).padStart(2, '0')}`;
+            return entryDateStr === todayStr;
+          });
+
+          if (todaysEntry) {
+            setNewEntryContent(todaysEntry.content);
+            setIsEntrySaved(true);
+            setSavedEntryId(todaysEntry.id);
+            setIsEditingEntry(false);
+          } else {
+            // No entry for today, reset state
+            setNewEntryContent('');
+            setIsEntrySaved(false);
+            setSavedEntryId(null);
+            setIsEditingEntry(false);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch today\'s entry:', error);
+    }
+  };
+
   // Fetch available years from user's journal entries
   const fetchAvailableYears = async () => {
     try {
@@ -82,6 +124,9 @@ export default function Home() {
 
     // Fetch available years for the custom date picker
     fetchAvailableYears();
+
+    // Check if today's entry exists
+    fetchTodaysEntry();
 
     // Cleanup function to handle component unmounting
     return () => {
@@ -525,16 +570,6 @@ export default function Home() {
   };
 
   const handleSaveEntry = async () => {
-    if (isEditingEntry) {
-      // If we're editing, update the existing entry
-      await handleUpdateEntry();
-    } else {
-      // If we're creating new, save new entry
-      await handleCreateEntry();
-    }
-  };
-
-  const handleCreateEntry = async () => {
     if (!newEntryContent.trim() || isSavingEntry) {
       return;
     }
@@ -543,15 +578,31 @@ export default function Home() {
     setError(null);
 
     try {
-      const response = await fetch('/api/entries', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          content: newEntryContent.trim()
-        }),
-      });
+      let response;
+
+      if (savedEntryId) {
+        // Update existing entry
+        response = await fetch(`/api/entries/${savedEntryId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: newEntryContent.trim()
+          }),
+        });
+      } else {
+        // Create new entry
+        response = await fetch('/api/entries', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: newEntryContent.trim()
+          }),
+        });
+      }
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -620,6 +671,13 @@ export default function Home() {
   const handleEditEntry = () => {
     setIsEditingEntry(true);
     setIsEntrySaved(false);
+  };
+
+  const handleCancelEdit = () => {
+    // Revert to saved content
+    fetchTodaysEntry();
+    setIsEditingEntry(false);
+    setError(null);
   };
 
   const handleNewEntry = () => {
@@ -762,7 +820,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="new-entry-container">
+          <div className={`new-entry-container ${isEntrySaved && !isEditingEntry ? 'saved-container' : ''}`}>
             <textarea
               placeholder="What's on your mind today?"
               className={`new-entry-content ${isEntrySaved && !isEditingEntry ? 'saved-entry' : ''}`}
@@ -774,18 +832,26 @@ export default function Home() {
 
           <div className="entry-buttons">
             {isEntrySaved && !isEditingEntry ? (
+              <button
+                className="edit-entry-btn"
+                onClick={handleEditEntry}
+              >
+                Edit Entry
+              </button>
+            ) : isEditingEntry ? (
               <>
                 <button
-                  className="edit-entry-btn"
-                  onClick={handleEditEntry}
+                  className="update-entry-btn"
+                  onClick={handleSaveEntry}
+                  disabled={!newEntryContent.trim() || isSavingEntry}
                 >
-                  Edit Entry
+                  {isSavingEntry ? 'Updating...' : 'Update'}
                 </button>
                 <button
-                  className="new-entry-btn"
-                  onClick={handleNewEntry}
+                  className="cancel-entry-btn"
+                  onClick={handleCancelEdit}
                 >
-                  New Entry
+                  Cancel
                 </button>
               </>
             ) : (
@@ -794,8 +860,7 @@ export default function Home() {
                 onClick={handleSaveEntry}
                 disabled={!newEntryContent.trim() || isSavingEntry}
               >
-                {isSavingEntry ? (isEditingEntry ? 'Updating...' : 'Saving...') :
-                  isEditingEntry ? 'Save Changes' : 'Save Entry'}
+                {isSavingEntry ? 'Saving...' : 'Save Entry'}
               </button>
             )}
           </div>
@@ -970,7 +1035,7 @@ export default function Home() {
                     <div key={index} className="entry-item">
                       <div className="entry-date">{entry.date}</div>
                       <div className="entry-text">{entry.preview}</div>
-                      <button 
+                      <button
                         className="view-btn"
                         onClick={() => handleViewEntry(index)}
                       >
