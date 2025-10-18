@@ -1,6 +1,11 @@
 // Simple LLM service test
 // Run this with: npx tsx src/services/llm-test.ts
 
+import * as dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
 import { LLMService } from './llm.service'
 
 async function testLLMService() {
@@ -11,7 +16,7 @@ async function testLLMService() {
     const llmService = new LLMService({
       anthropicApiKey: process.env.ANTHROPIC_API_KEY || 'test-key',
       googleApiKey: process.env.GOOGLE_API_KEY || 'test-key',
-      model: process.env.CLAUDE_MODEL || 'claude-haiku-4.5',
+      model: process.env.CLAUDE_MODEL || 'claude-haiku-4-5-20251001',
       embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || 'embedding-001'
     })
     
