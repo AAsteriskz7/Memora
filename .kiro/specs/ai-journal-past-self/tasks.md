@@ -133,7 +133,9 @@
   - Create setup instructions in README
   - _Requirements: All_
 
-- [ ] 16. Create API endpoint for past-self queries
+- [-] 16. Create API endpoint for past-self queries
+
+
 
   - Implement POST /api/past-self/query route handler
   - Validate query and optional timePeriod/preset in request body
