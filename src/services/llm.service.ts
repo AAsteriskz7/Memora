@@ -211,7 +211,7 @@ Return only valid JSON or null.`;
 export function createLLMService(): LLMService {
   const anthropicApiKey = process.env.ANTHROPIC_API_KEY;
   const googleApiKey = process.env.GOOGLE_API_KEY;
-  const model = process.env.CLAUDE_MODEL || 'claude-haiku-4.5';
+  const model = process.env.CLAUDE_MODEL || 'claude-haiku-4-5-20251001';
   const embeddingModel = process.env.GEMINI_EMBEDDING_MODEL || 'embedding-001';
   
   if (!anthropicApiKey) {

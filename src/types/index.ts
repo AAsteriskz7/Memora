@@ -100,4 +100,43 @@ export interface GetEntriesOptions {
   limit?: number;
   startDate?: Date;
   endDate?: Date;
+}// Chat-re
+lated types
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  message: string;
+}
+
+export interface PersonaRequest {
+  timePeriod: {
+    start: string;
+    end: string;
+  };
+}
+
+export interface PersonaResponse {
+  personaPrompt: string;
+  timePeriod: TimePeriod;
+  entriesAnalyzed: number;
+  summary: string;
+}
+
+export interface ChatRequest {
+  message: string;
+  timePeriod: {
+    start: string;
+    end: string;
+  };
+  personaPrompt: string;
+  conversationHistory?: ChatMessage[];
+}
+
+export interface ChatResponse {
+  response: string;
+  conversationHistory: ChatMessage[];
+  metadata: {
+    timePeriod: TimePeriod;
+    relevantEntries: number;
+    responseGenerated: string;
+  };
 }

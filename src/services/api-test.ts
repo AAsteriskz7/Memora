@@ -78,21 +78,21 @@ async function testAPIComponents() {
       }
 
     } else {
-      console.log('\n⚠️  Skipping LLM method tests - API keys not configured');
+      console.log('\n  Skipping LLM method tests - API keys not configured');
       console.log('   Set ANTHROPIC_API_KEY and GOOGLE_API_KEY in .env to test API calls');
     }
 
     // Test 4: Model configuration
-    console.log('\n⚙️ Testing model configuration...');
+    console.log('\n Testing model configuration...');
     
-    const claudeModel = process.env.CLAUDE_MODEL || 'claude-haiku-4.5';
+    const claudeModel = process.env.CLAUDE_MODEL || 'claude-haiku-4-5-20251001';
     const embeddingModel = process.env.GEMINI_EMBEDDING_MODEL || 'embedding-001';
     
     console.log(`✅ Claude model: ${claudeModel}`);
     console.log(`✅ Embedding model: ${embeddingModel}`);
 
-    if (claudeModel === 'claude-haiku-4.5') {
-      console.log('✅ Using Claude Haiku 4.5 (latest version - fast and cost-effective)');
+    if (claudeModel === 'claude-haiku-4-5-20251001') {
+      console.log('✅ Using Claude Haiku 4.5 (20251001 - fastest model with near-frontier intelligence)');
     }
 
     if (embeddingModel === 'embedding-001') {
