@@ -24,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${instrumentSans.className} ${instrumentSerif.className}`}>
+      <body 
+        className={`${instrumentSans.className} ${instrumentSerif.className}`}
+        suppressHydrationWarning={true}
+      >
         {children}
       </body>
     </html>
