@@ -135,7 +135,6 @@
 
 - [x] 16. Create API endpoint for past-self queries
 
-
   - Implement POST /api/past-self/query route handler
   - Validate query and optional timePeriod/preset in request body
   - Integrate time period presets with PastSelfService
@@ -146,12 +145,6 @@
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5_
 
 - [x] 17. Write API integration tests
-
-
-
-
-
-
 
   - Test POST /api/entries endpoint
   - Test GET /api/entries with pagination and filtering
@@ -171,8 +164,7 @@
   - Document error responses
   - _Requirements: All_
 
-- [-] 19. Create simple test frontend for past-self conversations
-
+- [x] 19. Create simple test frontend for past-self conversations
 
   - Create a basic React page for testing past-self conversations
   - Add form for entering journal entries with date selection
@@ -180,6 +172,7 @@
   - Include time period preset selector (college years, 1 year ago, etc.)
   - Display conversation history with past self responses
   - Show entry references and metadata for each response
+
   - Add basic styling for usability
   - Include error handling and loading states
   - _Requirements: 4.1, 4.2, 4.3, 5.1, 5.2, 5.3, 6.1, 6.2, 6.3_
