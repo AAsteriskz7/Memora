@@ -1,129 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Home() {
   const [selectedTab, setSelectedTab] = useState<'new-entry' | 'back-in-time'>('new-entry');
-  const [currentDate, setCurrentDate] = useState<string>('');
-  const [isMounted, setIsMounted] = useState(false);
-  const [entryContent, setEntryContent] = useState<string>('');
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState<string>('');
-  const [savedEntryId, setSavedEntryId] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [savedContent, setSavedContent] = useState<string>('');
-  
-  // Get current date in MM/DD/YYYY format
-  const getCurrentDate = () => {
-    const today = new Date();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0');
-    const day = today.getDate().toString().padStart(2, '0');
-    const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
-  };
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState<string | null>(null);
 
-  // Set date on client side to avoid hydration mismatch
-  useEffect(() => {
-    setIsMounted(true);
-    setCurrentDate(getCurrentDate());
-  }, []);
-
-  // Handle editing saved entry
-  const handleEditEntry = () => {
-    setIsEditing(true);
-    setEntryContent(savedContent); // Restore the saved content for editing
-  };
-
-  // Handle updating existing entry
-  const handleUpdateEntry = async () => {
-    if (!entryContent.trim()) {
-      setSaveMessage('Please write something before saving.');
-      setTimeout(() => setSaveMessage(''), 3000);
-      return;
-    }
-
-    setIsSaving(true);
-    setSaveMessage('');
-
-    try {
-      const response = await fetch(`/api/entries/${savedEntryId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          content: entryContent.trim(),
-        }),
-      });
-
-      if (response.ok) {
-        const updatedEntry = await response.json();
-        setSavedContent(entryContent.trim()); // Update saved content
-        setIsEditing(false); // Exit edit mode
-        setSaveMessage(''); // Clear any previous messages
-      } else {
-        const errorData = await response.json();
-        setSaveMessage(errorData.error || 'Failed to update entry. Please try again.');
-        setTimeout(() => setSaveMessage(''), 5000);
-      }
-    } catch (error) {
-      console.error('Error updating entry:', error);
-      setSaveMessage('Network error. Please check your connection and try again.');
-      setTimeout(() => setSaveMessage(''), 5000);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  // Handle canceling edit
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEntryContent(savedContent); // Restore original content
-    setSaveMessage('');
-  };
-
-
-
-  // Handle saving entry to database
-  const handleSaveEntry = async () => {
-    if (!entryContent.trim()) {
-      setSaveMessage('Please write something before saving.');
-      setTimeout(() => setSaveMessage(''), 3000);
-      return;
-    }
-
-    setIsSaving(true);
-    setSaveMessage('');
-
-    try {
-      const response = await fetch('/api/entries', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          content: entryContent.trim(),
-        }),
-      });
-
-      if (response.ok) {
-        const savedEntry = await response.json();
-        setSavedEntryId(savedEntry.id);
-        setSavedContent(entryContent.trim()); // Store the saved content
-        setIsEditing(false); // Not in edit mode after saving
-        setSaveMessage(''); // Clear any previous messages
-      } else {
-        const errorData = await response.json();
-        setSaveMessage(errorData.error || 'Failed to save entry. Please try again.');
-        setTimeout(() => setSaveMessage(''), 5000);
-      }
-    } catch (error) {
-      console.error('Error saving entry:', error);
-      setSaveMessage('Network error. Please check your connection and try again.');
-      setTimeout(() => setSaveMessage(''), 5000);
-    } finally {
-      setIsSaving(false);
-    }
+  const handleTimePeriodClick = (period: string) => {
+    setSelectedTimePeriod(period);
   };
 
   return (
@@ -132,7 +16,7 @@ export default function Home() {
         Memora
       </div>
 
-      <div className="switch-bar">
+      <div className={`switch-bar ${selectedTab === 'back-in-time' && !selectedTimePeriod ? 'back-in-time-margin' : ''}`}>
         <div 
           className={`switch-option ${selectedTab === 'new-entry' ? 'selected' : 'unselected new-entry'}`}
           onClick={() => setSelectedTab('new-entry')}
@@ -148,68 +32,80 @@ export default function Home() {
       </div>
 
 
-    <div className="new-entry-section">
-      <div className="new-entry-header">
-        <div className="new-entry-date">{isMounted ? currentDate : ''}</div>
-        <div className="new-entry-caption"> Today's Entry </div>
-      </div>
-      
-      <div className="new-entry-container">
-        <textarea 
-          placeholder={savedEntryId && !isEditing ? "" : "What's on your mind today?"}
-          className="new-entry-content"
-          value={savedEntryId && !isEditing ? savedContent : entryContent}
-          onChange={(e) => setEntryContent(e.target.value)}
-          disabled={isSaving || (savedEntryId !== null && !isEditing)}
-        />
-      </div>
-      
-      {savedEntryId ? (
-        isEditing ? (
-          <div className="edit-actions">
-            <button 
-              className="save-entry-btn"
-              onClick={handleUpdateEntry}
-              disabled={isSaving || !entryContent.trim()}
-            >
-              {isSaving ? 'Updating...' : 'Update Entry'}
-            </button>
-            <button 
-              className="cancel-edit-btn"
-              onClick={handleCancelEdit}
-              disabled={isSaving}
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <button 
-            className="view-entry-btn"
-            onClick={handleEditEntry}
-          >
-            Edit Entry
-          </button>
-        )
-      ) : (
-        <button 
-          className="save-entry-btn"
-          onClick={handleSaveEntry}
-          disabled={isSaving || !entryContent.trim()}
-        >
-          {isSaving ? 'Saving...' : 'Save Entry'}
-        </button>
-      )}
-      
-      {saveMessage && (
-        <div className={`save-message ${saveMessage.includes('successfully') ? 'success' : 'error'}`}>
-          {saveMessage}
+    {selectedTab === 'new-entry' && (
+      <div className="new-entry-section">
+        <div className="new-entry-header">
+          <div className="new-entry-date"> 10/17/2025 </div>
+          <div className="new-entry-caption"> Today's Entry </div>
         </div>
-      )}
-    </div>
+        
+        <div className="new-entry-container">
+          <textarea 
+            placeholder="What's on your mind today?"
+            className="new-entry-content"
+          />
+        </div>
+        
+        <button className="save-entry-btn">
+          Save Entry
+        </button>
+      </div>
+    )}
+
+    {selectedTab === 'back-in-time' && !selectedTimePeriod && (
+      <div className="back-in-time-section">
+        <div className="back-in-time-header">
+          <div className="back-in-time-caption">
+            What <span className="italic-text">Version of Yourself</span> do you want to chat to?
+          </div>
+        </div>
+        
+        <div className="back-in-time-container">
+          <div className="time-period-btn" onClick={() => handleTimePeriodClick('5-years')}>5 Years Ago</div>
+          <div className="time-period-btn" onClick={() => handleTimePeriodClick('3-years')}>3 Years Ago</div>
+          <div className="time-period-btn" onClick={() => handleTimePeriodClick('1-year')}>1 Year Ago</div>
+        </div>
+      </div>
+    )}
+
+    {selectedTab === 'back-in-time' && selectedTimePeriod && (
+      <div className="back-in-time-expanded-section">
+        <div className="back-in-time-expanded-header">
+          <div className="back-in-time-expanded-caption">You from October 18, 2022</div>
+        </div>
+        
+        <div className="back-in-time-expanded-container">
+          <div className="chat-messages">
+            <div className="chat-message incoming">
+              <div className="message-text">Hello! How are you doing today?</div>
+            </div>
+            
+            <div className="chat-message outgoing">
+              <div className="message-text">I'm doing great! Just working on some new projects.</div>
+            </div>
+            
+            <div className="chat-message incoming">
+              <div className="message-text">That sounds exciting! What kind of projects?</div>
+            </div>
+            
+            <div className="chat-message outgoing">
+              <div className="message-text">Working on a new app called Memora - it's a digital journaling platform.</div>
+            </div>
+          </div>
+          
+          <div className="chat-input-bar">
+            <div className="chat-text-input" contentEditable="true" data-placeholder="Type your message..."></div>
+            <div className="chat-send-btn">Send</div>
+          </div>
+        </div>
+      </div>
+    )}
     
-    <div className="past-entries-tab">
-      Past Entries
-    </div>
+    {selectedTab === 'new-entry' && (
+      <div className="past-entries-tab">
+        Past Entries
+      </div>
+    )}
     </div>
   );
 }

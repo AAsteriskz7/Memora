@@ -22,7 +22,7 @@ body {
   padding: 20px;
   height: 98vh;
   background: linear-gradient(to bottom, #0171C1, #A4CFE5);
-  width: 99vw;
+  width: 98vw;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@ body {
   padding: 5px 20px 0 20px;
   position: absolute;
   top: 0;
-  left: 5%;
+  left: 100px;
   color: #0473C2
 }
 
@@ -52,7 +52,11 @@ body {
   gap: 3px;
   align-items: center;
   margin-top: 3%;
-  margin-bottom: 5%;
+  margin-bottom: 2%;
+}
+
+.switch-bar.back-in-time-margin {
+  margin-bottom: 6%;
 }
 
 .switch-option {
@@ -94,7 +98,7 @@ body {
 
 /* New Entry Section */
 .new-entry-section {
-  width: 900px;
+  width: 960px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -119,7 +123,7 @@ body {
 .new-entry-container {
   width: 100%;
   height: 275px;
-  border-radius: 45px;
+  border-radius: 35px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.78) 100%);
   backdrop-filter: blur(7.25px);
   padding: 20px 30px;
@@ -167,6 +171,186 @@ body {
   box-shadow: 0 2px 10px rgba(4, 115, 194, 0.3);
 }
 
+/* Back In Time Section */
+.back-in-time-section {
+  width: 570px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-in-time-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.back-in-time-caption {
+  font-family: 'Instrument Serif', serif;
+  font-size: 36px;
+  color: white;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.italic-text {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.back-in-time-container {
+  border-radius: 35px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(7.25px);
+  padding: 10px 15px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.time-period-btn {
+  background-color: white;
+  border-radius: 25px;
+  padding: 5px 15px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: black;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Back In Time Expanded Section */
+.back-in-time-expanded-section {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-in-time-expanded-header {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.back-in-time-expanded-caption {
+  font-family: 'Instrument Serif', serif;
+  font-size: 36px;
+  color: white;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+.back-in-time-expanded-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 35px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(7.25px);
+  padding: 20px 30px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chat-message {
+  display: flex;
+  max-width: 70%;
+}
+
+.chat-message.incoming {
+  align-self: flex-start;
+}
+
+.chat-message.outgoing {
+  align-self: flex-end;
+}
+
+.message-text {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  padding: 8px 20px;
+  border-radius: 20px;
+  word-wrap: break-word;
+}
+
+.chat-message.incoming .message-text {
+  background: none;
+  color: black;
+  padding: 8px 0;
+}
+
+.chat-message.outgoing .message-text {
+  background-color: #1D81C7;
+  color: white;
+  padding: 8px 20px;
+}
+
+.chat-input-bar {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  background-color: white;
+  border-radius: 25px;
+  padding: 5px 5px 5px 4px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.chat-text-input {
+  flex: 1;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: black;
+  padding: 8px 15px;
+  border: none;
+  outline: none;
+  background: transparent;
+  min-height: 20px;
+  resize: none;
+  overflow-wrap: break-word;
+}
+
+.chat-text-input:empty:before {
+  content: attr(data-placeholder);
+  color: #999;
+}
+
+.chat-send-btn {
+  background-color: #1D81C7;
+  color: white;
+  border-radius: 50px;
+  padding: 6px 15px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 /* Past Entries Tab */
 .past-entries-tab {
   background-color: rgba(255, 255, 255, 0.54);
@@ -176,7 +360,7 @@ body {
   font-size: 36px;
   font-weight: 400;
   letter-spacing: -0.04em;
-  color: #000;
+  color: white;
   text-align: center;
   position: absolute;
   bottom: 0;
@@ -188,142 +372,3 @@ body {
 
 
 
-
-/* Save message styling */
-.save-message {
-  margin-top: 10px;
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-family: "Instrument Sans", sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.save-message.success {
-  background-color: rgba(34, 197, 94, 0.2);
-  color: #16a34a;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-.save-message.error {
-  background-color: rgba(239, 68, 68, 0.2);
-  color: #dc2626;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-/* Disabled button styling */
-.save-entry-btn:disabled {
-  background: rgba(4, 115, 194, 0.5);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 2px 8px rgba(4, 115, 194, 0.2);
-}
-
-.save-entry-btn:disabled:hover {
-  transform: none;
-  box-shadow: 0 2px 8px rgba(4, 115, 194, 0.2);
-}
-
-/* View Entry button - inverted colors */
-.view-entry-btn {
-  background: white;
-  color: #0473C2;
-  border: 2px solid #0473C2;
-  border-radius: 25px;
-  padding: 12px 30px;
-  font-family: "Instrument Sans", sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(4, 115, 194, 0.2);
-}
-
-.view-entry-btn:hover {
-  background: rgba(4, 115, 194, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(4, 115, 194, 0.3);
-}
-
-.view-entry-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(4, 115, 194, 0.2);
-}
-
-/* Edit actions container */
-.edit-actions {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-/* Cancel edit button */
-.cancel-edit-btn {
-  background: transparent;
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 25px;
-  padding: 12px 30px;
-  font-family: "Instrument Sans", sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.cancel-edit-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.8);
-  transform: translateY(-2px);
-}
-
-.cancel-edit-btn:active {
-  transform: translateY(0);
-}
-
-.cancel-edit-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.cancel-edit-btn:disabled:hover {
-  transform: none;
-  background: transparent;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* Disabled textarea styling */
-.new-entry-content:disabled {
-  color: #6b7280;
-  cursor: default;
-}/*
- Custom scrollbar styling for textarea */
-.new-entry-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.new-entry-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
-
-.new-entry-content::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #0473C2, #1B80C7);
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-.new-entry-content::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #1B80C7, #4800FF);
-}
-
-/* Firefox scrollbar styling */
-.new-entry-content {
-  scrollbar-width: thin;
-  scrollbar-color: #0473C2 rgba(255, 255, 255, 0.2);
-}
