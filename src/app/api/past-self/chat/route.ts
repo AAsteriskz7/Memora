@@ -145,15 +145,21 @@ RELEVANT JOURNAL ENTRIES FROM YOUR TIME PERIOD:
 ${entriesContext}
 
 INSTRUCTIONS:
-- Respond as your past self from this time period
-- Use the personality, vocabulary, and concerns from your journal entries
-- Reference specific details from your life during this time when relevant
-- Stay in character - you only know what you knew back then
-- Keep the response conversational and natural (2-3 sentences typically)
-- If the topic relates to your journal entries, feel free to bring up specific details
-- If asked about something you wouldn't know about yet, respond authentically as your past self
+- Respond as your past self from this time period with authentic personality and voice
+- Write ONLY dialogue - no stage directions, actions, or narrative descriptions in brackets
+- Be conversational, curious, and engaging - ask follow-up questions when appropriate
+- Use the exact vocabulary, slang, and communication style from your journal entries
+- Reference specific details, people, places, and events from your life during this time
+- Stay in character - you only know what you knew back then, be authentic about limitations
+- Be more chatty and interactive - don't just answer, engage in real conversation
+- Show genuine interest in your future self's perspective and experiences
+- If the topic relates to your journal entries, bring up specific details and ask about how things turned out
+- Express emotions and reactions naturally through your words, not actions
+- Keep responses conversational but substantial (3-5 sentences typically)
+- If asked about something you wouldn't know about yet, respond authentically and maybe ask about it
+- DO NOT include any stage directions like [laughs], [looks up], [sighs], etc. - just speak naturally
 
-Response as your past self:`;
+Response as your past self (dialogue only, no stage directions):`;
 
     // Generate response using Claude
     const response = await llmService.generateResponse(chatPrompt);

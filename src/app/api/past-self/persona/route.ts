@@ -3,6 +3,15 @@ import { createLLMService } from '@/services/llm.service';
 import { prisma } from '@/lib/prisma';
 import { TimePeriod, ErrorResponse } from '@/types';
 
+// Simple in-memory cache for persona generation
+const personaCache = new Map<string, {
+  data: any;
+  timestamp: number;
+  expiresIn: number;
+}>();
+
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+
 interface PersonaRequest {
   timePeriod: {
     start: string;
@@ -54,6 +63,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         { error: 'timePeriod with start and end dates is required' } as ErrorResponse,
         { status: 400 }
       );
+    }
+
+    // Create cache key from time period
+    const cacheKey = `${body.timePeriod.start}-${body.timePeriod.end}`;
+    
+    // Check cache first
+    const cached = personaCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < cached.expiresIn) {
+      console.log('Returning cached persona');
+      return NextResponse.json(cached.data, { status: 200 });
     }
 
     // Parse and validate dates
@@ -182,6 +201,13 @@ ENTRIES: ${entriesText.substring(0, 1000)}...`;
       entriesAnalyzed: entries.length,
       summary: summary.trim()
     };
+
+    // Cache the response
+    personaCache.set(cacheKey, {
+      data: response,
+      timestamp: Date.now(),
+      expiresIn: CACHE_DURATION
+    });
 
     return NextResponse.json(response, { status: 200 });
 

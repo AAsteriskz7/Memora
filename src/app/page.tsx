@@ -56,11 +56,15 @@ export default function Home() {
       label: '5 Years Ago',
       getDateRange: () => {
         const now = new Date();
-        const endDate = new Date(now);
-        endDate.setFullYear(now.getFullYear() - 5);
-        const startDate = new Date(endDate);
-        startDate.setFullYear(endDate.getFullYear() - 2); // 2 years of context before the target date
-        return { start: startDate, end: endDate };
+        // Target: 5 years ago (2020)
+        const targetDate = new Date(now);
+        targetDate.setFullYear(now.getFullYear() - 5);
+        
+        // Context window: 2 years before target to target (2018-2020)
+        const startDate = new Date(targetDate);
+        startDate.setFullYear(targetDate.getFullYear() - 2);
+        
+        return { start: startDate, end: targetDate };
       }
     },
     {
@@ -68,11 +72,15 @@ export default function Home() {
       label: '3 Years Ago',
       getDateRange: () => {
         const now = new Date();
-        const endDate = new Date(now);
-        endDate.setFullYear(now.getFullYear() - 3);
-        const startDate = new Date(endDate);
-        startDate.setFullYear(endDate.getFullYear() - 2); // 2 years of context before the target date
-        return { start: startDate, end: endDate };
+        // Target: 3 years ago (2022)
+        const targetDate = new Date(now);
+        targetDate.setFullYear(now.getFullYear() - 3);
+        
+        // Context window: 2 years before target to target (2020-2022)
+        const startDate = new Date(targetDate);
+        startDate.setFullYear(targetDate.getFullYear() - 2);
+        
+        return { start: startDate, end: targetDate };
       }
     },
     {
@@ -80,11 +88,15 @@ export default function Home() {
       label: '1 Year Ago',
       getDateRange: () => {
         const now = new Date();
-        const endDate = new Date(now);
-        endDate.setFullYear(now.getFullYear() - 1);
-        const startDate = new Date(endDate);
-        startDate.setFullYear(endDate.getFullYear() - 2); // 2 years of context before the target date
-        return { start: startDate, end: endDate };
+        // Target: 1 year ago (2024)
+        const targetDate = new Date(now);
+        targetDate.setFullYear(now.getFullYear() - 1);
+        
+        // Context window: 2 years before target to target (2022-2024)
+        const startDate = new Date(targetDate);
+        startDate.setFullYear(targetDate.getFullYear() - 2);
+        
+        return { start: startDate, end: targetDate };
       }
     }
   ];
@@ -291,8 +303,9 @@ export default function Home() {
   const getPersonaDisplayText = () => {
     if (!personaData || !isMounted) return '';
 
-    const startDate = new Date(personaData.timePeriod.start);
-    return `You from ${startDate.toLocaleDateString('en-US', {
+    // Use the END date as the target persona year (not start date)
+    const targetDate = new Date(personaData.timePeriod.end);
+    return `You from ${targetDate.toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric'
@@ -404,7 +417,7 @@ export default function Home() {
                 {chatMessages.length === 0 && isMounted && (
                   <div className="chat-message incoming">
                     <div className="message-text">
-                      Hey! I'm you from {new Date(personaData.timePeriod.start).getFullYear()}.
+                      Hey! I'm you from {new Date(personaData.timePeriod.end).getFullYear()}.
                       What would you like to know about that time in our life?
                     </div>
                   </div>
