@@ -109,6 +109,7 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 - `POST /api/past-self/query` - Query your past self
 
 **Example request:**
+
 ```json
 {
   "query": "What was I thinking about my career last year?",
@@ -172,15 +173,16 @@ memora/
 
 ## Environment Variables Reference
 
-| Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
-| `DATABASE_URL` | Supabase pooled connection string | Yes | - |
-| `DIRECT_URL` | Supabase direct connection string | Yes | - |
-| `Claude_API_KEY` | Claude AI API key | Yes | - |
-| `Claude_MODEL` | Chat completion model | No | `Claude-Haiku 4.5` |
-| `Claude_EMBEDDING_MODEL` | Text embedding model | No | `text-embedding-004` |
-| `NODE_ENV` | Environment mode | No | `development` |
-| `PORT` | Server port | No | `3000` |
+| Variable                 | Description                       | Required | Default                     |
+| ------------------------ | --------------------------------- | -------- | --------------------------- |
+| `DATABASE_URL`           | Supabase pooled connection string | Yes      | -                           |
+| `DIRECT_URL`             | Supabase direct connection string | Yes      | -                           |
+| `ANTHROPIC_API_KEY`      | Anthropic Claude API key          | Yes      | -                           |
+| `GOOGLE_API_KEY`         | Google AI API key for embeddings  | Yes      | -                           |
+| `CLAUDE_MODEL`           | Chat completion model             | No       | `claude-haiku-4-5-20251001` |
+| `GEMINI_EMBEDDING_MODEL` | Text embedding model              | No       | `gemini-embedding-001`      |
+| `NODE_ENV`               | Environment mode                  | No       | `development`               |
+| `PORT`                   | Server port                       | No       | `3000`                      |
 
 ## Time Period Presets
 

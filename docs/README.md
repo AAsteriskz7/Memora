@@ -54,7 +54,8 @@ Ensure your `.env` file contains:
 
 ```env
 DATABASE_URL=postgresql://...
-GOOGLE_API_KEY=your_api_key_here
+ANTHROPIC_API_KEY=your_claude_api_key_here
+GOOGLE_API_KEY=your_google_api_key_here
 ```
 
 Start the development server:
@@ -193,7 +194,7 @@ Common error codes:
    - Create some entries first using POST `/api/entries`
 
 2. **"AI service temporarily unavailable"**
-   - Check `GOOGLE_API_KEY` environment variable
+   - Check `ANTHROPIC_API_KEY` and `GOOGLE_API_KEY` environment variables
    - Wait if rate limited
 
 3. **"Database connection error"**
