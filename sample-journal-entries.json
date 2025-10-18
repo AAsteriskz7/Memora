@@ -1,0 +1,190 @@
+[
+  {
+    "createdAt": "2020-07-02",
+    "content": "It's officially July. The summer is just... weird. There's no schedule. No camps. No vacation. My parents are both working from home, so everyone is just on edge, cooped up in the house. I'm spending all my time in my room, which I've basically turned into my 'office.' I finished that basic JavaScript course and now I'm trying to learn React. It's... confusing. This idea of 'components' and 'state' is melting my brain. I've been stuck on the same tutorial for two days. It's so frustrating, but I'm determined to get it. I feel like this is the key to building real apps."
+  },
+  {
+    "createdAt": "2020-07-05",
+    "content": "We had a 'socially-distanced' 4th of July yesterday. Just our family in the backyard. We could hear fireworks, but we couldn't see any. It felt so symbolic of this whole year—like we're all disconnected, just hearing the echoes of normal life happening somewhere else. I spent most of the night on my laptop, trying to figure out a bug in my code. I finally fixed it, and the feeling of relief was better than any firework. That's kind of sad, isn't it?"
+  },
+  {
+    "createdAt": "2020-07-10",
+    "content": "I'm deep into this React tutorial. It's finally starting to 'click.' The whole idea is that you build tiny, reusable pieces, like digital LEGOs. I built a simple to-do list app, and every time I add an item, it just... appears. No page refresh. It feels like magic. I'm starting to see how complex websites like Facebook or Instagram are built. It's like I've been given a peek behind the curtain. I don't know why this is so fascinating to me, but it's all I want to do."
+  },
+  {
+    "createdAt": "2020-07-15",
+    "content": "I'm starting to get really nervous about high school. They confirmed the 'hybrid' plan. My last name means I'm in 'Group B,' so I'll go on Thursdays and Fridays. My best friend from middle school is in 'Group A.' We're not even going to be in school on the same days. How am I supposed to make new friends? What if my group is full of weirdos? I'm going to be the new kid, in a new school, during a pandemic, and I won't know anyone. This is a nightmare scenario for someone like me."
+  },
+  {
+    "createdAt": "2020-07-21",
+    "content": "My mom is trying to be helpful. She took me to buy 'back to school' clothes. The mall was a ghost town. It was so eerie. Everyone in masks, all the stores half-empty. Trying on jeans in a dressing room felt... wrong, like I was breaking a rule. We just bought a few things and left. The whole trip was depressing. It doesn't feel like 'back to school.' It feels like 'back to a weird hospital.'"
+  },
+  {
+    "createdAt": "2020-07-28",
+    "content": "I've been coding so much that my dreams are getting weird. I'm dreaming in 'if/else' statements. I had a dream that I was trying to talk to someone, but my 'function' had the wrong 'arguments' so I couldn't. I'm not sure if this is healthy, but it's the only thing I feel like I have any control over. The 'real' world is chaos, but in my code, everything has a rule. Everything makes sense."
+  },
+  {
+    "createdAt": "2020-08-01",
+    "content": "August. This summer is basically over, and I've done... nothing. And yet, I've done so much. I'm a way better programmer than I was in May. I can build a real, working web app with React. I've read all the 9th-grade 'summer reading' books, which were awful. I'm just... waiting. Waiting for school to start. Waiting for this to be over. I'm so bored of being in my own house."
+  },
+  {
+    "createdAt": "2020-08-05",
+    "content": "I'm so sick of this. I had a huge fight with my parents just because I didn't unload the dishwasher. It wasn't about the dishwasher. We're all just stressed and trapped in here. I went to my room and just... sat there. I'm tired. I'm lonely. I miss normal. I miss being able to just ride my bike to a friend's house without it being a whole 'thing' with masks and hand sanitizer."
+  },
+  {
+    "createdAt": "2020-08-10",
+    "content": "We got our official class schedules. I'm in all the advanced classes, which is good, I guess. I have 'Honors Geometry,' 'Honors Biology,' and an 'Intro to CS' class. I'm actually nervous for the CS class. What if I think I know a lot, but I'm totally behind everyone else? What if the teacher hates that I'm self-taught? Imposter syndrome is already setting in, and school hasn't even started."
+  },
+  {
+    "createdAt": "2020-08-15",
+    "content": "I'm setting up my 'home school' desk for my online days. Monday, Tuesday, Wednesday... I'll be right here. In this chair. Staring at this screen. It feels like I'm just extending quarantine. I'm just so... unmotivated. Why try hard in school when the world is ending? I know that's dramatic, but it's how I feel."
+  },
+  {
+    "createdAt": "2020-08-20",
+    "content": "This is it. Last week of 'summer.' I'm trying to just relax and play some video games, but my mind is racing. What's the high school going to be like? How do you even 'find your way' when the hallways are all one-way and everyone's face is covered? This is such a weird way to start the 'best four years of your life.'"
+  },
+  {
+    "createdAt": "2020-08-24",
+    "content": "First 'online' day of freshman year. It was... chaos. My first class was just the teacher trying to get his audio to work for 20 minutes. My next class was a 'digital get to know you' icebreaker that was so cringe-worthy. I kept my camera and mic off as much as possible. This is just 8th grade all over again, but with higher stakes. I didn't learn a single thing. This is a joke."
+  },
+  {
+    "createdAt": "2020-08-27",
+    "content": "First 'in-person' day. It was the strangest experience of my life. Waking up early, putting on a mask. The bus was silent. Everyone sat one to a seat. In the school, there are arrows on the floor, and teachers yelling at you if you walk the wrong way. My 'Group B' seems... okay. I don't know. I can't see anyone's face. We just sat in rows, 6 feet apart. It felt... sterile. Like a hospital."
+  },
+  {
+    "createdAt": "2020-08-28",
+    "content": "Second in-person day. I'm starting to get the hang of it. I sat next to a kid named Sohan in my Intro to CS class. We're the only two who seem to know what's going on. The teacher is nice, but she's teaching basic HTML. It's stuff I learned months ago. Sohan and I were talking about JavaScript frameworks. He's into Vue, I'm into React. It was the first normal, interesting conversation I've had in months. Maybe this won't be so bad."
+  },
+  {
+    "createdAt": "2020-09-02",
+    "content": "My 'at home' days are so unproductive. It's impossible to focus. I have the Zoom class running on one monitor and I'm just coding on the other. The teachers are trying their best, but they're so burned out already. It's a 'pass/fail' effort. The real learning happens on my 'in-person' days. The whole system is just... broken."
+  },
+  {
+    "createdAt": "2020-09-07",
+    "content": "Happy Labor Day. It just feels like another day. I hung out with Sohan (in person, in his backyard). We just coded for like 4 hours straight. We're thinking about building a project together. Maybe a club website or something. It's so cool to have a friend who 'gets' this stuff. We're both in the same boat, way ahead of our class and bored."
+  },
+  {
+    "createdAt": "2020-09-10",
+    "content": "In-person day. My English teacher is making us read 'Romeo and Juliet.' I just... cannot bring myself to care. It's so disconnected from reality. We're living through a global plague, and I'm reading about two dramatic teenagers. It feels... trivial. I'm going to find a summary online and just read that. I'd rather spend my time debugging my React app."
+  },
+  {
+    "createdAt": "2020-09-16",
+    "content": "The CS teacher, Ms. Evans, pulled me and Sohan aside today. She said she knows we're bored. She gave us an old robotics kit that was in the closet and said 'Here. Make this do something. That's your assignment for the rest of the semester.' I'm so happy. This is the best teacher ever. A real project! We're going to try to build a little self-driving car that can navigate the classroom."
+  },
+  {
+    "createdAt": "2020-09-22",
+    "content": "The hybrid model is exhausting. Not physically, but mentally. The whiplash between the high-anxiety 'in-person' days and the total, isolating boredom of the 'at-home' days is messing with my head. I don't feel like I have a 'normal' anymore. My sleep schedule is destroyed. I'm just living for Thursdays and Fridays when I can go to school and work on the robot."
+  },
+  {
+    "createdAt": "2020-09-28",
+    "content": "We got the robot's wheels to turn today. It was a huge victory. We're programming it in Python, which is a nice break from React. It's so satisfying to write a line of code and see something *move* in the physical world. This is way cooler than web dev. Sohan is a genius with the hardware, and I'm figuring out the software. We make a good team."
+  },
+  {
+    "createdAt": "2020-10-01",
+    "content": "It's October. The leaves are changing. It feels like a normal fall, but it's not. They're talking about a 'second wave' of the virus. I'm just trying to ignore it. I'm focusing on two things: my grades and this robot. Everything else is just noise. I've found my little bubble within the bigger, crazy bubble."
+  },
+  {
+    "createdAt": "2020-10-07",
+    "content": "My Honors Biology class is... a lot. We're learning about cell mitosis. It's interesting, but the amount of memorization is insane. I'm not good at memorizing. I'm good at *understanding* systems. Biology feels like a bunch of random facts. Code is logical. If you understand the rule, you can build anything. Biology's 'rule' is just 'because it is.' Frustrating."
+  },
+  {
+    "createdAt": "2020-10-15",
+    "content": "Midterms. My first-ever high school midterms. And they're all in this bizarre hybrid format. The in-person ones are stressful, with the teacher watching you like a hawk. The online ones are a joke. It's 'open note,' which just means 'how fast can you Google the answer.' The whole system is designed to be gamed. I don't feel like I'm 'learning.' I feel like I'm 'surviving.'"
+  },
+  {
+    "createdAt": "2020-10-20",
+    "content": "Got my midterm grades back. I got an A in CS (obviously) and Geometry. But I got a B- in Biology. I'm... actually okay with that. 8th-grade-me would have had a panic attack. But now? A B- in a class I hate, during a pandemic, seems perfectly fine. My priorities have shifted. As long as I understand the 'why,' I'm good."
+  },
+  {
+    "createdAt": "2020-10-26",
+    "content": "The robot *almost* followed the black line today. It kept over-correcting and spinning in circles. It was hilarious. Sohan and I were laughing so hard. It's nice to just... laugh. In school. It felt normal. We're so close. We just need to tweak the sensor values. This is the most fun I've ever had in a 'class.'"
+  },
+  {
+    "createdAt": "2020-10-31",
+    "content": "Happy Halloween. No trick-or-treating, obviously. No parties. I'm just at home, watching a scary movie with my family. It's... fine. It's just another Saturday. I'm 14, so I'm kind of 'too old' for it anyway. But it's still sad to see another normal thing just... gone. This year is a thief."
+  },
+  {
+    "createdAt": "2020-11-03",
+    "content": "It's Election Day. My parents are glued to the TV. The whole country is holding its breath. The tension in the house is so thick. I can't focus on my code, I can't focus on homework. I just keep refreshing the news. It feels like another one of those 'everything is changing' days, just like back in March."
+  },
+  {
+    "createdAt": "2020-11-07",
+    "content": "It's finally over. They called the election. My parents are relieved. I'm just... relieved that the tension is gone. I don't really get all the politics, but I get the *feeling*. It's like a background noise of anxiety that's been playing for months has suddenly been turned down. Maybe things can be a little more normal now."
+  },
+  {
+    "createdAt": "2020-11-12",
+    "content": "IT DID IT. The robot. It followed the entire black line, all the way around the classroom. It even made the sharp turns! Sohan and I both yelled 'YES!' at the same time. Ms. Evans filmed it. She said she's giving us both A+'s for the semester. This is the most proud I've ever been of anything. We built this from a box of parts and a blank Python file."
+  },
+  {
+    "createdAt": "2020-11-18",
+    "content": "With the robot project done, I'm... kind of bored in CS class again. So I'm starting a new project. A 'personal dashboard.' A website that's just for me. It'll have my to-do list, a little weather widget (using an API!), and maybe my school schedule. I'm building it in React, and I'm going to try to make it actually look *good*. This is my new obsession."
+  },
+  {
+    "createdAt": "2020-11-23",
+    "content": "They're announcing that we're all going 100% remote for the two weeks after Thanksgiving. They're worried everyone is going to travel and bring the virus back. I'm not surprised. I'm just... tired. More isolation. More Zoom. I'm just glad I have my new project to work on. It's a good escape."
+  },
+  {
+    "createdAt": "2020-11-25",
+    "content": "Day before Thanksgiving. The 'in-school' day was so weird. It was the last one for 3 weeks. Everyone was saying 'Happy Thanksgiving' and 'Merry Christmas' just in case we don't come back. It had that same 'last day of 8th grade' feeling. A weird, looming sense of uncertainty. I'm just ready for a break."
+  },
+  {
+    "createdAt": "2020-11-26",
+    "content": "Happy Thanksgiving. It was... quiet. Just me, my parents, and my sibling. No grandparents, no aunts or uncles. We did a Zoom call with the whole family, and it was just everyone talking at once. It's not the same. I miss the noise. I miss the chaos of a full house. I ate too much turkey and then went to my room and coded. That's my new 'normal,' I guess."
+  },
+  {
+    "createdAt": "2020-12-01",
+    "content": "Back to 100% remote school. It's even worse than before. The teachers are just done. They're just posting 'read this chapter' or 'watch this video.' There's no 'teaching' happening. I'm basically just teaching myself all of 9th grade. This is going to be a long two weeks before finals."
+  },
+  {
+    "createdAt": "2020-12-05",
+    "content": "My personal dashboard is coming along. I got the weather API working! It shows the current temp and the 'feels like' temp. It's a small thing, but it's pulling *live data* from the internet. I built that. I feel... powerful. I'm already thinking about what else I can add. A Spotify integration? A news feed? The possibilities are endless."
+  },
+  {
+    "createdAt": "2020-12-10",
+    "content": "I'm supposed to be 'studying' for my Geometry final, which is online and open-note. It's a joke. I'm spending all my time learning about CSS. I'm deep in the weeds of 'Flexbox' and 'Grid.' It's so frustrating and so satisfying. Why does it take 10 lines of code just to center a button? But when it *finally* centers... *chef's kiss*."
+  },
+  {
+    "createdAt": "2020-12-14",
+    "content": "We're back in person for finals week. It's so weird to be back in the building just to take tests. The school is cold and empty. It's like a ghost town. I took my Biology final. I think I did okay. I just crammed all the info into my head last night and then dumped it onto the paper. I've probably already forgotten all of it."
+  },
+  {
+    "createdAt": "2020-12-18",
+    "content": "LAST DAY. First semester of high school is DONE. That was, without a doubt, the weirdest, hardest, strangest 4 months of my life. I'm so glad it's over. I feel like I've been in survival mode since August. Now, two weeks of winter break. Two weeks of no Zoom, no homework. Just... me and my code."
+  },
+  {
+    "createdAt": "2020-12-20",
+    "content": "It's so good to just... do nothing. I slept in until 11. I'm just playing video games and working on my dashboard project. I'm going to add a 'to-do' list that actually saves to my computer's local storage. That's the next step. It's nice to have a project with no deadline, no grade. Just for me."
+  },
+  {
+    "createdAt": "2020-12-23",
+    "content": "It's two days before Christmas. It doesn't feel like it. It's cold, but there's no snow. We're not going anywhere. My parents are trying to be festive. We decorated the tree. But there's a... sadness to it. Everyone is just 'going through the motions.' I'm just hiding in my room, listening to music. I'm in a weird, reflective mood."
+  },
+  {
+    "createdAt": "2020-12-24",
+    "content": "Christmas Eve. This is usually my favorite day. The whole family comes over, it's loud, it's chaotic, I love it. Tonight, it's just... silent. Just us. We're going to watch a movie. It's... fine. But it's not *right*. This whole year has been one long 'it's fine, but it's not right.' I'm so ready for 2021."
+  },
+  {
+    "createdAt": "2020-12-25",
+    "content": "Merry Christmas. Got some cool gifts. Got some new headphones and a book on advanced Python. My parents 'get' me, at least. It was a nice morning. But the afternoon is just... long. I'm already back on my computer. I got the local storage to-do list to work! The items stay even after I refresh the page. That's a huge win. Best Christmas present I could have given myself."
+  },
+  {
+    "createdAt":- "2020-12-26",
+    "content": "This is the weird week between Christmas and New Year's where time doesn't exist. I've just been living like a hermit. Wake up, code, eat, code, play video games, sleep. It's kind of amazing. I'm adding a clock and a 'quote of the day' API to my dashboard. It's actually starting to look like a real, useful application."
+  },
+  {
+    "createdAt": "2020-12-28",
+    "content": "I'm starting to think about next semester. It's going to be the same hybrid model. I'm... okay with it now. I have a routine. I have my friend Sohan. I have my 'project time' in CS class. It's not perfect, but it's not the terrifying unknown it was in August. I've adapted. It's weird what humans can get used to."
+  },
+  {
+    "createdAt": "2020-12-29",
+    "content": "I've been thinking about the future. Not just next semester, but... *the* future. College. I'm 100% sure I want to do computer science. But where? Sohan mentioned Georgia Tech. He said it's like, *the* place for CS. I looked it up... it seems... intense. Like, 'drinking from a firehose' intense. But also... amazing. Maybe that's a goal. A real, long-term goal to work towards."
+  },
+  {
+    "createdAt": "2020-12-30",
+    "content": "Just reflecting on this year. It feels like 10 years packed into one. I started 2020 as a normal 8th grader who was worried about a history diorama. I'm ending it as a high school freshman, living through a plague, who has taught himself how to build web applications from scratch. I've changed... a lot. I'm quieter, maybe more anxious, but I'm also so much more focused. I know what I want. That's a weird thing to know at 14."
+  },
+  {
+    "createdAt": "2020-12-31",
+    "content": "New Year's Eve. We're not doing anything. Just staying in. My parents are going to let me stay up to watch the ball drop, but it's just... on TV. It's not a party. I'm in my room, writing this, listening to the '2020's biggest hits' playlist. It's a weird soundtrack for such an awful year. I cannot *wait* to flip the calendar. Please, 2021. Be better. Be normal. Just... be *better*."
+  }
+]

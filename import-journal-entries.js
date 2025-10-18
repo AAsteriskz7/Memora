@@ -173,8 +173,11 @@ async function importJournalEntries() {
     }
     
     // Show final database stats
-    const totalEntries = await prisma.entry.count();
-    console.log(`📊 Total entries in database: ${totalEntries}`);
+    const statsResponse = await fetch('http://localhost:3000/api/entries');
+    if (statsResponse.ok) {
+      const statsData = await statsResponse.json();
+      console.log(`📊 Total entries in database: ${statsData.pagination.total}`);
+    }
     
     console.log('\n🚀 Your journal entries are now ready for past-self conversations!');
     console.log('Visit http://localhost:3000 and turn off demo mode to see your entries.');
@@ -189,9 +192,6 @@ async function importJournalEntries() {
     if (error.message.includes('database')) {
       console.log('\n💡 Make sure your database is running and accessible');
     }
-    
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
