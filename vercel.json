@@ -1,0 +1,8 @@
+{
+  "buildCommand": "prisma generate && prisma migrate deploy && next build",
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  }
+}
