@@ -547,4 +547,180 @@ Loading spinner */
   justify-content: center;
   padding: 20px;
   gap: 10px;
+}/*
+ Custom Date Section */
+.custom-date-section {
+  width: 570px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.custom-date-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.custom-date-caption {
+  font-family: 'Instrument Serif', serif;
+  font-size: 36px;
+  color: white;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.custom-date-container {
+  border-radius: 35px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(7.25px);
+  padding: 15px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  width: 100%;
+}
+
+.date-inputs {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.date-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.date-input-group label {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  letter-spacing: -0.02em;
+}
+
+.date-input {
+  background-color: white;
+  border: 2px solid rgba(4, 115, 194, 0.3);
+  border-radius: 15px;
+  padding: 10px 15px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+
+.date-input:focus {
+  border-color: #0473C2;
+  box-shadow: 0 0 0 3px rgba(4, 115, 194, 0.1);
+  transform: translateY(-1px);
+}
+
+.custom-date-btn {
+  background: linear-gradient(135deg, #0473C2, #1B80C7);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(4, 115, 194, 0.3);
+  margin-top: 5px;
+}
+
+.custom-date-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(4, 115, 194, 0.4);
+}
+
+.custom-date-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 0 2px 8px rgba(4, 115, 194, 0.2) !important;
+}/
+* Entry Button States */
+.entry-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-entry-btn {
+  background: white;
+  color: #0473C2;
+  border: 2px solid #0473C2;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(4, 115, 194, 0.2);
+}
+
+.edit-entry-btn:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(4, 115, 194, 0.3);
+}
+
+.new-entry-btn {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.new-entry-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+/* Saved Entry Text Styling */
+.new-entry-content.saved-entry {
+  color: #6c757d;
+  background-color: #f8f9fa;
+  cursor: default;
+  border: 2px solid #e9ecef;
+}
+
+.new-entry-content.saved-entry::placeholder {
+  color: #adb5bd;
+}
+
+/* Save button success state */
+.save-entry-btn.success {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.save-entry-btn.success:hover {
+  background: linear-gradient(135deg, #218838, #1ea080);
 }

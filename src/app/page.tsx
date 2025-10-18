@@ -34,11 +34,39 @@ export default function Home() {
   const [isLoadingResponse, setIsLoadingResponse] = useState(false);
   const [newEntryContent, setNewEntryContent] = useState('');
   const [isSavingEntry, setIsSavingEntry] = useState(false);
+  const [isEntrySaved, setIsEntrySaved] = useState(false);
+  const [savedEntryId, setSavedEntryId] = useState<string | null>(null);
+  const [isEditingEntry, setIsEditingEntry] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>('');
   const [isMounted, setIsMounted] = useState(false);
   const [loadingText, setLoadingText] = useState('');
+  const [selectedSeason, setSelectedSeason] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+  const [availableYears, setAvailableYears] = useState<number[]>([]);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
+
+  // Fetch available years from user's journal entries
+  const fetchAvailableYears = async () => {
+    try {
+      const response = await fetch('/api/entries?limit=1000');
+      if (response.ok) {
+        const data = await response.json();
+        const entries = data.entries;
+
+        if (entries.length > 0) {
+          const years = entries
+            .map((entry: any) => new Date(entry.createdAt).getFullYear())
+            .filter((year: number, index: number, arr: number[]) => arr.indexOf(year) === index)
+            .sort((a: number, b: number) => b - a); // Most recent first
+
+          setAvailableYears(years);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch available years:', error);
+    }
+  };
 
   // Handle client-side mounting to prevent hydration errors
   useEffect(() => {
@@ -48,6 +76,9 @@ export default function Home() {
       day: 'numeric',
       year: 'numeric'
     }));
+
+    // Fetch available years for the custom date picker
+    fetchAvailableYears();
 
     // Cleanup function to handle component unmounting
     return () => {
@@ -65,11 +96,11 @@ export default function Home() {
         // Target: 5 years ago (2020)
         const targetDate = new Date(now);
         targetDate.setFullYear(now.getFullYear() - 5);
-        
+
         // Context window: 2 years before target to target (2018-2020)
         const startDate = new Date(targetDate);
         startDate.setFullYear(targetDate.getFullYear() - 2);
-        
+
         return { start: startDate, end: targetDate };
       }
     },
@@ -81,11 +112,11 @@ export default function Home() {
         // Target: 3 years ago (2022)
         const targetDate = new Date(now);
         targetDate.setFullYear(now.getFullYear() - 3);
-        
+
         // Context window: 2 years before target to target (2020-2022)
         const startDate = new Date(targetDate);
         startDate.setFullYear(targetDate.getFullYear() - 2);
-        
+
         return { start: startDate, end: targetDate };
       }
     },
@@ -97,11 +128,11 @@ export default function Home() {
         // Target: 1 year ago (2024)
         const targetDate = new Date(now);
         targetDate.setFullYear(now.getFullYear() - 1);
-        
+
         // Context window: 2 years before target to target (2022-2024)
         const startDate = new Date(targetDate);
         startDate.setFullYear(targetDate.getFullYear() - 2);
-        
+
         return { start: startDate, end: targetDate };
       }
     }
@@ -130,7 +161,7 @@ export default function Home() {
   const generatePersona = async (timePeriodId: string) => {
     setIsLoadingPersona(true);
     setError(null);
-    
+
     let loadingInterval: NodeJS.Timeout | null = null;
 
     try {
@@ -195,7 +226,7 @@ export default function Home() {
       }
 
       const fastPersonaResponse = await fastResponse.json();
-      
+
       // Show the fast persona immediately
       setPersonaData(fastPersonaResponse);
       setChatMessages([]);
@@ -231,11 +262,11 @@ export default function Home() {
 
           if (enhancedResponse.ok) {
             const enhancedPersonaResponse = await enhancedResponse.json();
-            
+
             // Silently upgrade the persona if user is still on same time period
             if (selectedTimePeriod === timePeriodId) {
               setPersonaData(enhancedPersonaResponse);
-              
+
               // Cache the enhanced version
               if (isMounted) {
                 try {
@@ -284,6 +315,133 @@ export default function Home() {
   const handleTimePeriodClick = async (period: string) => {
     setSelectedTimePeriod(period);
     await generatePersona(period);
+  };
+
+  const handleCustomDateSubmit = async () => {
+    if (!selectedSeason || !selectedYear) {
+      setError('Please select both season and year');
+      return;
+    }
+
+    const year = parseInt(selectedYear);
+    let startDate: Date;
+    let endDate: Date;
+
+    // Define season date ranges (from beginning of time to end of that season)
+    startDate = new Date(2000, 0, 1); // Beginning of time (January 1, 2000)
+
+    switch (selectedSeason) {
+      case 'spring':
+        endDate = new Date(year, 4, 31); // End of May
+        break;
+      case 'summer':
+        endDate = new Date(year, 7, 31); // End of August
+        break;
+      case 'fall':
+        endDate = new Date(year, 10, 30); // End of November
+        break;
+      case 'winter':
+        endDate = new Date(year, 11, 31); // End of December
+        break;
+      default:
+        setError('Invalid season selected');
+        return;
+    }
+
+    if (endDate > new Date()) {
+      setError('Selected period cannot be in the future');
+      return;
+    }
+
+    // Generate persona with custom dates
+    setSelectedTimePeriod('custom');
+    await generatePersonaWithCustomDates(startDate, endDate);
+  };
+
+  const generatePersonaWithCustomDates = async (startDate: Date, endDate: Date) => {
+    setIsLoadingPersona(true);
+    setError(null);
+
+    let loadingInterval: NodeJS.Timeout | null = null;
+
+    try {
+      const cacheKey = `persona-custom-${startDate.getTime()}-${endDate.getTime()}`;
+
+      // Check localStorage cache first
+      if (isMounted) {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          try {
+            const cachedData = JSON.parse(cached);
+            const cacheAge = Date.now() - cachedData.timestamp;
+            if (cacheAge < 60 * 60 * 1000) {
+              setPersonaData(cachedData.data);
+              setChatMessages([]);
+              setIsLoadingPersona(false);
+              return;
+            }
+          } catch (e) {
+            localStorage.removeItem(cacheKey);
+          }
+        }
+      }
+
+      // Start loading animation
+      let messageIndex = 0;
+      setLoadingText(loadingMessages[0]);
+      loadingInterval = setInterval(() => {
+        messageIndex = (messageIndex + 1) % loadingMessages.length;
+        setLoadingText(loadingMessages[messageIndex]);
+      }, 2000);
+
+      // Generate persona
+      const response = await fetch('/api/past-self/persona', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-fast-mode': 'true'
+        },
+        body: JSON.stringify({
+          timePeriod: {
+            start: startDate.toISOString(),
+            end: endDate.toISOString(),
+          }
+        })
+      });
+
+      if (loadingInterval) clearInterval(loadingInterval);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate persona');
+      }
+
+      const personaResponse = await response.json();
+      setPersonaData(personaResponse);
+      setChatMessages([]);
+      setIsLoadingPersona(false);
+
+      // Cache the response
+      if (isMounted) {
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify({
+            data: personaResponse,
+            timestamp: Date.now()
+          }));
+        } catch (e) {
+          console.warn('Failed to cache persona:', e);
+        }
+      }
+
+    } catch (error) {
+      console.error('Error generating custom persona:', error);
+      if (error instanceof Error && error.name !== 'AbortError') {
+        setError(error.message);
+      }
+    } finally {
+      if (loadingInterval) clearInterval(loadingInterval);
+      setIsLoadingPersona(false);
+    }
   };
 
   const handleSendMessage = async () => {
@@ -364,6 +522,16 @@ export default function Home() {
   };
 
   const handleSaveEntry = async () => {
+    if (isEditingEntry) {
+      // If we're editing, update the existing entry
+      await handleUpdateEntry();
+    } else {
+      // If we're creating new, save new entry
+      await handleCreateEntry();
+    }
+  };
+
+  const handleCreateEntry = async () => {
     if (!newEntryContent.trim() || isSavingEntry) {
       return;
     }
@@ -387,24 +555,83 @@ export default function Home() {
         throw new Error(errorData.error || 'Failed to save entry');
       }
 
-      // Clear the entry content on successful save
-      setNewEntryContent('');
+      const savedEntry = await response.json();
 
-      // Show success feedback (you could add a toast notification here)
-      console.log('Entry saved successfully!');
+      // Set saved state
+      setIsEntrySaved(true);
+      setSavedEntryId(savedEntry.id);
+      setIsEditingEntry(false);
+
+      // Show "Saved!" briefly
+      setTimeout(() => {
+        setIsSavingEntry(false);
+      }, 1000);
 
     } catch (error) {
       console.error('Error saving entry:', error);
       setError(error instanceof Error ? error.message : 'Failed to save entry');
-    } finally {
       setIsSavingEntry(false);
     }
   };
 
+  const handleUpdateEntry = async () => {
+    if (!newEntryContent.trim() || !savedEntryId || isSavingEntry) {
+      return;
+    }
+
+    setIsSavingEntry(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/entries/${savedEntryId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: newEntryContent.trim()
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update entry');
+      }
+
+      // Set saved state
+      setIsEntrySaved(true);
+      setIsEditingEntry(false);
+
+      // Show "Saved!" briefly
+      setTimeout(() => {
+        setIsSavingEntry(false);
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error updating entry:', error);
+      setError(error instanceof Error ? error.message : 'Failed to update entry');
+      setIsSavingEntry(false);
+    }
+  };
+
+  const handleEditEntry = () => {
+    setIsEditingEntry(true);
+    setIsEntrySaved(false);
+  };
+
+  const handleNewEntry = () => {
+    setNewEntryContent('');
+    setIsEntrySaved(false);
+    setIsEditingEntry(false);
+    setSavedEntryId(null);
+    setError(null);
+  };
   // Get current date for display (calculate immediately since it's just math)
   const getCurrentDate = () => {
-    return new Date().toLocaleDateString('en-US', {
-      month: 'numeric',
+    const now = new Date();
+    return now.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'short',
       day: 'numeric',
       year: 'numeric'
     });
@@ -448,28 +675,49 @@ export default function Home() {
       {selectedTab === 'new-entry' && (
         <div className="new-entry-section">
           <div className="new-entry-header">
+            <div className="new-entry-caption">Today's Entry</div>
             <div className="new-entry-date" suppressHydrationWarning={true}>
               {getCurrentDate()}
             </div>
-            <div className="new-entry-caption">Today's Entry</div>
           </div>
 
           <div className="new-entry-container">
             <textarea
               placeholder="What's on your mind today?"
-              className="new-entry-content"
+              className={`new-entry-content ${isEntrySaved && !isEditingEntry ? 'saved-entry' : ''}`}
               value={newEntryContent}
               onChange={(e) => setNewEntryContent(e.target.value)}
+              readOnly={isEntrySaved && !isEditingEntry}
             />
           </div>
 
-          <button
-            className="save-entry-btn"
-            onClick={handleSaveEntry}
-            disabled={!newEntryContent.trim() || isSavingEntry}
-          >
-            {isSavingEntry ? 'Saving...' : 'Save Entry'}
-          </button>
+          <div className="entry-buttons">
+            {isEntrySaved && !isEditingEntry ? (
+              <>
+                <button
+                  className="edit-entry-btn"
+                  onClick={handleEditEntry}
+                >
+                  Edit Entry
+                </button>
+                <button
+                  className="new-entry-btn"
+                  onClick={handleNewEntry}
+                >
+                  New Entry
+                </button>
+              </>
+            ) : (
+              <button
+                className="save-entry-btn"
+                onClick={handleSaveEntry}
+                disabled={!newEntryContent.trim() || isSavingEntry}
+              >
+                {isSavingEntry ? (isEditingEntry ? 'Updating...' : 'Saving...') :
+                  isEditingEntry ? 'Save Changes' : 'Save Entry'}
+              </button>
+            )}
+          </div>
 
           {error && (
             <div className="error-message">
@@ -497,6 +745,51 @@ export default function Home() {
                 {period.label}
               </div>
             ))}
+          </div>
+
+          <div className="custom-date-section">
+            <div className="custom-date-caption">or</div>
+            <div className="custom-date-container">
+              <div className="date-inputs">
+                <div className="date-input-group">
+                  <label>Season:</label>
+                  <select
+                    value={selectedSeason}
+                    onChange={(e) => setSelectedSeason(e.target.value)}
+                    className="date-input"
+                  >
+                    <option value="">Select Season</option>
+                    <option value="spring">Spring</option>
+                    <option value="summer">Summer</option>
+                    <option value="fall">Fall</option>
+                    <option value="winter">Winter</option>
+                  </select>
+                </div>
+                <div className="date-input-group">
+                  <label>Year:</label>
+                  <select
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                    className="date-input"
+                  >
+                    <option value="">Select Year</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                  </select>
+                </div>
+              </div>
+              <button
+                className="custom-date-btn"
+                onClick={handleCustomDateSubmit}
+                disabled={!selectedSeason || !selectedYear}
+              >
+                Chat with This Period
+              </button>
+            </div>
           </div>
 
           {error && (

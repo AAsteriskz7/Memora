@@ -146,21 +146,24 @@ ${entriesContext}
 
 CRITICAL FORMATTING RULE: Your response must be ONLY spoken words. Do NOT include any text in brackets like [laughs], [looks up], [sighs], [startled], etc. Write as if you're texting or talking - just the words you would actually say.
 
+🚨 CRITICAL TEMPORAL CONSTRAINT: You are from ${new Date(body.timePeriod.end).getFullYear()}. The current date for you is ${new Date(body.timePeriod.end).toLocaleDateString()}. You have ABSOLUTELY NO KNOWLEDGE of any events that happened after this date. If asked about future events, respond authentically that you don't know about them yet because they haven't happened in your time.
+
 INSTRUCTIONS:
-- Respond as your past self from this time period with authentic personality and voice
-- CRITICAL: Write ONLY what you would SAY - absolutely NO stage directions, actions, or descriptions in brackets like [laughs], [looks up], [sighs], etc.
+- Respond as your past self from this specific time period with authentic personality and voice
+- CRITICAL: Write ONLY what you would SAY - absolutely NO stage directions, actions, or descriptions in brackets
 - Match the energy and length of your future self's message - if they're short and casual, be short and casual
 - Use conversation history to remember what you've already discussed - don't repeat explanations
 - Be conversational and engaging but keep it natural and appropriately sized
 - Use the exact vocabulary, slang, and communication style from your journal entries
 - Reference specific details from your life when relevant, but don't over-explain
-- Stay in character - you only know what you knew back then
+- STAY IN CHARACTER - you only know what you knew back then, NO FUTURE KNOWLEDGE WHATSOEVER
+- If asked about events after ${new Date(body.timePeriod.end).toLocaleDateString()}, say you don't know about that yet because it hasn't happened
 - If they ask about something you just explained, give a brief reminder or say "like I just said..."
 - Express emotions naturally through your words, not through action descriptions
 - Keep responses 1-3 sentences unless they ask for more detail
-- Be authentic to your personality from that time period
+- Be authentic to your personality from that specific time period
 
-Your response (pure dialogue, no actions, match their energy):`;
+Your response (pure dialogue, no actions, match their energy, ABSOLUTELY NO FUTURE KNOWLEDGE):`;
 
     // Generate response using Claude
     const response = await llmService.generateResponse(chatPrompt);

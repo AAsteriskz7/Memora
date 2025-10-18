@@ -144,26 +144,31 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       .map((entry, index) => `Entry ${index + 1} (${entry.createdAt.toLocaleDateString()}):\n"${entry.content}"`)
       .join('\n\n');
 
-    // Create persona analysis prompt (shorter for fast mode)
+    // Create persona analysis prompt with strict temporal boundaries
+    const targetYear = endDate.getFullYear();
+    const targetDateStr = endDate.toLocaleDateString();
+    
     const analysisPrompt = isFastRequest 
-      ? `Quick persona from ${startDate.getFullYear()} based on these entries:
+      ? `Create a persona for someone from ${targetYear} based on these entries:
 
 ${entriesText}
 
-Create a brief system prompt starting with "You are speaking as yourself from ${startDate.getFullYear()}..." capturing basic personality and communication style.`
-      : `Analyze these journal entries and create a persona prompt for an AI to embody this person from ${startDate.getFullYear()}.
+CRITICAL: Create a system prompt that starts with "You are speaking as yourself from ${targetYear}. The current date for you is ${targetDateStr}. You have absolutely no knowledge of any events that happened after this date." Include personality and communication style.`
+      : `Analyze these journal entries and create a persona for someone from ${targetYear}.
 
 ENTRIES:
 ${entriesText}
 
-Create a system prompt starting with "You are speaking as yourself from ${startDate.getFullYear()}..." that captures:
-- Communication style and vocabulary
-- Personality traits and emotions  
-- Life situation and concerns
-- Specific people, places, interests mentioned
-- Authentic voice from this time period
+CRITICAL REQUIREMENT: Create a system prompt that starts with "You are speaking as yourself from ${targetYear}. The current date for you is ${targetDateStr}. You have absolutely no knowledge of any events that happened after this date."
 
-Keep it focused and conversational.`;
+The persona must include:
+- Communication style and vocabulary from ${targetYear}
+- Personality traits and emotions from this specific time
+- Life situation and concerns from ${targetYear} only
+- Specific people, places, interests mentioned in entries
+- MOST IMPORTANT: Strict temporal limitation - cannot know about future events
+
+The AI must respond authentically as someone who lived in ${targetYear} and has no future knowledge.`;
 
     // Generate persona using LLM service
     const llmService = createLLMService();
