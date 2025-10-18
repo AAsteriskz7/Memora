@@ -142,6 +142,9 @@
   - Seed database with generated entries including embeddings
   - _Requirements: All (for testing purposes)_
 
+
+
+
 - [ ] 15. Create environment configuration
 
   - Create .env.example file with all required variables
