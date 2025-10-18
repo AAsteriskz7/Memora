@@ -9,6 +9,7 @@
 html, body {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -393,7 +394,7 @@ body {
   font-size: 36px;
   font-weight: 400;
   letter-spacing: -0.04em;
-  color: white;
+  color: black;
   text-align: center;
   position: absolute;
   bottom: 0;
@@ -401,6 +402,269 @@ body {
   transform: translateX(-50%);
   width: fit-content;
   min-width: 200px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.past-entries-tab:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Past Entries Background Overlay */
+.past-entries-background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(4, 115, 194, 0.44);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.past-entries-background-overlay.closing {
+  animation: fadeOut 0.5s ease-in;
+}
+
+/* Past Entries Section */
+.past-entries-section {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 960px;
+  display: flex;
+  flex-direction: column;
+  animation: slideUpFromBottom 0.5s ease-out;
+  z-index: 20;
+}
+
+.past-entries-section.closing {
+  animation: slideDownToBottom 0.5s ease-in;
+}
+
+.past-entries-label {
+  background-color: rgba(255, 255, 255, 0.54);
+  border-radius: 25px 25px 0 0;
+  padding: 15px 30px;
+  font-family: "Instrument Serif", serif;
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: black;
+  text-align: center;
+  width: fit-content;
+  min-width: 200px;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.past-entries-label:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.past-entries-container {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(7.25px);
+  border-radius: 35px 35px 0 0;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  max-height: 600px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.past-entries-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.past-entries-content::-webkit-scrollbar {
+  display: none;
+}
+
+.entry-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.entry-item:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.entry-date {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: black;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.entry-text {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: black;
+  opacity: 0.5;
+  flex: 1;
+  margin-left: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.view-btn {
+  background-color: rgba(4, 115, 194, 0.8);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+  flex-shrink: 0;
+}
+
+.view-btn:hover {
+  background-color: rgba(4, 115, 194, 1);
+  transform: translateY(-1px);
+}
+
+/* Entry View Styles */
+.entry-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.entry-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: black;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.back-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.entry-view-date {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: black;
+  text-align: center;
+}
+
+.edit-btn {
+  background-color: rgba(4, 115, 194, 0.8);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: rgba(4, 115, 194, 1);
+  transform: translateY(-1px);
+}
+
+.entry-view-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.entry-paragraph {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: black;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.entry-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes slideUpFromBottom {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDownToBottom {
+  from {
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    transform: translateX(-50%) translateY(100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 
@@ -653,7 +917,7 @@ Loading spinner */
   cursor: not-allowed;
   transform: none !important;
   box-shadow: 0 2px 8px rgba(4, 115, 194, 0.2) !important;
-}/
+}
 * Entry Button States */
 .entry-buttons {
   display: flex;
