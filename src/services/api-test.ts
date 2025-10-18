@@ -92,7 +92,7 @@ async function testAPIComponents() {
     console.log(`✅ Embedding model: ${embeddingModel}`);
 
     if (claudeModel === 'claude-haiku-4.5') {
-      console.log('✅ Using Claude 3.5 Haiku 4.5 (latest version - fast and cost-effective)');
+      console.log('✅ Using Claude Haiku 4.5 (latest version - fast and cost-effective)');
     }
 
     if (embeddingModel === 'embedding-001') {
