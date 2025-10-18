@@ -405,3 +405,146 @@ body {
 
 
 
+/* Loading and Error States */
+.loading-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 35px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(7.25px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.loading-text {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 20px;
+  color: #666;
+  text-align: center;
+}
+
+.error-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 35px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(7.25px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.error-text {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 18px;
+  color: #d32f2f;
+  text-align: center;
+  max-width: 400px;
+}
+
+.error-message {
+  background-color: rgba(211, 47, 47, 0.1);
+  border: 1px solid rgba(211, 47, 47, 0.3);
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 14px;
+  color: #d32f2f;
+  text-align: center;
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, #0473C2, #1B80C7);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(4, 115, 194, 0.3);
+}
+
+/* Disabled states */
+.save-entry-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.chat-send-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Typing indicator */
+.message-text.typing {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.message-text.typing::after {
+  content: '...';
+  animation: typing 1.5s infinite;
+}
+
+@keyframes typing {
+  0%, 60% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.5;
+  }
+}/* 
+Loading spinner */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(4, 115, 194, 0.2);
+  border-left: 4px solid #0473C2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-subtext {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  color: #888;
+  text-align: center;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* Better loading container layout */
+.loading-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 35px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(7.25px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 10px;
+}

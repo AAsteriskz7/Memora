@@ -110,8 +110,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Prepare entries for analysis (limit to prevent token overflow)
-    const maxEntries = 20; // Limit to prevent token overflow
+    // Prepare entries for analysis (limit to prevent token overflow and speed up generation)
+    const maxEntries = 15; // Reduced limit for faster generation
     const selectedEntries = entries.length > maxEntries 
       ? entries.slice(0, maxEntries) 
       : entries;
