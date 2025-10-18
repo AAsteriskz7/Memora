@@ -133,8 +133,7 @@
   - Create setup instructions in README
   - _Requirements: All_
 
-- [-] 16. Create API endpoint for past-self queries
-
+- [x] 16. Create API endpoint for past-self queries
 
 
   - Implement POST /api/past-self/query route handler
@@ -148,7 +147,6 @@
 
 - [-] 17. Write API integration tests
 
-
   - Test POST /api/entries endpoint
   - Test GET /api/entries with pagination and filtering
   - Test GET /api/entries/[id] endpoint
@@ -161,7 +159,6 @@
 - [ ] 18. Add API documentation
 
   - Document all API endpoints with examples
-
 
   - Create Postman/Thunder Client collection
   - Add inline code documentation
