@@ -52,8 +52,8 @@ DIRECT_URL=postgresql://postgres.PROJECT_ID:PASSWORD@aws-1-us-east-1.compute.ama
 Claude_API_KEY=your_api_key_here
 
 # Model Configuration (defaults are fine)
-GEMINI_MODEL=gemini-2.5-flash
-GEMINI_EMBEDDING_MODEL=text-embedding-004
+Claude_MODEL=Claude-Haiku-4.5
+Claude_EMBEDDING_MODEL=text-embedding-004
 ```
 
 ### 3. Set Up Database
@@ -174,8 +174,8 @@ memora/
 | `DATABASE_URL` | Supabase pooled connection string | Yes | - |
 | `DIRECT_URL` | Supabase direct connection string | Yes | - |
 | `Claude_API_KEY` | Claude AI API key | Yes | - |
-| `GEMINI_MODEL` | Chat completion model | No | `gemini-2.5-flash` |
-| `GEMINI_EMBEDDING_MODEL` | Text embedding model | No | `text-embedding-004` |
+| `Claude_MODEL` | Chat completion model | No | `Claude-Haiku 4.5` |
+| `Claude_EMBEDDING_MODEL` | Text embedding model | No | `text-embedding-004` |
 | `NODE_ENV` | Environment mode | No | `development` |
 | `PORT` | Server port | No | `3000` |
 
