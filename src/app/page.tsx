@@ -94,8 +94,12 @@ export default function Home() {
           </div>
           
           <div className="chat-input-bar">
-            <div className="chat-text-input" contentEditable="true" data-placeholder="Type your message..."></div>
-            <div className="chat-send-btn">Send</div>
+            <div className="chat-text-container">
+              <div className="chat-text-input" contentEditable="true" data-placeholder="Type your message..."></div>
+            </div>
+            <div className="chat-send-container">
+              <div className="chat-send-btn">Send</div>
+            </div>
           </div>
         </div>
       </div>
