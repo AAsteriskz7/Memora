@@ -1,4 +1,5 @@
 // Core domain models
+// Note: JournalEntry interface matches the Prisma Entry model (excluding embedding field)
 export interface JournalEntry {
   id: string;
   content: string;
@@ -19,6 +20,28 @@ export interface PastSelfQuery {
     start?: Date;
     end?: Date;
   };
+  preset?: TimePeriodPreset;
+}
+
+export type TimePeriodPreset = 
+  | '1-month-ago'
+  | '3-months-ago' 
+  | '6-months-ago'
+  | '1-year-ago'
+  | '2-years-ago'
+  | '3-years-ago'
+  | '5-years-ago'
+  | '10-years-ago'
+  | 'college-years'
+  | 'high-school-years'
+  | 'early-career'
+  | 'last-decade';
+
+export interface TimePeriodPresetConfig {
+  id: TimePeriodPreset;
+  label: string;
+  description: string;
+  calculateRange: (currentDate: Date) => { start: Date; end: Date };
 }
 
 export interface PastSelfResponse {

@@ -2,17 +2,13 @@
 
 - [x] 1. Set up project structure and dependencies
 
-
   - Initialize Next.js 14 project with TypeScript
   - Install dependencies: Prisma, @google/generative-ai, pgvector
   - Configure TypeScript with strict mode
   - Set up project folder structure (api routes, services, types, utils)
   - _Requirements: 1.1, 2.1, 3.1, 4.1_
 
-- [-] 2. Configure Supabase database and Prisma
-
-
-
+- [x] 2. Configure Supabase database and Prisma
 
   - Create Supabase project and get connection string
   - Add DATABASE_URL to environment variables
@@ -21,7 +17,7 @@
   - Run Prisma migration to create tables (pgvector already enabled)
   - _Requirements: 1.2, 1.5, 2.1_
 
-- [ ] 3. Implement LLM service with Gemini integration
+- [x] 3. Implement LLM service with Gemini integration
 
   - Create LLMService class with Gemini 2.5 Flash client
   - Implement generateEmbedding method using text-embedding-004
@@ -30,7 +26,7 @@
   - Add error handling and retry logic for API failures
   - _Requirements: 4.2, 4.3, 4.5_
 
-- [ ] 4. Implement embedding service for semantic search
+- [x] 4. Implement embedding service for semantic search
 
   - Create EmbeddingService class
   - Implement generateEmbedding wrapper method
@@ -39,7 +35,7 @@
   - Calculate and return relevance scores
   - _Requirements: 4.3, 4.4_
 
-- [ ] 5. Implement entry service for CRUD operations
+- [x] 5. Implement entry service for CRUD operations
 
   - Create EntryService class
   - Implement createEntry with automatic embedding generation
@@ -49,17 +45,19 @@
   - Implement deleteEntry with proper cleanup
   - _Requirements: 1.1, 1.2, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.5_
 
-- [ ] 6. Implement past-self service
+- [x] 6. Implement past-self service
 
   - Create PastSelfService class
   - Implement query method orchestrating the full flow
   - Implement extractTimePeriod using LLM service
   - Implement findRelevantEntries using embedding service
   - Implement generateResponse with proper prompt construction
+
   - Add logic to handle limited entry scenarios
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 7. Create API endpoint for creating entries
+- [x] 7. Create API endpoint for creating entries
+
 
   - Implement POST /api/entries route handler
   - Add request validation for content and optional createdAt
@@ -68,7 +66,11 @@
   - Add error handling for validation and database errors
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 8. Create API endpoint for retrieving entries
+- [x] 8. Create API endpoint for retrieving entries
+
+
+
+
 
   - Implement GET /api/entries route handler
   - Parse and validate query parameters (page, limit, startDate, endDate)
@@ -76,8 +78,11 @@
   - Return paginated response with entries and metadata
   - Add error handling for invalid parameters
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
+-
 
-- [ ] 9. Create API endpoint for single entry retrieval
+- [-] 9. Create API endpoint for single entry retrieval
+
+
 
   - Implement GET /api/entries/[id] route handler
   - Validate entry ID parameter
@@ -104,17 +109,27 @@
   - Add error handling for not found errors
   - _Requirements: 3.3, 3.4, 3.5_
 
-- [ ] 12. Create API endpoint for past-self queries
+- [ ] 12. Implement time period presets utility
+
+  - Create TimePeriodPresets utility class with preset configurations
+  - Implement preset calculation logic (1 year ago, 5 years ago, college years, etc.)
+  - Add preset validation and error handling
+  - Create helper methods to convert presets to date ranges
+  - Support both relative presets (1-year-ago) and contextual presets (college-years)
+  - _Requirements: 4.2, 4.3_
+
+- [ ] 13. Create API endpoint for past-self queries
 
   - Implement POST /api/past-self/query route handler
-  - Validate query and optional timePeriod in request body
-  - Call PastSelfService.query
+  - Validate query and optional timePeriod/preset in request body
+  - Integrate time period presets with PastSelfService
+  - Call PastSelfService.query with resolved time periods
   - Return response with answer, references, and metadata
   - Handle edge cases (no entries, no relevant entries)
   - Add comprehensive error handling
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 13. Create mock data generation script
+- [ ] 14. Create mock data generation script
 
   - Create script to generate realistic journal entries
   - Generate entries spanning multiple years (2020-2024)
@@ -124,7 +139,7 @@
   - Seed database with generated entries including embeddings
   - _Requirements: All (for testing purposes)_
 
-- [ ] 14. Create environment configuration
+- [ ] 15. Create environment configuration
 
   - Create .env.example file with all required variables
   - Document each environment variable
@@ -132,7 +147,7 @@
   - Create setup instructions in README
   - _Requirements: All_
 
-- [ ]\* 15. Write API integration tests
+- [ ]\* 16. Write API integration tests
 
   - Test POST /api/entries endpoint
   - Test GET /api/entries with pagination and filtering
@@ -143,7 +158,7 @@
   - Test error cases and edge conditions
   - _Requirements: All_
 
-- [ ]\* 16. Add API documentation
+- [ ]\* 17. Add API documentation
   - Document all API endpoints with examples
   - Create Postman/Thunder Client collection
   - Add inline code documentation
