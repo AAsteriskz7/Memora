@@ -34,11 +34,20 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [demoMode, setDemoMode] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  // Load entries on component mount or when demo mode changes
+  // Set client flag and load entries on component mount
   useEffect(() => {
+    setIsClient(true);
     loadEntries();
-  }, [demoMode]);
+  }, []);
+
+  // Load entries when demo mode changes
+  useEffect(() => {
+    if (isClient) {
+      loadEntries();
+    }
+  }, [demoMode, isClient]);
 
   const loadEntries = async () => {
     if (demoMode) {
@@ -76,8 +85,9 @@ export default function Home() {
 
     if (demoMode) {
       // Demo mode: create mock entry
+      const timestamp = new Date().getTime();
       const newEntry: JournalEntry = {
-        id: `demo-${Date.now()}`,
+        id: `demo-${timestamp}`,
         content: newEntryContent.trim(),
         createdAt: newEntryDate ? new Date(newEntryDate) : new Date(),
         updatedAt: new Date()
@@ -139,8 +149,9 @@ export default function Home() {
       const pastSelfResponse = generateMockPastSelfResponse(currentQuery);
       
       // Add user message
+      const timestamp = new Date().getTime();
       const userMessage: ConversationMessage = {
-        id: `user-${Date.now()}`,
+        id: `user-${timestamp}`,
         type: 'user',
         content: currentQuery,
         timestamp: new Date()
@@ -148,7 +159,7 @@ export default function Home() {
 
       // Add past-self response
       const pastSelfMessage: ConversationMessage = {
-        id: `past-self-${Date.now()}`,
+        id: `past-self-${timestamp + 1}`,
         type: 'past-self',
         content: pastSelfResponse.response,
         timestamp: new Date(),
@@ -188,8 +199,9 @@ export default function Home() {
       const pastSelfResponse: PastSelfResponse = await response.json();
 
       // Add user message
+      const timestamp = new Date().getTime();
       const userMessage: ConversationMessage = {
-        id: `user-${Date.now()}`,
+        id: `user-${timestamp}`,
         type: 'user',
         content: currentQuery,
         timestamp: new Date()
@@ -197,7 +209,7 @@ export default function Home() {
 
       // Add past-self response
       const pastSelfMessage: ConversationMessage = {
-        id: `past-self-${Date.now()}`,
+        id: `past-self-${timestamp + 1}`,
         type: 'past-self',
         content: pastSelfResponse.response,
         timestamp: new Date(),
@@ -234,6 +246,18 @@ export default function Home() {
   };
 
   const presets = TimePeriodPresets.getAllPresets();
+
+  // Prevent hydration issues by not rendering until client-side
+  if (!isClient) {
+    return (
+      <div className="app-container">
+        <header className="app-header">
+          <h1 className="app-title">Memora</h1>
+          <p className="app-subtitle">Loading...</p>
+        </header>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
@@ -475,7 +499,7 @@ export default function Home() {
                     {message.references && message.references.length > 0 && (
                       <div className="message-references">
                         <h4>Based on these journal entries:</h4>
-                        {message.references.map((ref, index) => (
+                        {message.references.map((ref) => (
                           <div key={ref.entryId} className="reference">
                             <div className="reference-header">
                               <span className="reference-date">{formatDate(ref.date)}</span>
