@@ -2,6 +2,7 @@
 // Run this with: npx tsx src/utils/time-period-presets-test.ts
 
 import { TimePeriodPresets } from './time-period-presets'
+import { TimePeriodPreset } from '@/types'
 
 function testTimePeriodPresets() {
   try {
@@ -13,14 +14,14 @@ function testTimePeriodPresets() {
     console.log(`✅ Retrieved ${allPresets.length} presets`)
     
     // Verify we have the expected presets
-    const expectedPresets = [
+    const expectedPresets: TimePeriodPreset[] = [
       '1-month-ago', '3-months-ago', '6-months-ago', '1-year-ago',
       '2-years-ago', '3-years-ago', '5-years-ago', '10-years-ago',
       'college-years', 'high-school-years', 'early-career', 'last-decade'
     ]
     
     const allPresetIds = allPresets.map(p => p.id)
-    const missingPresets = expectedPresets.filter(id => !allPresetIds.includes(id as any))
+    const missingPresets = expectedPresets.filter(id => !allPresetIds.includes(id))
     
     if (missingPresets.length === 0) {
       console.log('✅ All expected presets are present')
@@ -37,7 +38,7 @@ function testTimePeriodPresets() {
       console.log('❌ Failed to retrieve 1-year-ago preset config')
     }
     
-    const invalidConfig = TimePeriodPresets.getPresetConfig('invalid-preset' as any)
+    const invalidConfig = TimePeriodPresets.getPresetConfig('invalid-preset' as TimePeriodPreset)
     if (invalidConfig === null) {
       console.log('✅ Correctly returned null for invalid preset')
     } else {
@@ -84,9 +85,9 @@ function testTimePeriodPresets() {
     
     // Test error handling
     try {
-      TimePeriodPresets.presetToDateRange('invalid-preset' as any, testDate)
+      TimePeriodPresets.presetToDateRange('invalid-preset' as TimePeriodPreset, testDate)
       console.log('❌ Should have thrown error for invalid preset')
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly threw error for invalid preset')
     }
     

@@ -87,7 +87,7 @@ export interface PaginatedResponse<T> {
 export interface ErrorResponse {
   error: string;
   code?: string;
-  details?: any;
+  details?: unknown;
 }
 
 export interface TimePeriod {

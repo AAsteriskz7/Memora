@@ -76,7 +76,7 @@ export class EntryService {
 
     try {
       // Build where clause for date filtering
-      const where: any = {};
+      const where: { createdAt?: { gte?: Date; lte?: Date } } = {};
       if (startDate || endDate) {
         where.createdAt = {};
         if (startDate) {

@@ -22,21 +22,21 @@ async function testLLMService() {
     try {
       await llmService.generateEmbedding('')
       console.log('❌ Should have thrown error for empty text')
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected empty text for embedding')
     }
     
     try {
       await llmService.generateResponse('')
       console.log('❌ Should have thrown error for empty prompt')
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected empty prompt for response')
     }
     
     try {
       await llmService.extractTimePeriod('')
       console.log('❌ Should have thrown error for empty query')
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected empty query for time period extraction')
     }
     

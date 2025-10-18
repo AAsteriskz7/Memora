@@ -5,10 +5,22 @@ import { createEmbeddingService } from '@/services/embedding.service';
 import { createLLMService } from '@/services/llm.service';
 import { prisma } from '@/lib/prisma';
 
-// Initialize services
-const llmService = createLLMService();
-const embeddingService = createEmbeddingService(llmService, prisma);
-const entryService = createEntryService(prisma, embeddingService);
+// Lazy service initialization to avoid build-time errors
+let services: {
+  llmService: ReturnType<typeof createLLMService>;
+  embeddingService: ReturnType<typeof createEmbeddingService>;
+  entryService: ReturnType<typeof createEntryService>;
+} | null = null;
+
+function getServices() {
+  if (!services) {
+    const llmService = createLLMService();
+    const embeddingService = createEmbeddingService(llmService, prisma);
+    const entryService = createEntryService(prisma, embeddingService);
+    services = { llmService, embeddingService, entryService };
+  }
+  return services;
+}
 
 /**
  * POST /api/entries
@@ -20,7 +32,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     let body: CreateEntryRequest;
     try {
       body = await request.json();
-    } catch (error) {
+    } catch {
       return NextResponse.json(
         { error: 'Invalid JSON in request body' } as ErrorResponse,
         { status: 400 }
@@ -86,6 +98,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     // Create the entry using EntryService
+    const { entryService } = getServices();
     const entry = await entryService.createEntry(body.content, createdAt);
 
     // Return success response with 201 status
@@ -209,6 +222,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     // Call EntryService.getEntries with pagination options
+    const { entryService } = getServices();
     const result = await entryService.getEntries({
       page,
       limit,

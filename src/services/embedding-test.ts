@@ -25,21 +25,21 @@ async function testEmbeddingService() {
     try {
       await embeddingService.generateEmbedding('');
       console.log('❌ Should have thrown error for empty text');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected empty text for embedding');
     }
     
     try {
       await embeddingService.findSimilarEntries([]);
       console.log('❌ Should have thrown error for empty embedding');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected empty embedding array');
     }
     
     try {
       await embeddingService.findSimilarEntries([0.1, 0.2, 0.3], 0);
       console.log('❌ Should have thrown error for zero limit');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected zero limit');
     }
     

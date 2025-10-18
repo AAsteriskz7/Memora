@@ -5,10 +5,22 @@ import { createEmbeddingService } from '@/services/embedding.service';
 import { createLLMService } from '@/services/llm.service';
 import { prisma } from '@/lib/prisma';
 
-// Initialize services
-const llmService = createLLMService();
-const embeddingService = createEmbeddingService(llmService, prisma);
-const entryService = createEntryService(prisma, embeddingService);
+// Lazy service initialization to avoid build-time errors
+let services: {
+  llmService: ReturnType<typeof createLLMService>;
+  embeddingService: ReturnType<typeof createEmbeddingService>;
+  entryService: ReturnType<typeof createEntryService>;
+} | null = null;
+
+function getServices() {
+  if (!services) {
+    const llmService = createLLMService();
+    const embeddingService = createEmbeddingService(llmService, prisma);
+    const entryService = createEntryService(prisma, embeddingService);
+    services = { llmService, embeddingService, entryService };
+  }
+  return services;
+}
 
 /**
  * GET /api/entries/[id]
@@ -44,6 +56,7 @@ export async function GET(
     }
 
     // Call EntryService.getEntryById
+    const { entryService } = getServices();
     const entry = await entryService.getEntryById(id);
 
     // Return 404 if entry not found
@@ -174,6 +187,7 @@ export async function PUT(
     }
 
     // Call EntryService.updateEntry
+    const { entryService } = getServices();
     const updatedEntry = await entryService.updateEntry(id, body.content);
 
     // Return 200 with updated entry
@@ -267,6 +281,7 @@ export async function DELETE(
     }
 
     // Call EntryService.deleteEntry
+    const { entryService } = getServices();
     await entryService.deleteEntry(id);
 
     // Return 204 no content on success

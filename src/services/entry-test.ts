@@ -27,35 +27,35 @@ async function testEntryService() {
     try {
       await entryService.createEntry('');
       console.log('❌ Should have thrown error for empty content');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected empty content');
     }
     
     try {
       await entryService.createEntry('a'.repeat(10001));
       console.log('❌ Should have thrown error for content too long');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected content over 10,000 characters');
     }
     
     try {
       await entryService.getEntryById('');
       console.log('❌ Should have thrown error for empty ID');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected empty ID');
     }
     
     try {
       await entryService.getEntries({ page: 0 });
       console.log('❌ Should have thrown error for page 0');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected page 0');
     }
     
     try {
       await entryService.getEntries({ limit: 101 });
       console.log('❌ Should have thrown error for limit > 100');
-    } catch (error) {
+    } catch {
       console.log('✅ Correctly rejected limit > 100');
     }
     

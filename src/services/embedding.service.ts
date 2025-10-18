@@ -42,7 +42,7 @@ export class EmbeddingService {
     try {
       // Build the SQL query with optional time period filtering
       let whereClause = '';
-      const params: any[] = [JSON.stringify(queryEmbedding), limit];
+      const params: (string | number | Date)[] = [JSON.stringify(queryEmbedding), limit];
       
       if (timePeriod) {
         whereClause = 'WHERE "createdAt" >= $3 AND "createdAt" <= $4';
