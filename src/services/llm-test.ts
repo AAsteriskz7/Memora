@@ -9,9 +9,10 @@ async function testLLMService() {
     
     // Create service instance
     const llmService = new LLMService({
-      apiKey: process.env.GOOGLE_API_KEY || 'test-key',
-      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
-      embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || 'text-embedding-004'
+      anthropicApiKey: process.env.ANTHROPIC_API_KEY || 'test-key',
+      googleApiKey: process.env.GOOGLE_API_KEY || 'test-key',
+      model: process.env.CLAUDE_MODEL || 'claude-haiku-4.5',
+      embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || 'embedding-001'
     })
     
     console.log('✅ LLM Service instance created successfully')
@@ -40,15 +41,18 @@ async function testLLMService() {
       console.log('✅ Correctly rejected empty query for time period extraction')
     }
     
-    // Test 2: Check if API key is configured
-    if (!process.env.GOOGLE_API_KEY || process.env.GOOGLE_API_KEY === 'your_google_api_key_here') {
-      console.log('\n⚠️  GOOGLE_API_KEY not configured - skipping API tests')
-      console.log('   Set GOOGLE_API_KEY in .env to test actual API calls')
+    // Test 2: Check if API keys are configured
+    const hasAnthropicKey = process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY !== 'your_anthropic_api_key_here'
+    const hasGoogleKey = process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY !== 'your_google_api_key_here'
+    
+    if (!hasAnthropicKey || !hasGoogleKey) {
+      console.log('\n⚠️  API keys not configured - skipping API tests')
+      console.log('   Set ANTHROPIC_API_KEY and GOOGLE_API_KEY in .env to test actual API calls')
       return
     }
     
     // Test 3: Generate embedding (if API key is available)
-    console.log('\n🔢 Testing embedding generation...')
+    console.log('\n🔢 Testing embedding generation (Gemini)...')
     try {
       const embedding = await llmService.generateEmbedding('This is a test sentence for embedding.')
       console.log(`✅ Generated embedding with ${embedding.length} dimensions`)
@@ -58,7 +62,7 @@ async function testLLMService() {
     }
     
     // Test 4: Generate response (if API key is available)
-    console.log('\n💬 Testing response generation...')
+    console.log('\n💬 Testing response generation (Claude)...')
     try {
       const response = await llmService.generateResponse('What is the capital of France? Answer in one word.')
       console.log(`✅ Generated response: "${response.trim()}"`)
@@ -67,7 +71,7 @@ async function testLLMService() {
     }
     
     // Test 5: Extract time period (if API key is available)
-    console.log('\n📅 Testing time period extraction...')
+    console.log('\n📅 Testing time period extraction (Claude)...')
     try {
       const timePeriod1 = await llmService.extractTimePeriod('What was I thinking in 2022?')
       if (timePeriod1) {

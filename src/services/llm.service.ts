@@ -1,13 +1,16 @@
+import Anthropic from '@anthropic-ai/sdk';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { TimePeriod } from '@/types';
 
 export interface LLMServiceConfig {
-  apiKey: string;
+  anthropicApiKey: string;
+  googleApiKey: string;
   model: string;
   embeddingModel: string;
 }
 
 export class LLMService {
+  private anthropic: Anthropic;
   private genAI: GoogleGenerativeAI;
   private model: string;
   private embeddingModel: string;
@@ -15,11 +18,19 @@ export class LLMService {
   private baseDelay: number = 1000; // 1 second
 
   constructor(config: LLMServiceConfig) {
-    if (!config.apiKey) {
-      throw new Error('Google API key is required');
+    if (!config.anthropicApiKey) {
+      throw new Error('Anthropic API key is required');
+    }
+    if (!config.googleApiKey) {
+      throw new Error('Google API key is required for embeddings');
     }
     
-    this.genAI = new GoogleGenerativeAI(config.apiKey);
+    this.anthropic = new Anthropic({
+      apiKey: config.anthropicApiKey,
+    });
+    
+    this.genAI = new GoogleGenerativeAI(config.googleApiKey);
+    
     this.model = config.model;
     this.embeddingModel = config.embeddingModel;
   }
@@ -52,7 +63,7 @@ export class LLMService {
   }
 
   /**
-   * Generate response using Gemini 2.5 Flash for chat completions
+   * Generate response using Claude 3.5 Haiku for chat completions
    */
   async generateResponse(prompt: string): Promise<string> {
     if (!prompt.trim()) {
@@ -61,19 +72,27 @@ export class LLMService {
 
     return this.withRetry(async () => {
       try {
-        const model = this.genAI.getGenerativeModel({ model: this.model });
-        const result = await model.generateContent(prompt);
+        const response = await this.anthropic.messages.create({
+          model: this.model,
+          max_tokens: 4096,
+          messages: [
+            {
+              role: 'user',
+              content: prompt
+            }
+          ]
+        });
         
-        if (!result.response) {
-          throw new Error('No response received from Gemini API');
+        if (!response.content || response.content.length === 0) {
+          throw new Error('No response received from Claude API');
         }
         
-        const text = result.response.text();
-        if (!text) {
-          throw new Error('Empty response received from Gemini API');
+        const textContent = response.content.find(content => content.type === 'text');
+        if (!textContent || !textContent.text) {
+          throw new Error('No text content received from Claude API');
         }
         
-        return text;
+        return textContent.text;
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Failed to generate response: ${error.message}`);
@@ -84,7 +103,7 @@ export class LLMService {
   }
 
   /**
-   * Extract time period from query using LLM
+   * Extract time period from query using Claude
    */
   async extractTimePeriod(query: string): Promise<TimePeriod | null> {
     if (!query.trim()) {
@@ -101,7 +120,7 @@ Examples:
 - "How did I feel last month?" → {"start": "2024-09-01", "end": "2024-09-30"}
 - "What would past me say?" → null
 
-Return only valid JSON.`;
+Return only valid JSON or null.`;
 
     return this.withRetry(async () => {
       try {
@@ -175,7 +194,8 @@ Return only valid JSON.`;
       message.includes('api key') ||
       message.includes('authentication') ||
       message.includes('invalid') ||
-      message.includes('cannot be empty')
+      message.includes('cannot be empty') ||
+      message.includes('unauthorized')
     );
   }
 
@@ -189,16 +209,22 @@ Return only valid JSON.`;
 
 // Factory function to create LLM service with environment variables
 export function createLLMService(): LLMService {
-  const apiKey = process.env.GOOGLE_API_KEY;
-  const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-  const embeddingModel = process.env.GEMINI_EMBEDDING_MODEL || 'text-embedding-004';
+  const anthropicApiKey = process.env.ANTHROPIC_API_KEY;
+  const googleApiKey = process.env.GOOGLE_API_KEY;
+  const model = process.env.CLAUDE_MODEL || 'claude-haiku-4.5';
+  const embeddingModel = process.env.GEMINI_EMBEDDING_MODEL || 'embedding-001';
   
-  if (!apiKey) {
+  if (!anthropicApiKey) {
+    throw new Error('ANTHROPIC_API_KEY environment variable is required');
+  }
+  
+  if (!googleApiKey) {
     throw new Error('GOOGLE_API_KEY environment variable is required');
   }
   
   return new LLMService({
-    apiKey,
+    anthropicApiKey,
+    googleApiKey,
     model,
     embeddingModel
   });

@@ -94,11 +94,17 @@ class APITester {
       throw new Error(`Database connection failed: ${error}`);
     }
 
-    // Check if API key is configured
-    if (
-      !process.env.GOOGLE_API_KEY ||
-      process.env.GOOGLE_API_KEY === "your_google_api_key_here"
-    ) {
+    // Check if API keys are configured
+    const hasAnthropicKey = process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY !== "your_anthropic_api_key_here";
+    const hasGoogleKey = process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY !== "your_google_api_key_here";
+    
+    if (!hasAnthropicKey) {
+      console.log("⚠️  ANTHROPIC_API_KEY not configured - some tests may fail");
+    } else {
+      console.log("✅ Anthropic API key configured");
+    }
+    
+    if (!hasGoogleKey) {
       console.log("⚠️  GOOGLE_API_KEY not configured - some tests may fail");
     } else {
       console.log("✅ Google API key configured");
@@ -581,13 +587,13 @@ class APITester {
   private async testPastSelfQuery() {
     console.log("💭 Testing POST /api/past-self/query...");
 
-    // Skip if no API key
-    if (
-      !process.env.GOOGLE_API_KEY ||
-      process.env.GOOGLE_API_KEY === "your_google_api_key_here"
-    ) {
+    // Skip if no API keys
+    const hasAnthropicKey = process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY !== "your_anthropic_api_key_here";
+    const hasGoogleKey = process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY !== "your_google_api_key_here";
+    
+    if (!hasAnthropicKey || !hasGoogleKey) {
       console.log(
-        "⚠️  Skipping past-self query tests - GOOGLE_API_KEY not configured"
+        "⚠️  Skipping past-self query tests - API keys not configured"
       );
       return;
     }
@@ -651,13 +657,13 @@ class APITester {
   private async testPastSelfWithTimePeriod() {
     console.log("📅 Testing past-self query with explicit time period...");
 
-    // Skip if no API key
-    if (
-      !process.env.GOOGLE_API_KEY ||
-      process.env.GOOGLE_API_KEY === "your_google_api_key_here"
-    ) {
+    // Skip if no API keys
+    const hasAnthropicKey = process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY !== "your_anthropic_api_key_here";
+    const hasGoogleKey = process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY !== "your_google_api_key_here";
+    
+    if (!hasAnthropicKey || !hasGoogleKey) {
       console.log(
-        "⚠️  Skipping time period tests - GOOGLE_API_KEY not configured"
+        "⚠️  Skipping time period tests - API keys not configured"
       );
       return;
     }
