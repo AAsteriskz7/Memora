@@ -1,4 +1,4 @@
-# Memora - AI-Powered Journal
+# Memora - AI-Backed Diary
 
 Memora is an intelligent journaling application that lets you have conversations with your "past self" using AI-powered semantic search and natural language processing.
 
