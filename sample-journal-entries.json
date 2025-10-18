@@ -1,190 +1,134 @@
 [
   {
-    "createdAt": "2020-07-02",
-    "content": "It's officially July. The summer is just... weird. There's no schedule. No camps. No vacation. My parents are both working from home, so everyone is just on edge, cooped up in the house. I'm spending all my time in my room, which I've basically turned into my 'office.' I finished that basic JavaScript course and now I'm trying to learn React. It's... confusing. This idea of 'components' and 'state' is melting my brain. I've been stuck on the same tutorial for two days. It's so frustrating, but I'm determined to get it. I feel like this is the key to building real apps."
+    "createdAt": "2025-07-01",
+    "content": "July. Second full month of the summer internship, and it’s hitting its stride. The core feature I spent June on—the **'distance caching'** optimization—is live in production! I pulled up the dashboard this morning, and the performance metrics are showing a consistent **~25–30% speedup** on large route calculations compared to the old system. Seeing those graphs, knowing my code is *actually* saving the company time and compute resources... it's an incredible, tangible feeling of contribution. They've given me a new project now: researching potential **UI improvements** for the driver dispatch dashboard. They want me to look into modern React component libraries (MUI, Chakra UI, Radix UI, etc.) and maybe build some small prototypes to test user experience. It's less 'deep algorithm' work and more 'frontend architecture' and design, which is a nice change of pace. It feels like they trust my judgment and aesthetic sense, which is huge. This internship is exceeding all my expectations. Learning so much, contributing real value, and getting paid? The perfect summer trifecta."
   },
   {
-    "createdAt": "2020-07-05",
-    "content": "We had a 'socially-distanced' 4th of July yesterday. Just our family in the backyard. We could hear fireworks, but we couldn't see any. It felt so symbolic of this whole year—like we're all disconnected, just hearing the echoes of normal life happening somewhere else. I spent most of the night on my laptop, trying to figure out a bug in my code. I finally fixed it, and the feeling of relief was better than any firework. That's kind of sad, isn't it?"
+    "createdAt": "2025-07-05",
+    "content": "Spent the 4th of July weekend with Maya. I drove up in my Civic! We went to a lake party with some of her high school friends. It was... fine. Different vibe than the Tech crowd—less talk about recursion and more about music. But Maya and I just stuck together mostly. We had another long, serious talk about the **'long distance'** reality looming over Sophomore year. It's scary. We're both nervous about how crushing the workload will be. Will we have time to call? Will we naturally drift apart as we make new friends? We reaffirmed our commitment to *try*. To communicate honestly, and to prioritize seeing each other during breaks, even if it's stressful. It's hard not having a 'guarantee,' but the genuine connection we share feels worth the uncertainty and the effort. It feels worth fighting for. Trying to stay optimistic, but the reality of 800 miles and 20 hours of academic workload is a daunting opponent."
   },
   {
-    "createdAt": "2020-07-10",
-    "content": "I'm deep into this React tutorial. It's finally starting to 'click.' The whole idea is that you build tiny, reusable pieces, like digital LEGOs. I built a simple to-do list app, and every time I add an item, it just... appears. No page refresh. It feels like magic. I'm starting to see how complex websites like Facebook or Instagram are built. It's like I've been given a peek behind the curtain. I don't know why this is so fascinating to me, but it's all I want to do."
+    "createdAt": "2025-07-10",
+    "content": "Deep dive into **UI component libraries** for work. Built small, isolated prototypes using **Material UI (MUI)** and **Chakra UI**. MUI feels incredibly powerful and comprehensive, but maybe a bit 'heavy' in terms of dependencies and difficult to customize deeply. Chakra feels more modern, more 'developer-friendly' with its composition model (building complex components from simple, styled primitives). I wrote up a detailed comparison document for my mentor, outlining pros and cons, accessibility notes, and included working code sandbox examples. He was impressed with the thoroughness and our discussion about **'design systems'** and 'component consistency.' This frontend stuff isn't just 'making things pretty.' It's about 'user experience,' 'accessibility,' and 'maintainability.' It's *engineering*—just a different kind than the backend. I'm enjoying this holistic perspective shift."
   },
   {
-    "createdAt": "2020-07-15",
-    "content": "I'm starting to get really nervous about high school. They confirmed the 'hybrid' plan. My last name means I'm in 'Group B,' so I'll go on Thursdays and Fridays. My best friend from middle school is in 'Group A.' We're not even going to be in school on the same days. How am I supposed to make new friends? What if my group is full of weirdos? I'm going to be the new kid, in a new school, during a pandemic, and I won't know anyone. This is a nightmare scenario for someone like me."
+    "createdAt": "2025-07-15",
+    "content": "Got my first *real* paycheck from the internship (bi-weekly pay structure). Seeing that number hit my bank account... wow. It's not 'Big Tech intern' money, but it's *mine*, earned through focused, *real work*. It makes the 'car fund' look much healthier, and makes the idea of **'financial independence'** feel less abstract and distant. College is expensive. Atlanta is expensive. I need to be smart about this. I started looking into budgeting and personal finance apps. Being a software engineer isn't just about writing good code; it's about managing your resources well. Adulting level 2 unlocked: **budgeting and saving**."
   },
   {
-    "createdAt": "2020-07-21",
-    "content": "My mom is trying to be helpful. She took me to buy 'back to school' clothes. The mall was a ghost town. It was so eerie. Everyone in masks, all the stores half-empty. Trying on jeans in a dressing room felt... wrong, like I was breaking a rule. We just bought a few things and left. The whole trip was depressing. It doesn't feel like 'back to school.' It feels like 'back to a weird hospital.'"
+    "createdAt": "2025-07-20",
+    "content": "Spent all Saturday setting up the **SlatePath.ai** project structure for real. This is the big one. I initialized the Next.js (App Router) project in one repo (`SlatePath`). Set up **TypeScript**, **Tailwind CSS**, ESLint, and Prettier. Created a **Supabase** project in the cloud. Got the database connection string, set up the `.env` file securely. Defined the initial database schema using **Prisma** (`User`, `Course`, `Note`, `Flashcard` tables... keeping it simple for the **MVP**). Ran `prisma migrate dev`. The tables... exist! In the cloud! This feels real. Like laying the foundation for a skyscraper. It's just concrete right now, but the *potential*... it's exhilarating. This is *my* project. My vision. Let's build it."
   },
   {
-    "createdAt": "2020-07-28",
-    "content": "I've been coding so much that my dreams are getting weird. I'm dreaming in 'if/else' statements. I had a dream that I was trying to talk to someone, but my 'function' had the wrong 'arguments' so I couldn't. I'm not sure if this is healthy, but it's the only thing I feel like I have any control over. The 'real' world is chaos, but in my code, everything has a rule. Everything makes sense."
+    "createdAt": "2025-07-25",
+    "content": "Built the basic **'Auth' flow for SlatePath** today using **Supabase Auth**. Login page, Sign up page. I used the pre-built Supabase UI components (they're surprisingly nice and easy to integrate!). It just... works. Handles email/password, magic links, even Google OAuth. All in like... an hour. This is *insane*. Compared to the multi-day effort of building JWT auth from scratch in high school, this feels like cheating. But it's *smart* cheating. Why reinvent the wheel for a commodity feature like auth? Supabase is handling the boring, complex, security-critical stuff, so I can focus on the *interesting* stuff: the AI features. This decoupled, service-based architecture is definitely the way to go."
   },
   {
-    "createdAt": "2020-08-01",
-    "content": "August. This summer is basically over, and I've done... nothing. And yet, I've done so much. I'm a way better programmer than I was in May. I can build a real, working web app with React. I've read all the 9th-grade 'summer reading' books, which were awful. I'm just... waiting. Waiting for school to start. Waiting for this to be over. I'm so bored of being in my own house."
+    "createdAt": "2025-07-30",
+    "content": "Last week of the internship. It's genuinely sad. I'm going to miss this team, the specific problem-solving, and the feeling of contributing to a real product. I gave my final presentation today on the UI library research and the prototypes I built. The CTO was there; he asked incredibly sharp questions about scalability and accessibility, but he seemed... genuinely impressed. My mentor gave me a glowing review, saying I exceeded expectations, learned incredibly fast, and made a real, quantifiable impact. He even said, **'We'd love to have you back next summer, maybe working on something even meatier.'** Wow. That's huge. A return offer on the table after just freshman year? That takes *so much pressure* off the 'Sophomore year internship hunt.' I need to process this amazing news."
   },
   {
-    "createdAt": "2020-08-05",
-    "content": "I'm so sick of this. I had a huge fight with my parents just because I didn't unload the dishwasher. It wasn't about the dishwasher. We're all just stressed and trapped in here. I went to my room and just... sat there. I'm tired. I'm lonely. I miss normal. I miss being able to just ride my bike to a friend's house without it being a whole 'thing' with masks and hand sanitizer."
+    "createdAt": "2025-08-02",
+    "content": "Last day. Said my goodbyes to everyone. Exchanged contact info. It felt final, but also hopeful. Like closing one door and knowing another one (potentially the same one!) will open next year. This summer was truly **transformative**. Not just the skills learned (Postgres, Node, React architecture), but the *confidence* gained. I *can* do this. I *am* a software engineer, not just a 'student who codes.' That mental shift is everything. Headed home now, feeling proud, accomplished, and ready for the next chapter. (After a week of doing absolutely nothing, of course.)"
   },
   {
-    "createdAt": "2020-08-10",
-    "content": "We got our official class schedules. I'm in all the advanced classes, which is good, I guess. I have 'Honors Geometry,' 'Honors Biology,' and an 'Intro to CS' class. I'm actually nervous for the CS class. What if I think I know a lot, but I'm totally behind everyone else? What if the teacher hates that I'm self-taught? Imposter syndrome is already setting in, and school hasn't even started."
+    "createdAt": "2025-08-05",
+    "content": "This week is total **'limbo.'** Internship done, GT move-in is in 10 days. Just floating, trying to relax and 'be present.' But my brain won't turn off; it's already spinning. Thinking about SlatePath (I want to code!), thinking about the classes (1332!), and thinking about Maya leaving soon. It's hard to 'turn off' the engineering mindset. Spent today just driving around in my Civic, listening to music, no destination. Just clearing my head. Trying to appreciate this moment of quiet autonomy before the storm of Sophomore year hits."
   },
   {
-    "createdAt": "2020-08-15",
-    "content": "I'm setting up my 'home school' desk for my online days. Monday, Tuesday, Wednesday... I'll be right here. In this chair. Staring at this screen. It feels like I'm just extending quarantine. I'm just so... unmotivated. Why try hard in school when the world is ending? I know that's dramatic, but it's how I feel."
+    "createdAt": "2025-08-08",
+    "content": "Maya leaves for Michigan tomorrow morning. Tonight was our 'last date' for a while. We just went to our favorite local park and sat on a bench, talking for hours about nothing and everything. Trying to soak in every detail of her face, her laugh, and the familiarity. It was perfect, and heartbreaking. Saying goodbye *sucks*—there's no way around the pain. But we're committed. We have a routine plan. We have *us*. That has to be enough. It just *has* to be. I'm going to miss her like crazy."
   },
   {
-    "createdAt": "2020-08-20",
-    "content": "This is it. Last week of 'summer.' I'm trying to just relax and play some video games, but my mind is racing. What's the high school going to be like? How do you even 'find your way' when the hallways are all one-way and everyone's face is covered? This is such a weird way to start the 'best four years of your life.'"
+    "createdAt": "2025-08-09",
+    "content": "Dropped her off at the airport this morning. Brutal. Came home. House feels empty and quiet. Okay. Need to channel this sad energy. Packing. Focus on packing. GT move-in is in 5 days. I need to get my stuff together. Boxes, labels, the whole chaotic routine. At least this year, I *know* what I need and what I *don't* need (mostly). It's slightly less chaotic than last year's panicked packing, but still stressful. Let the Sophomore year packing begin."
   },
   {
-    "createdAt": "2020-08-24",
-    "content": "First 'online' day of freshman year. It was... chaos. My first class was just the teacher trying to get his audio to work for 20 minutes. My next class was a 'digital get to know you' icebreaker that was so cringe-worthy. I kept my camera and mic off as much as possible. This is just 8th grade all over again, but with higher stakes. I didn't learn a single thing. This is a joke."
+    "createdAt": "2025-08-13",
+    "content": "Car is packed. Tetris level: expert. Room is empty. Saying goodbye to my parents *again*. It's a little easier this time, more 'see you later,' less 'leaving the nest forever.' Still emotional, though. The drive tomorrow feels different. Not 'terrified freshman' energy. More... **'determined sophomore'** energy. I know what I'm driving *towards*: hard classes, cool projects, my friends, my independence. It feels good. Let's get this year started with confidence."
   },
   {
-    "createdAt": "2020-08-27",
-    "content": "First 'in-person' day. It was the strangest experience of my life. Waking up early, putting on a mask. The bus was silent. Everyone sat one to a seat. In the school, there are arrows on the floor, and teachers yelling at you if you walk the wrong way. My 'Group B' seems... okay. I don't know. I can't see anyone's face. We just sat in rows, 6 feet apart. It felt... sterile. Like a hospital."
+    "createdAt": "2025-08-14",
+    "content": "Back in Atlanta. Move-in day: Sophomore edition. Way, way smoother. I knew where to go and how to navigate the system. Unpacked in record time. My new dorm room is nice, maybe bigger, and hopefully on a quieter floor. My roommate seems cool (different one this year). It feels less like 'visiting' and more like **'coming home.'** Weird, huh? Atlanta is actually starting to feel like a second home. I didn't expect that emotional shift, but it's a good feeling."
   },
   {
-    "createdAt": "2020-08-28",
-    "content": "Second in-person day. I'm starting to get the hang of it. I sat next to a kid named Sohan in my Intro to CS class. We're the only two who seem to know what's going on. The teacher is nice, but she's teaching basic HTML. It's stuff I learned months ago. Sohan and I were talking about JavaScript frameworks. He's into Vue, I'm into React. It was the first normal, interesting conversation I've had in months. Maybe this won't be so bad."
+    "createdAt": "2025-08-18",
+    "content": "First day of Sophomore Year classes. **CS 1332** (Data Structures & Algorithms)—yep, it's real. Professor seems intense. Syllabus looks terrifying (weekly homeworks *and* timed coding quizzes?). Diff Eq—already lost. Physics E&M—just gotta survive. I took a 'History of Architecture' elective for fun/humanities credit, and it might actually be interesting! The *vibe* on campus is familiar now, less overwhelming. I know where things are. I know people. It feels good. Less 'imposter,' more **'belonging.'** Okay. Year 2. Let's do this."
   },
   {
-    "createdAt": "2020-09-02",
-    "content": "My 'at home' days are so unproductive. It's impossible to focus. I have the Zoom class running on one monitor and I'm just coding on the other. The teachers are trying their best, but they're so burned out already. It's a 'pass/fail' effort. The real learning happens on my 'in-person' days. The whole system is just... broken."
+    "createdAt": "2025-08-21",
+    "content": "Started my campus jobs this week. First day at **OIT** (Office of Information Technology) as a Web Developer. Met the team; seems like a cool group. They have me working on maintaining some departmental WordPress sites for now. Basic stuff. PHP? Okay, a new language to vaguely learn. Not glamorous, but it's *real work*, good resume experience, and *paid*. Then, first meeting at the **ACT Lab** for Undergraduate Research. Met the professor and the grad students—super intimidating and brilliant. My first task? Read like five dense research papers on **'Sensor Fusion for Autonomous Vehicles.'** Okay. Deep end. Let's swim."
   },
   {
-    "createdAt": "2020-09-07",
-    "content": "Happy Labor Day. It just feels like another day. I hung out with Sohan (in person, in his backyard). We just coded for like 4 hours straight. We're thinking about building a project together. Maybe a club website or something. It's so cool to have a friend who 'gets' this stuff. We're both in the same boat, way ahead of our class and bored."
+    "createdAt": "2025-08-25",
+    "content": "Okay. Juggling **CS 1332** homework (implementing an **AVL Tree**—kill me), OIT tasks (fixing a broken WordPress plugin), ACT Lab reading (what *is* a **Kalman Filter**?), *and* trying to have a semblance of a social life... is *hard*. Significantly harder than first semester. Sophomore year is *not* a joke. Sleep is already becoming optional. Coffee is mandatory. My respect for upperclassmen just went up exponentially. How do they *do* this for *four years* without total collapse?"
   },
   {
-    "createdAt": "2020-09-10",
-    "content": "In-person day. My English teacher is making us read 'Romeo and Juliet.' I just... cannot bring myself to care. It's so disconnected from reality. We're living through a global plague, and I'm reading about two dramatic teenagers. It feels... trivial. I'm going to find a summary online and just read that. I'd rather spend my time debugging my React app."
+    "createdAt": "2025-08-30",
+    "content": "The **AVL Tree** homework for 1332 nearly broke me. Rotations, balancing factors, keeping track of heights—it's *so easy* to mess up the pointers. I spent *hours* debugging, whiteboarding, and stepping through the code line by line. But when it finally *passed* all the tests—the *satisfaction*! It's immense. This class is brutal, but I'm *learning* deeply and fundamentally. This is the **core** of computer science, and it's worth the pain. (I hope.)"
   },
   {
-    "createdAt": "2020-09-16",
-    "content": "The CS teacher, Ms. Evans, pulled me and Sohan aside today. She said she knows we're bored. She gave us an old robotics kit that was in the closet and said 'Here. Make this do something. That's your assignment for the rest of the semester.' I'm so happy. This is the best teacher ever. A real project! We're going to try to build a little self-driving car that can navigate the classroom."
+    "createdAt": "2025-09-02",
+    "content": "Labor Day weekend. Didn't go home. Just stayed here, trying to catch up on sleep, ACT Lab reading, and life. Had my first 'real' video call with Maya since we both got back to school. It was good. Needed. We're both swamped and stressed, but hearing her voice, seeing her face, it helps. It grounds me. We scheduled our next call. Making it a **routine** is the key to managing the distance. Consistency, even when it's hard."
   },
   {
-    "createdAt": "2020-09-22",
-    "content": "The hybrid model is exhausting. Not physically, but mentally. The whiplash between the high-anxiety 'in-person' days and the total, isolating boredom of the 'at-home' days is messing with my head. I don't feel like I have a 'normal' anymore. My sleep schedule is destroyed. I'm just living for Thursdays and Fridays when I can go to school and work on the robot."
+    "createdAt": "2025-09-06",
+    "content": "My **OIT** work is okay. It's mostly frontend fixes—CSS tweaks, making sure things are responsive. It's not *challenging* technically, but it's **good practice** in attention to detail, working within an existing codebase, and following professional style guides. It's professional discipline. And the team is nice. My boss seems chill. It's a low-stress way to earn money and build the resume. Can't complain about the utility."
   },
   {
-    "createdAt": "2020-09-28",
-    "content": "We got the robot's wheels to turn today. It was a huge victory. We're programming it in Python, which is a nice break from React. It's so satisfying to write a line of code and see something *move* in the physical world. This is way cooler than web dev. Sohan is a genius with the hardware, and I'm figuring out the software. We make a good team."
+    "createdAt": "2025-09-10",
+    "content": "**ACT Lab** meeting. Discussed the papers I read. I tried to sound intelligent but mostly just nodded along while the grad students talked about 'probabilistic robotics' and 'state estimation.' My next task: Try to implement a simple **'Kalman Filter'** in Python to track a simulated object's position. Okay. *Now* we're talking. Code! Math! This feels more like my speed. Still intimidating, but *exciting*. This is **real research**, even if it's just a tiny, introductory piece."
   },
   {
-    "createdAt": "2020-10-01",
-    "content": "It's October. The leaves are changing. It feels like a normal fall, but it's not. They're talking about a 'second wave' of the virus. I'm just trying to ignore it. I'm focusing on two things: my grades and this robot. Everything else is just noise. I've found my little bubble within the bigger, crazy bubble."
+    "createdAt": "2025-09-15",
+    "content": "CS 1332: **Heaps and Priority Queues**. Okay, this makes perfect sense. It's like a tree, but with specific ordering rules (min-heap, max-heap), making it highly efficient for finding the min/max element quickly. Used in event scheduling, graph algorithms (**Dijkstra's!**). Cool. Useful. The homework: Implement a MinHeap. Feels doable, compared to AVL trees, anyway. Maybe I'm actually getting the hang of this class and the data structures concept is starting to click."
   },
   {
-    "createdAt": "2020-10-07",
-    "content": "My Honors Biology class is... a lot. We're learning about cell mitosis. It's interesting, but the amount of memorization is insane. I'm not good at memorizing. I'm good at *understanding* systems. Biology feels like a bunch of random facts. Code is logical. If you understand the rule, you can build anything. Biology's 'rule' is just 'because it is.' Frustrating."
+    "createdAt": "2025-09-20",
+    "content": "Feeling **stretched thin**. The 'Sophomore Slump' might be real, or maybe just 'Sophomore Overload.' Classes are hard. OIT job takes time. ACT Lab requires *thinking*. Trying to see friends. Trying to call Maya. Trying to... sleep. And **SlatePath.ai** is just sitting there. I have the *idea* and the *Supabase* setup, but finding the *time* and the *energy* to actually *build* it is tough. Feeling a bit guilty, like I'm neglecting my 'passion project.' I need to find a way, even if it's just an hour a day. Maybe I can simplify the scope even further?"
   },
   {
-    "createdAt": "2020-10-15",
-    "content": "Midterms. My first-ever high school midterms. And they're all in this bizarre hybrid format. The in-person ones are stressful, with the teacher watching you like a hawk. The online ones are a joke. It's 'open note,' which just means 'how fast can you Google the answer.' The whole system is designed to be gamed. I don't feel like I'm 'learning.' I feel like I'm 'surviving.'"
+    "createdAt": "2025-09-24",
+    "content": "Started using my 'commute' time (walking between classes) to *think* about **SlatePath.ai architecture** and features. Just mental whiteboarding. Okay. Core **MVP**: Auth (done). Course creation. Basic note-taking. Flashcard creation (from notes). That's it. Keep it *simple*. For notes, maybe just **Markdown** support? Easy to implement. For flashcards, just front/back text? Yes. This feels achievable. Maybe I can build the 'Course' CRUD tonight? Just start somewhere, anything to get momentum back."
   },
   {
-    "createdAt": "2020-10-20",
-    "content": "Got my midterm grades back. I got an A in CS (obviously) and Geometry. But I got a B- in Biology. I'm... actually okay with that. 8th-grade-me would have had a panic attack. But now? A B- in a class I hate, during a pandemic, seems perfectly fine. My priorities have shifted. As long as I understand the 'why,' I'm good."
+    "createdAt": "2025-09-27",
+    "content": "First **CS 1332 exam**. Covered everything up to AVL Trees. It was hard—long coding questions (implement a Queue using two Stacks!). Tricky Big O analysis. I *think* I did okay; it felt better than the Calc II midterm last semester. But this class is heavily curved, so 'okay' might still be a 'C.' Ugh. The stress. Just gotta wait for the grade and keep moving. Next up: HashMaps review and External Chaining."
   },
   {
-    "createdAt": "2020-10-26",
-    "content": "The robot *almost* followed the black line today. It kept over-correcting and spinning in circles. It was hilarious. Sohan and I were laughing so hard. It's nice to just... laugh. In school. It felt normal. We're so close. We just need to tweak the sensor values. This is the most fun I've ever had in a 'class.'"
+    "createdAt": "2025-10-01",
+    "content": "October. Midterm season is *here*. Again. Diff Eq midterm next week. Physics midterm the week after. Plus a big 1332 homework due. And OIT deadlines. And ACT Lab progress expected. This is the **real Tech experience**. The 'drinking from a firehose' feeling is *back* with a vengeance. Just gotta keep swimming. Prioritize. Focus. Coffee. Lots of coffee."
   },
   {
-    "createdAt": "2020-10-31",
-    "content": "Happy Halloween. No trick-or-treating, obviously. No parties. I'm just at home, watching a scary movie with my family. It's... fine. It's just another Saturday. I'm 14, so I'm kind of 'too old' for it anyway. But it's still sad to see another normal thing just... gone. This year is a thief."
+    "createdAt": "2025-10-04",
+    "content": "Got my **1332 exam grade back. 88. An A!** *YES!* On the *first* notoriously hard 1332 exam! That is *huge*. The curve must have been generous, but still, an 88 is solid. Confidence *restored*. I *can* do this. I *understand* this material. This feels so good. Massive weight lifted. Okay. Now, focus on Diff Eq. Ugh."
   },
   {
-    "createdAt": "2020-11-03",
-    "content": "It's Election Day. My parents are glued to the TV. The whole country is holding its breath. The tension in the house is so thick. I can't focus on my code, I can't focus on homework. I just keep refreshing the news. It feels like another one of those 'everything is changing' days, just like back in March."
+    "createdAt": "2025-10-08",
+    "content": "Diff Eq midterm. It was... fine? Lots of 'solving homogeneous second-order linear ODEs.' It's purely **algorithmic**: follow the steps, find the roots, write the solution. Less 'conceptual' than Calc II. More procedural. I think I did okay. Maybe a B? That's all I need. Just survive the math classes by learning the system."
   },
   {
-    "createdAt": "2020-11-07",
-    "content": "It's finally over. They called the election. My parents are relieved. I'm just... relieved that the tension is gone. I don't really get all the politics, but I get the *feeling*. It's like a background noise of anxiety that's been playing for months has suddenly been turned down. Maybe things can be a little more normal now."
+    "createdAt": "2025-10-11",
+    "content": "Saw a flyer: **'Reddit & Kiro Hackathon: Build AI Agents.'** Two weeks long. Remote. Interesting. Could this be a way to *force* myself to work on SlatePath? Frame the 'note-taking AI features' as an 'AI Agent'? Like, 'An agent that helps students learn by processing their notes'? It fits perfectly! And it's remote, so I can do it alongside schoolwork (ha!). Okay. Crazy idea? Maybe. But tempting. A deadline and a structure might be exactly what I need to get SlatePath off the ground. Signed up. Why not?"
   },
   {
-    "createdAt": "2020-11-12",
-    "content": "IT DID IT. The robot. It followed the entire black line, all the way around the classroom. It even made the sharp turns! Sohan and I both yelled 'YES!' at the same time. Ms. Evans filmed it. She said she's giving us both A+'s for the semester. This is the most proud I've ever been of anything. We built this from a box of parts and a blank Python file."
+    "createdAt": "2025-10-13",
+    "content": "Hackathon kicked off today (virtually). The theme is broad: 'AI Agents for Good.' My **SlatePath.ai** idea fits perfectly. My goal for the next two weeks: Build the *backend* for SlatePath. Specifically, the API endpoints for notes/flashcards, and *one* AI feature. Maybe the **'note summarization' feature**? Using the OpenAI/Gemini API? Yes. That feels achievable. A concrete, deployable goal. Using the hackathon as my personal **'sprint.'** Okay. Game on."
   },
   {
-    "createdAt": "2020-11-18",
-    "content": "With the robot project done, I'm... kind of bored in CS class again. So I'm starting a new project. A 'personal dashboard.' A website that's just for me. It'll have my to-do list, a little weather widget (using an API!), and maybe my school schedule. I'm building it in React, and I'm going to try to make it actually look *good*. This is my new obsession."
+    "createdAt": "2025-10-14",
+    "content": "First 'real' day working on the hackathon project (SlatePath backend). Decided to build the API using **Python/FastAPI**. Why? 1) Most AI/ML/LangChain stuff is in Python. 2) I want to keep the Next.js frontend 'clean'—just for UI and client-side logic. The Python backend will handle the 'heavy lifting' (AI calls, document processing later). It feels like a good **separation of concerns**—a 'decoupled architecture.' Spent today setting up the FastAPI project. Defining basic Pydantic models for 'Note' and 'Flashcard.' Building the first '/notes' CRUD endpoints. Connecting to Supabase (using the Python client). It's coming together rapidly."
   },
   {
-    "createdAt": "2020-11-23",
-    "content": "They're announcing that we're all going 100% remote for the two weeks after Thanksgiving. They're worried everyone is going to travel and bring the virus back. I'm not surprised. I'm just... tired. More isolation. More Zoom. I'm just glad I have my new project to work on. It's a good escape."
+    "createdAt": "2025-10-15",
+    "content": "Physics E&M midterm. It was **awful**. Even worse than I expected. Gauss's Law, Ampere's Law—I just didn't *get* it. Guessed on probably 70% of the problems. That's definitely a C, maybe lower. Ugh. It's official. I *hate* E&M; it's my **'kryptonite'** class. Okay. Deep breaths. It's *one class*. My CS grades are good, my research is good, my projects are good. This *one grade* won't kill me. It just *bruises* the ego a lot. Okay. Release the stress. Focus on things I'm *good* at: building this FastAPI backend."
   },
   {
-    "createdAt": "2020-11-25",
-    "content": "Day before Thanksgiving. The 'in-school' day was so weird. It was the last one for 3 weeks. Everyone was saying 'Happy Thanksgiving' and 'Merry Christmas' just in case we don't come back. It had that same 'last day of 8th grade' feeling. A weird, looming sense of uncertainty. I'm just ready for a break."
+    "createdAt": "2025-10-16",
+    "content": "Got the core CRUD API for Notes and Flashcards working in FastAPI. Create, Read, Update, Delete. Connected to Supabase. Tested with Thunder Client. It's *solid*. Now, the AI part. The **'summarization' endpoint**. Plan: Take a 'note ID' as input. Fetch the note content from Supabase. Send it to the **Gemini API** (using the Python SDK) with a prompt like 'Summarize this student's note concisely.' Get the summary back. I'll just return it for now to keep the MVP simple. Okay. Time to figure out the Gemini API..."
   },
   {
-    "createdAt": "2020-11-26",
-    "content": "Happy Thanksgiving. It was... quiet. Just me, my parents, and my sibling. No grandparents, no aunts or uncles. We did a Zoom call with the whole family, and it was just everyone talking at once. It's not the same. I miss the noise. I miss the chaos of a full house. I ate too much turkey and then went to my room and coded. That's my new 'normal,' I guess."
-  },
-  {
-    "createdAt": "2020-12-01",
-    "content": "Back to 100% remote school. It's even worse than before. The teachers are just done. They're just posting 'read this chapter' or 'watch this video.' There's no 'teaching' happening. I'm basically just teaching myself all of 9th grade. This is going to be a long two weeks before finals."
-  },
-  {
-    "createdAt": "2020-12-05",
-    "content": "My personal dashboard is coming along. I got the weather API working! It shows the current temp and the 'feels like' temp. It's a small thing, but it's pulling *live data* from the internet. I built that. I feel... powerful. I'm already thinking about what else I can add. A Spotify integration? A news feed? The possibilities are endless."
-  },
-  {
-    "createdAt": "2020-12-10",
-    "content": "I'm supposed to be 'studying' for my Geometry final, which is online and open-note. It's a joke. I'm spending all my time learning about CSS. I'm deep in the weeds of 'Flexbox' and 'Grid.' It's so frustrating and so satisfying. Why does it take 10 lines of code just to center a button? But when it *finally* centers... *chef's kiss*."
-  },
-  {
-    "createdAt": "2020-12-14",
-    "content": "We're back in person for finals week. It's so weird to be back in the building just to take tests. The school is cold and empty. It's like a ghost town. I took my Biology final. I think I did okay. I just crammed all the info into my head last night and then dumped it onto the paper. I've probably already forgotten all of it."
-  },
-  {
-    "createdAt": "2020-12-18",
-    "content": "LAST DAY. First semester of high school is DONE. That was, without a doubt, the weirdest, hardest, strangest 4 months of my life. I'm so glad it's over. I feel like I've been in survival mode since August. Now, two weeks of winter break. Two weeks of no Zoom, no homework. Just... me and my code."
-  },
-  {
-    "createdAt": "2020-12-20",
-    "content": "It's so good to just... do nothing. I slept in until 11. I'm just playing video games and working on my dashboard project. I'm going to add a 'to-do' list that actually saves to my computer's local storage. That's the next step. It's nice to have a project with no deadline, no grade. Just for me."
-  },
-  {
-    "createdAt": "2020-12-23",
-    "content": "It's two days before Christmas. It doesn't feel like it. It's cold, but there's no snow. We're not going anywhere. My parents are trying to be festive. We decorated the tree. But there's a... sadness to it. Everyone is just 'going through the motions.' I'm just hiding in my room, listening to music. I'm in a weird, reflective mood."
-  },
-  {
-    "createdAt": "2020-12-24",
-    "content": "Christmas Eve. This is usually my favorite day. The whole family comes over, it's loud, it's chaotic, I love it. Tonight, it's just... silent. Just us. We're going to watch a movie. It's... fine. But it's not *right*. This whole year has been one long 'it's fine, but it's not right.' I'm so ready for 2021."
-  },
-  {
-    "createdAt": "2020-12-25",
-    "content": "Merry Christmas. Got some cool gifts. Got some new headphones and a book on advanced Python. My parents 'get' me, at least. It was a nice morning. But the afternoon is just... long. I'm already back on my computer. I got the local storage to-do list to work! The items stay even after I refresh the page. That's a huge win. Best Christmas present I could have given myself."
-  },
-  {
-    "createdAt":- "2020-12-26",
-    "content": "This is the weird week between Christmas and New Year's where time doesn't exist. I've just been living like a hermit. Wake up, code, eat, code, play video games, sleep. It's kind of amazing. I'm adding a clock and a 'quote of the day' API to my dashboard. It's actually starting to look like a real, useful application."
-  },
-  {
-    "createdAt": "2020-12-28",
-    "content": "I'm starting to think about next semester. It's going to be the same hybrid model. I'm... okay with it now. I have a routine. I have my friend Sohan. I have my 'project time' in CS class. It's not perfect, but it's not the terrifying unknown it was in August. I've adapted. It's weird what humans can get used to."
-  },
-  {
-    "createdAt": "2020-12-29",
-    "content": "I've been thinking about the future. Not just next semester, but... *the* future. College. I'm 100% sure I want to do computer science. But where? Sohan mentioned Georgia Tech. He said it's like, *the* place for CS. I looked it up... it seems... intense. Like, 'drinking from a firehose' intense. But also... amazing. Maybe that's a goal. A real, long-term goal to work towards."
-  },
-  {
-    "createdAt": "2020-12-30",
-    "content": "Just reflecting on this year. It feels like 10 years packed into one. I started 2020 as a normal 8th grader who was worried about a history diorama. I'm ending it as a high school freshman, living through a plague, who has taught himself how to build web applications from scratch. I've changed... a lot. I'm quieter, maybe more anxious, but I'm also so much more focused. I know what I want. That's a weird thing to know at 14."
-  },
-  {
-    "createdAt": "2020-12-31",
-    "content": "New Year's Eve. We're not doing anything. Just staying in. My parents are going to let me stay up to watch the ball drop, but it's just... on TV. It's not a party. I'm in my room, writing this, listening to the '2020's biggest hits' playlist. It's a weird soundtrack for such an awful year. I cannot *wait* to flip the calendar. Please, 2021. Be better. Be normal. Just... be *better*."
+    "createdAt": "2025-10-17",
+    "content": "Yesterday was intense. Got the **Gemini API integration working!** Built a `/notes/{note_id}/summarize` endpoint. It successfully fetches the note, calls Gemini (using the fast/cost-effective `gemini-1.5-flash-latest` model), and returns a stream of the summary. It feels **magical**. Like I just plugged a *real AI brain* into my application. This is the *power* I was looking for. This is **SlatePath.ai** coming *alive*. I spent way too late working on it, totally exhausted for my Friday classes. Also... saw another flyer. **Anthropic Hackathon.** *This weekend*? At Georgia Tech? In person? Focused on Claude 3.5 Sonnet? Am I insane? Should I do *two* hackathons at once during midterms? Probably not. But the *energy*. The *ideas*. The *people*. It's *so tempting*. I slept on it... and yeah. I'm doing it. Signed up this morning. This weekend is going to be pure, unadulterated chaos. And maybe... brilliant? Let's find out. Need coffee. Lots of coffee."
   }
 ]
