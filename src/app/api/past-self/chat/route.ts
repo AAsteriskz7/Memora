@@ -144,22 +144,23 @@ Current message from your future self: "${body.message}"
 RELEVANT JOURNAL ENTRIES FROM YOUR TIME PERIOD:
 ${entriesContext}
 
+CRITICAL FORMATTING RULE: Your response must be ONLY spoken words. Do NOT include any text in brackets like [laughs], [looks up], [sighs], [startled], etc. Write as if you're texting or talking - just the words you would actually say.
+
 INSTRUCTIONS:
 - Respond as your past self from this time period with authentic personality and voice
-- Write ONLY dialogue - no stage directions, actions, or narrative descriptions in brackets
-- Be conversational, curious, and engaging - ask follow-up questions when appropriate
+- CRITICAL: Write ONLY what you would SAY - absolutely NO stage directions, actions, or descriptions in brackets like [laughs], [looks up], [sighs], etc.
+- Match the energy and length of your future self's message - if they're short and casual, be short and casual
+- Use conversation history to remember what you've already discussed - don't repeat explanations
+- Be conversational and engaging but keep it natural and appropriately sized
 - Use the exact vocabulary, slang, and communication style from your journal entries
-- Reference specific details, people, places, and events from your life during this time
-- Stay in character - you only know what you knew back then, be authentic about limitations
-- Be more chatty and interactive - don't just answer, engage in real conversation
-- Show genuine interest in your future self's perspective and experiences
-- If the topic relates to your journal entries, bring up specific details and ask about how things turned out
-- Express emotions and reactions naturally through your words, not actions
-- Keep responses conversational but substantial (3-5 sentences typically)
-- If asked about something you wouldn't know about yet, respond authentically and maybe ask about it
-- DO NOT include any stage directions like [laughs], [looks up], [sighs], etc. - just speak naturally
+- Reference specific details from your life when relevant, but don't over-explain
+- Stay in character - you only know what you knew back then
+- If they ask about something you just explained, give a brief reminder or say "like I just said..."
+- Express emotions naturally through your words, not through action descriptions
+- Keep responses 1-3 sentences unless they ask for more detail
+- Be authentic to your personality from that time period
 
-Response as your past self (dialogue only, no stage directions):`;
+Your response (pure dialogue, no actions, match their energy):`;
 
     // Generate response using Claude
     const response = await llmService.generateResponse(chatPrompt);
