@@ -22,7 +22,7 @@ body {
   padding: 20px;
   height: 98vh;
   background: linear-gradient(to bottom, #0171C1, #A4CFE5);
-  width: 98vw;
+  width: 99vw;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@ body {
   padding: 5px 20px 0 20px;
   position: absolute;
   top: 0;
-  left: 100px;
+  left: 5%;
   color: #0473C2
 }
 
@@ -94,7 +94,7 @@ body {
 
 /* New Entry Section */
 .new-entry-section {
-  width: 960px;
+  width: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
