@@ -1049,4 +1049,125 @@ Loading spinner */
   align-items: center;
   margin-top: 15px;
   gap: 10px;
+}/* Past
+ Entries Search */
+.past-entries-search {
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px solid rgba(4, 115, 194, 0.2);
+  border-radius: 20px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #0473C2;
+  box-shadow: 0 0 0 3px rgba(4, 115, 194, 0.1);
+}
+
+/* Loading and Empty States */
+.loading-entries, .no-entries {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+}
+
+/* Load More Button */
+.load-more-btn {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 15px 0;
+  background: linear-gradient(135deg, #0473C2, #1B80C7);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.load-more-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(4, 115, 194, 0.4);
+}
+
+.load-more-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Edit Buttons in Entry View */
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #0473C2, #1B80C7);
+  color: white;
+  border: none;
+}
+
+.save-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(4, 115, 194, 0.3);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background: white;
+  color: #0473C2;
+  border: 2px solid #0473C2;
+}
+
+.cancel-btn:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+/* Edit Entry Textarea */
+.edit-entry-textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 20px;
+  border: 2px solid rgba(4, 115, 194, 0.2);
+  border-radius: 15px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.9);
+  outline: none;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.edit-entry-textarea:focus {
+  border-color: #0473C2;
+  box-shadow: 0 0 0 3px rgba(4, 115, 194, 0.1);
 }
